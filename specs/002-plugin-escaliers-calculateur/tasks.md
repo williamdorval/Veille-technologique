@@ -27,8 +27,8 @@ created: "2026-05-27"
 
 > Installer les dépendances et préparer la structure de fichiers. Bloquant pour tout le reste.
 
-- [ ] T001 Installer les dépendances npm : @react-three/fiber @react-three/drei react-hook-form zod @types/three (commande : `npm install @react-three/fiber @react-three/drei react-hook-form zod && npm install -D @types/three`)
-- [ ] T002 Ajouter les composants shadcn manquants : badge alert separator (commande : `npx shadcn@latest add badge alert separator`) — si échec, créer manuellement dans `src/components/ui/`
+- [x] T001 Installer les dépendances npm : @react-three/fiber @react-three/drei react-hook-form zod @types/three (commande : `npm install @react-three/fiber @react-three/drei react-hook-form zod && npm install -D @types/three`)
+- [x] T002 Ajouter les composants shadcn manquants : badge alert separator (commande : `npx shadcn@latest add badge alert separator`) — si échec, créer manuellement dans `src/components/ui/`
 
 ---
 
@@ -36,9 +36,9 @@ created: "2026-05-27"
 
 > Types TypeScript + constantes normes + algorithme de calcul. Tout le reste dépend de ces fichiers.
 
-- [ ] T003 [P] Créer les types TypeScript dans `src/lib/escaliers/types.ts` : EntreeFormulaire, ResultatCalcul, IndicateurConformite, StatutConformite, PieceMateriaux, EtapeConstruction, EstimationProjet, ErreurCalcul, ResultatOuErreur, UniteMesure, TypeUsage, MateriauLimon, TypeMarche
-- [ ] T004 [P] Créer les constantes de normes CCQ dans `src/lib/escaliers/normes.ts` : NORMES_CCQ avec toutes les valeurs (CONTREMARCHE_MIN_MM, CONTREMARCHE_MAX_PRIVE_MM, CONTREMARCHE_MAX_COMMUN_MM, GIRON_MIN_PRIVE_MM, GIRON_MIN_COMMUN_MM, GIRON_MAX_MM, LARGEUR_MIN_PRIVE_MM, LARGEUR_MIN_COMMUN_MM, DEGAGEMENT_TETE_MIN_PRIVE_MM, DEGAGEMENT_TETE_MIN_COMMUN_MM, BLONDEL_MIN_MM, BLONDEL_MAX_MM, BLONDEL_CIBLE_MM, MAIN_COURANTE_HAUTEUR_MIN_MM, MAIN_COURANTE_HAUTEUR_MAX_MM, GARDE_CORPS_HAUTEUR_MIN_PRIVE_MM, GARDE_CORPS_HAUTEUR_MIN_ELEVE_MM, GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM) — chaque constante commentée avec l'article CCQ source
-- [ ] T005 Créer l'algorithme de calcul dans `src/lib/escaliers/calculs.ts` : fonctions calculerEscalier(entree) → ResultatOuErreur, verifierConformite(dimensions, typeUsage, hauteurPlafond) → ConformiteResultat ; créer `src/lib/escaliers/materiaux.ts` avec calculerMateriaux() et calculerEstimation() ; créer `src/lib/escaliers/plan-construction.ts` avec genererPlanConstruction() — valider avec `npx tsc --noEmit`
+- [x] T003 [P] Créer les types TypeScript dans `src/lib/escaliers/types.ts` : EntreeFormulaire, ResultatCalcul, IndicateurConformite, StatutConformite, PieceMateriaux, EtapeConstruction, EstimationProjet, ErreurCalcul, ResultatOuErreur, UniteMesure, TypeUsage, MateriauLimon, TypeMarche
+- [x] T004 [P] Créer les constantes de normes CCQ dans `src/lib/escaliers/normes.ts` : NORMES_CCQ avec toutes les valeurs (CONTREMARCHE_MIN_MM, CONTREMARCHE_MAX_PRIVE_MM, CONTREMARCHE_MAX_COMMUN_MM, GIRON_MIN_PRIVE_MM, GIRON_MIN_COMMUN_MM, GIRON_MAX_MM, LARGEUR_MIN_PRIVE_MM, LARGEUR_MIN_COMMUN_MM, DEGAGEMENT_TETE_MIN_PRIVE_MM, DEGAGEMENT_TETE_MIN_COMMUN_MM, BLONDEL_MIN_MM, BLONDEL_MAX_MM, BLONDEL_CIBLE_MM, MAIN_COURANTE_HAUTEUR_MIN_MM, MAIN_COURANTE_HAUTEUR_MAX_MM, GARDE_CORPS_HAUTEUR_MIN_PRIVE_MM, GARDE_CORPS_HAUTEUR_MIN_ELEVE_MM, GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM) — chaque constante commentée avec l'article CCQ source
+- [x] T005 Créer l'algorithme de calcul dans `src/lib/escaliers/calculs.ts` : fonctions calculerEscalier(entree) → ResultatOuErreur, verifierConformite(dimensions, typeUsage, hauteurPlafond) → ConformiteResultat ; créer `src/lib/escaliers/materiaux.ts` avec calculerMateriaux() et calculerEstimation() ; créer `src/lib/escaliers/plan-construction.ts` avec genererPlanConstruction() — valider avec `npx tsc --noEmit`
 
 ---
 
