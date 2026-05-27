@@ -1,257 +1,204 @@
-# Proposition formelle – Veille technologique
+Proposition formelle – Veille technologique
 
-**Projet :** Prototype de boucle d'automatisation du développement web avec Claude Code et Claude dans Chrome
+Projet : Plateforme web d'aide aux constructeurs avec calculateur d'escaliers conforme aux normes du Québec, développée par Specification Driven Development
 
-**Date de remise :** 19 avril 2026
+Date de remise : À confirmer avec l'enseignant
 
-**Étudiant :** William Dorval
+Étudiant : William Dorval
 
-**Cours :** Veille technologique – Volet 1 (Specification Driven Development)
+Cours : Veille technologique – Volet 1 (Specification Driven Development)
 
-**Dépôt Git :** À déterminer
+Dépôt Git : À déterminer
+Introduction
 
----
+L'intelligence artificielle change beaucoup la façon de développer des applications web. Des outils comme Claude Code, GitHub Copilot et plusieurs autres permettent maintenant à un développeur de générer une grande partie de son code à partir de descriptions écrites. Le problème, c'est que la qualité du résultat dépend presque entièrement de la qualité des instructions données à l'IA. Sans cadre clair, le code produit part dans toutes les directions, oublie des règles importantes ou invente des comportements qui ne sont pas demandés.
 
-## Introduction
+Ce projet s'inscrit directement dans ce contexte. L'idée est de démontrer concrètement comment l'approche Specification Driven Development (SDD) permet de structurer le travail d'un développeur qui utilise une IA, et de produire une vraie application web professionnelle en partant d'une spécification rigoureuse plutôt que de prompts improvisés.
 
-L'intelligence artificielle occupe une place de plus en plus concrète dans le quotidien des développeurs. Des outils comme GitHub Copilot, Claude Code ou encore des agents capables d'interagir directement avec un navigateur commencent à changer la façon dont on écrit, teste et corrige du code. Ce ne sont plus seulement des outils d'autocomplétion : dans certains cas, ils peuvent prendre en charge des parties entières du cycle de développement.
+Le projet a deux livrables liés : d'un côté une plateforme web destinée aux constructeurs avec un premier plugin fonctionnel (un calculateur d'escaliers conforme aux normes du Québec), et de l'autre une démonstration claire du workflow SDD qui a permis de la construire. L'outil retenu pour le SDD est SpecKit, un cadre développé par GitHub spécifiquement pensé pour fonctionner avec des agents de code comme Claude Code.
 
-Ce projet s'inscrit dans ce contexte. L'idée de départ est simple : est-ce qu'on peut créer une mini boucle où un agent IA développe une application, un autre agent vérifie visuellement le résultat dans le navigateur, puis renvoie un retour structuré pour continuer ? Ce genre de boucle, même partielle, représente une évolution importante dans la façon dont les développeurs pourraient travailler dans les prochaines années.
+Dans le cadre du volet 1, ce projet illustre l'IA au service du développeur de façon concrète : on ne se contente pas d'utiliser une IA pour compléter du code, on lui donne un contexte préparé (spécification, plan, tâches, documentation des règles métier) pour qu'elle puisse implémenter l'application de façon quasi autonome tout en respectant des contraintes réelles.
+Prérecherche
 
-Dans le cadre du volet 1 (Specification Driven Development), l'approche GSD sera utilisée pour structurer les spécifications initiales du projet. C'est à partir de ces spécifications que Claude Code travaillera, et c'est Claude dans Chrome qui validera le résultat visuellement.
+Avant de choisir le projet principal, trois idées ont été explorées.
+Sujet exploré	Résumé	Pourquoi retenu / rejeté
+Plateforme web d'aide aux constructeurs avec plugin calculateur d'escaliers selon les normes du Québec, développée via SDD et Claude Code	Site web modulaire qui regroupe des outils pour les constructeurs. Premier plugin : calculateur qui donne le nombre de marches, la hauteur et la largeur selon les règles du Code de construction du Québec. Le projet sert aussi à démontrer un vrai workflow Specification Driven Development de bout en bout.	Retenu car projet concret et utile (cas d'usage métier réel), parfait pour démontrer le SDD avec Claude Code, et faisable en 7 jours avec un périmètre limité au plugin escaliers.
+Générateur automatique de messages de commit Git avec Claude	Script local qui analyse le git diff et génère un message de commit via l'API Claude.	Utile mais trop ciblé. Pas assez ambitieux pour démontrer une vraie méthodologie SDD complète.
+Générateur de base de données en PlantUML via une interface web	Site web où Claude pose des questions à l'utilisateur sur son projet, puis génère un diagramme de base de données complet et un fichier .wsd téléchargeable.	Idée créative, mais l'idée 1 permet mieux de démontrer le SDD car elle implique des règles métier précises (normes du Québec) qui forcent une documentation rigoureuse.
 
-Le projet vise à créer un prototype fonctionnel, réaliste et documenté en 7 jours, avec une mini application web très simple et au moins deux itérations complètes de la boucle.
+L'idée 1 a été retenue parce qu'elle combine deux choses qui m'intéressent vraiment : un cas d'usage métier concret (mon entourage est dans la construction et un outil comme ça serait utile pour de vrai), et la possibilité de démontrer un workflow SDD complet où la qualité de la documentation détermine directement la qualité du code produit par l'IA.
+Choix du projet principal
 
----
-
-## Prérecherche
-
-Avant de choisir le projet principal, trois idées ont été explorées. Le tableau suivant résume cette démarche.
-
-| Sujet exploré | Résumé | Pourquoi retenu / rejeté |
-|---|---|---|
-| Prototype de boucle d'automatisation du développement web avec Claude Code et Claude dans Chrome | Claude Code génère une app web à partir de spécifications GSD, Claude dans Chrome vérifie visuellement le résultat et renvoie un retour structuré pour corriger, ou le but est vraiment de cré une automatisation complete ou tu donne ton idee est claude code et l'extension verifie et donne els erreur a claude code pour corriegr juste que attend que sa sa fini ou c,est une boucle infinie sans rien toucehr . | Retenu car original, directement lié au thème et réaliste en 7 jours avec un périmètre limité. et super interressant pour les devellopeur|
-| Générateur automatique de messages de commit Git avec Claude | Script local qui analyse le `git diff` et génère un message de commit via l'API Claude. | Utile mais trop ciblé. Pas assez ambitieux pour le volet 1. |
-| Générateur de base de données en PlantUML via une interface web | Site web où Claude pose des questions à l'utilisateur sur son projet, puis génère automatiquement un diagramme de base de données complet et un fichier `.wsd` téléchargeable. | Idée créative, mais idée 1 meilleur. Moins lié à l'automatisation du cycle de développement que l'idée 1. |
-
-L'idée 1 a été retenue car c,est la meilleur pour mon interret personnel de faire une automatisation de site web au complet sans aucun toucher et review et de copier coller juste donner idée et par la suite totue se faire ou claude repond au qestion de lcaude code ou totue est logique .
-
----
-
-## Choix du projet principal
-
-**Projet retenu : Prototype de boucle d'automatisation du développement web avec Claude Code et Claude dans Chrome**
+Projet retenu : Plateforme web d'aide aux constructeurs avec calculateur d'escaliers conforme aux normes du Québec, développée par Specification Driven Development
 
 Ce projet a été retenu pour plusieurs raisons.
 
-D'abord, il est original. Alors que beaucoup d'outils IA se limitent à assister le développeur sur une seule tâche (compléter du code, trouver des bugs, écrire des tests), ce projet tente de connecter deux agents distincts dans une boucle : l'un pour coder, l'autre pour observer. C'est une configuration encore peu documentée de façon pratique.
+D'abord, il est directement aligné avec le thème « L'IA au service du développeur ». La méthode utilisée — préparer un contexte complet (spécification, plan, tâches, documentation métier) avant de laisser une IA coder — représente une vraie évolution dans la façon de travailler avec des outils comme Claude Code. C'est très différent du vibe coding où on improvise prompt par prompt.
 
-Ensuite, il est directement lié au thème « L'IA au service du développeur ». Il ne s'agit pas d'utiliser l'IA pour faire à la place du développeur, mais d'explorer comment elle peut accélérer et structurer certaines parties du travail.
+Ensuite, il respecte les contraintes du volet 1. SpecKit, l'outil SDD choisi, fournit un workflow officiel en quatre phases (Spec → Plan → Tasks → Implement). Chaque phase produit un document écrit qui sert de base à la suivante. C'est exactement l'esprit de la Specification Driven Development.
 
-Enfin, il respecte les contraintes du volet 1. Grâce à GSD, les spécifications seront rédigées de façon formelle avant que Claude Code ne commence à travailler. Cela correspond exactement à l'approche Specification Driven Development demandée dans le cadre du cours.
+Le projet a aussi un intérêt personnel fort. Plusieurs personnes de mon entourage travaillent dans la construction et un outil de ce type aurait une vraie utilité. Le sujet me motive donc à fournir un produit propre et pas seulement une démonstration scolaire.
 
-Le projet se concentre sur un prototype simple, pas sur un système autonome parfait. L'objectif est de démontrer que la boucle fonctionne, même de façon imparfaite, sur un exemple concret.
+Enfin, le projet est volontairement borné. Pour rester réaliste en sept jours, seul le plugin calculateur d'escaliers est inclus dans le MVP. La plateforme est conçue pour être modulaire afin que d'autres plugins puissent être ajoutés plus tard, mais ils ne font pas partie du livrable de cette session.
+Objectifs du projet
+Objectif principal
 
----
+Développer une plateforme web fonctionnelle qui inclut un calculateur d'escaliers conforme aux normes du Québec, en suivant rigoureusement la méthode Specification Driven Development avec SpecKit et Claude Code, afin de démontrer comment une documentation bien structurée permet à une IA d'implémenter une application complète avec un minimum d'intervention manuelle.
+Objectifs spécifiques
 
-## Objectifs du projet
+    Documenter les règles de construction d'escaliers du Code de construction du Québec dans un wiki Obsidian clair et exploitable par Claude Code
+    Rédiger une spécification complète du projet avec SpecKit (objectifs, architecture, contraintes, design)
+    Produire un plan d'implémentation détaillé et une liste de tâches à partir de la spécification
+    Laisser Claude Code implémenter le site web et le plugin escaliers à partir du contexte préparé
+    Démontrer le workflow SDD complet de bout en bout pour la communication orale
 
-### Objectif principal
+MVP (Minimum Viable Product)
 
-Créer un prototype fonctionnel d'une boucle automatisée où Claude Code développe une mini application web à partir de spécifications GSD, Claude dans Chrome vérifie visuellement le résultat, et un retour structuré est produit pour guider les corrections suivantes.
+Le MVP est volontairement limité pour rester réaliste dans un délai de sept jours.
 
-### Objectifs spécifiques
+Application cible : Une plateforme web modulaire avec :
 
-- Rédiger des spécifications initiales claires avec GSD pour une mini application web simple
-- Utiliser Claude Code pour générer ou modifier le code de l'application à partir de ces spécifications
-- Utiliser Claude dans Chrome pour analyser visuellement l'interface de l'application et produire un retour structuré
-- Réaliser au moins deux itérations complètes de la boucle (spécification → génération → vérification → correction)
-- Documenter chaque itération pour comparer les résultats et évaluer l'efficacité de l'approche
+    Une page d'accueil qui présente la plateforme et la liste des plugins disponibles
+    Un premier plugin fonctionnel : un calculateur d'escaliers conforme aux normes du Québec
+    Une structure pensée pour accueillir facilement d'autres plugins plus tard
 
----
+La plateforme fonctionne entièrement en local (pas de base de données ni de serveur backend nécessaire pour le MVP), en HTML, CSS et JavaScript.
 
-## MVP (Minimum Viable Product)
+Ce que le MVP doit permettre de faire :
 
-Le MVP du projet est volontairement limité pour rester réaliste dans un délai de 7 jours.
+    Naviguer sur la page d'accueil et accéder au plugin escaliers
+    Entrer les paramètres de base d'un escalier (hauteur totale à franchir, contraintes d'espace, etc.)
+    Obtenir un résultat clair : nombre de marches, hauteur et largeur de chaque marche, conformité aux normes du Québec
+    Voir une explication des règles appliquées (basée sur la documentation préparée)
 
-**Application cible :** Une mini application web simple (ex. : une page de liste de tâches ou un formulaire de contact) développée en HTML, CSS et JavaScript de base. L'interface doit être suffisamment visible pour que Claude dans Chrome puisse l'analyser visuellement.
+Ce que le MVP ne prétend pas faire :
 
-**Ce que le MVP doit permettre de faire :**
+    Inclure plusieurs plugins (seul l'escalier est dans le MVP, les autres viendront plus tard)
+    Intégrer une IA dans le calculateur lui-même (l'algorithme reste mathématique et déterministe pour le MVP, l'intégration d'une IA spécialisée est envisagée dans une version future selon la réponse de l'enseignant sur cette possibilité)
+    Gérer des configurations d'escaliers très complexes (escaliers tournants, à paliers multiples, etc.)
+    Servir de remplacement à une consultation avec un professionnel certifié
 
-1. Rédiger les spécifications initiales de la mini application avec GSD
-2. Lancer Claude Code avec ces spécifications pour générer une première version fonctionnelle de l'application
-3. Ouvrir l'application dans le navigateur et demander à Claude dans Chrome d'analyser l'interface
-4. Obtenir un retour structuré de Claude dans Chrome (problèmes détectés, éléments manquants, suggestions)
-5. Transmettre ce retour à Claude Code pour effectuer des corrections ciblées
-6. Réaliser au minimum deux itérations complètes et documentées de cette boucle
-7. Comparer les versions produites à chaque itération
+Le MVP démontre surtout que la méthode SDD + Claude Code permet de produire une application réelle, conforme à des règles précises, à partir d'un contexte bien préparé.
+Méthodologie et plan de réalisation
 
-**Ce que le MVP ne prétend pas faire :**
+Le projet se déroule sur sept jours selon le plan suivant.
+Phase 1 — Recherche et documentation des normes (Jours 1-2)
 
-- Automatiser entièrement la boucle sans intervention du développeur au debut ou quand sa bloque pour une question de precision que le debut faut donner l'idee avec un bon plan et apres l'execution autonome ou claude chrme va retourner automatiquement a claude code se qui doit etre corriegr ui ou logique selon l'application qu'ilest en train de construire 
-- Gérer des applications complexes ou multi-pages
-- Remplacer un vrai processus de développement professionnel
+    Recherche sur le Code de construction du Québec, section escaliers (CNB-Québec, partie 9)
+    Documentation des règles importantes dans un wiki Obsidian : hauteur et largeur de marche, dégagement de tête, angle de l'escalier, etc.
+    Mise en place de l'environnement de travail (VS Code, Git, dépôt GitHub, Obsidian)
+    Installation et configuration de SpecKit avec Claude Code
 
-Le MVP vise uniquement à démontrer que la boucle est possible et utile, même à petite échelle sans que le developer soti directement devant l'ecran a chaque fin de prompt envoeyr .
+Phase 2 — Spécification et plan (Jour 3)
 
----
+    Rédaction du fichier CLAUDE.md qui donne tout le contexte du projet à Claude Code
+    Rédaction de la spécification complète avec SpecKit (/speckit.specify)
+    Génération du plan d'implémentation (/speckit.plan)
+    Découpage en tâches concrètes (/speckit.tasks)
+    Validation du contexte préparé avant de lancer l'implémentation
 
-## Méthodologie et plan de réalisation
+Phase 3 — Implémentation du site et du plugin (Jours 4-5-6)
 
-Le projet se déroule sur 7 jours selon le plan suivant.
+    Lancement de l'implémentation par Claude Code à partir des tâches générées
+    Construction de la page d'accueil et de la structure modulaire du site
+    Construction du plugin escaliers avec l'algorithme de calcul conforme aux normes
+    Commits Git réguliers à chaque tâche complétée
+    Ajustements ponctuels si Claude Code dévie de la spécification
 
-### Phase 1 — Recherche et mise en place (Jours 1)
+Phase 4 — Documentation, rapport et finalisation (Jour 7)
 
-- Recherche sur le fonctionnement de GSD et comment rédiger des spécifications efficaces
-- Exploration des capacités de Claude Code pour la génération de code à partir de spécifications
-- Exploration de Claude dans Chrome pour la vérification visuelle d'interfaces
-- Mise en place de l'environnement de travail (VS Code, Git, dossier de projet)
-- Rédaction des spécifications initiales de la mini application avec GSD
+    Vérification finale que les calculs respectent les normes documentées
+    Mise à jour du dépôt Git et du wiki Obsidian
+    Rédaction du rapport final qui présente la démarche SDD utilisée
+    Préparation de la communication orale qui présente le workflow et le résultat
 
-### Phase 2 — Première itération (Jours 2)
+Outils et technologies utilisées
+Outil / Technologie	Rôle dans le projet
+SpecKit	Cadre Specification Driven Development. Fournit les commandes pour rédiger la spec, générer le plan, découper en tâches et lancer l'implémentation
+Claude Code	Agent IA qui implémente le site et le plugin à partir de la spécification, du plan et de la documentation préparée
+Obsidian	Wiki local pour documenter les règles du Code de construction du Québec et donner du contexte structuré à Claude Code
+VS Code	Environnement de développement principal
+Git / GitHub	Gestion des versions du projet, commits réguliers à chaque tâche
+HTML / CSS / JavaScript	Technologies utilisées pour le site web et le plugin (vanilla, pas de framework lourd pour rester simple et léger)
+Code de construction du Québec	Source officielle des règles applicables pour le calculateur d'escaliers
+Résultats attendus et critères de réussite
+Résultats attendus
 
-- Génération de la première version de l'application avec Claude Code à partir des spécifications GSD
-- Ouverture de l'application dans le navigateur
-- Vérification visuelle par Claude dans Chrome et collecte du retour structuré
-- Documentation des résultats de la première itération
+    Une plateforme web fonctionnelle avec page d'accueil et plugin calculateur d'escaliers
+    Un calculateur qui respecte les règles du Code de construction du Québec
+    Un wiki Obsidian qui documente clairement les règles utilisées
+    Une spécification SpecKit complète, un plan détaillé et une liste de tâches qui ont guidé l'implémentation
+    Un rapport et une communication orale qui présentent le workflow SDD utilisé
 
-### Phase 3 — Deuxième itération et ajustements (Jours 3-4-5–6)
+Critères de réussite
 
-- Transmission du retour de Claude dans Chrome à Claude Code ( le plsu dure) pour envoyer prompt de claude extension a claude code et qui ne fasse pas la retroaction trop vite qui attende que claude caude aye fini son prompt 
-- Génération d'une version corrigée de l'application
-- Nouvelle vérification par Claude dans Chrome
-- Documentation des résultats de la deuxième itération
-- Comparaison des deux versions et analyse des améliorations
-- optimisation de detail pour une meilleur automatisation
-- l'envoie dans un git commit a chaque changeemnt
+    La spécification, le plan et les tâches générés par SpecKit sont clairs et ont effectivement guidé le travail de Claude Code
+    Le calculateur d'escaliers donne des résultats conformes aux normes documentées dans le wiki
+    Le site est fonctionnel en local sans configuration complexe
+    Le dépôt Git est bien organisé avec des commits réguliers qui montrent la progression
+    La démarche SDD est claire et reproductible (quelqu'un d'autre pourrait suivre la même méthode)
 
-### Phase 4 — Rapport et finalisation (Jour 7)
+Conclusion
 
-- Rédaction du rapport final
-- Mise à jour du dépôt Git
-- Préparation de la présentation
-- Révision du document de proposition
+Ce projet répond à une question concrète pour les développeurs d'aujourd'hui : comment travailler efficacement avec une IA de code comme Claude Code sans tomber dans le vibe coding où le résultat est imprévisible. La réponse explorée ici est la Specification Driven Development : préparer un contexte rigoureux (spécification, plan, tâches, documentation métier) avant que l'IA ne touche au code.
 
----
+En appliquant cette méthode à un projet réel — une plateforme web pour constructeurs avec un calculateur d'escaliers conforme aux normes du Québec — ce travail démontre concrètement que le SDD permet à une IA de produire une application complète, fonctionnelle et conforme à des règles précises, avec un minimum d'intervention manuelle.
 
-## Outils et technologies utilisées
+Sur le plan personnel, ce projet me sert deux fois : il me permet de maîtriser une méthode de travail qui va devenir incontournable dans ma carrière de développeur, et il produit un outil concret qui peut être utile à des gens de mon entourage qui travaillent dans la construction.
+Utilisation de l'IA
 
-| Outil / Technologie | Rôle dans le projet |
-|---|---|
-| **GSD** | Rédaction et structuration des spécifications initiales du projet (approche Specification Driven Development) |
-| **Claude Code** | Génération et modification du code de la mini application web à partir des spécifications,et base donner si besoin  |
-| **Claude dans Chrome** | Analyse visuelle de l'interface dans le navigateur et production d'un retour structuré |
-| **VS Code** | Environnement de développement principal |
-| **Git / GitHub** | Gestion des versions du projet et conservation des différentes itérations |
-| **HTML / CSS / JavaScript** | Technologies utilisées pour la mini application web |
+L'intelligence artificielle a été utilisée à plusieurs étapes de la préparation de ce travail.
 
----
-
-## Résultats attendus et critères de réussite
-
-### Résultats attendus
-
-- Une mini application web fonctionnelle générée à partir de spécifications GSD
-- Au moins deux itérations complètes et documentées de la boucle (génération → vérification → correction)
-- Un rapport clair comparant les versions produites à chaque itération et évaluant l'efficacité de l'approche
-
-### Critères de réussite
-
-- Les spécifications GSD sont claires, complètes et ont effectivement guidé le travail de Claude Code
-- La boucle a fonctionné de bout en bout au moins deux fois, avec un retour utile de Claude dans Chrome à chaque itération
-- Les corrections apportées entre chaque itération sont visibles et mesurables
-- Le projet est bien documenté et le dépôt Git est organisé et à jour
-
----
-
-## Conclusion
-
-Ce projet représente une façon concrète d'explorer l'une des questions les plus importantes pour les développeurs d'aujourd'hui : jusqu'où l'IA peut-elle prendre en charge des étapes du cycle de développement de façon autonome ou semi-autonome ?
-
-En combinant GSD pour structurer les spécifications, Claude Code pour générer le code et Claude dans Chrome pour vérifier le résultat visuellement, ce prototype tente de reproduire à petite échelle une boucle de développement partiellement automatisée. Ce n'est pas un système parfait ni complètement autonome, mais c'est une démonstration réelle et documentée que ce genre de boucle est possible.
-
-Sur le plan personnel, ce projet m'intéresse parce qu'il touche directement à mon futur comme développeur. Comprendre comment intégrer des outils IA dans un flux de travail réel — pas juste pour générer des lignes de code, mais pour structurer, vérifier et corriger — c'est une compétence qui va devenir de plus en plus utile. Ce prototype est un premier pas dans cette direction.
-
----
-
-## Utilisation de l'IA
-
-L'intelligence artificielle a été utilisée à plusieurs étapes de la préparation de ce travail :
-- chat gpt a ete utilisiser pour les idée a faire 
-- **Génération d'idées :** Claude a été utilisé pour explorer des pistes de projet liées au thème « L'IA au service du développeur » et pour évaluer leur faisabilité en 7 jours.
-- **Structuration de la proposition :** Claude a aidé à organiser les sections du document et à s'assurer que la structure respectait les consignes du professeur.
-- **Reformulation :** Certaines parties du texte ont été reformulées avec l'aide de Claude pour améliorer la clarté et adopter un ton naturel et adapté au niveau cégep.
-- **Amélioration du contenu :** Claude a suggéré des ajustements pour rendre le MVP plus réaliste et la méthodologie plus précise.
-- **Correction linguistique :** Claude a été utilisé pour corriger les fautes d'orthographe, de grammaire et de syntaxe.
+    ChatGPT a été utilisé pour les premières recherches d'idées de projet.
+    Génération d'idées : Claude a été utilisé pour explorer des pistes de projet liées au thème « L'IA au service du développeur » et pour évaluer leur faisabilité en sept jours.
+    Choix de l'outil SDD : Claude a aidé à comparer GSD, SpecKit, SuperPowers et OpenSpec, et à choisir SpecKit comme outil le plus adapté au projet.
+    Structuration de la proposition : Claude a aidé à organiser les sections du document et à s'assurer que la structure respecte les consignes du professeur.
+    Reformulation : Certaines parties du texte ont été reformulées avec l'aide de Claude pour améliorer la clarté et adopter un ton naturel et adapté au niveau cégep.
+    Amélioration du contenu : Claude a suggéré des ajustements pour rendre le MVP plus réaliste et la méthodologie plus précise.
+    Correction linguistique : Claude a été utilisé pour corriger les fautes d'orthographe, de grammaire et de syntaxe.
 
 Toutes les décisions de contenu, le choix du projet et la démarche globale restent ceux de l'étudiant. L'IA a servi d'outil de soutien, pas de remplacement.
-
----
-
-## Annexe — Prompts utilisés
+Annexe — Prompts utilisés
 
 Les prompts ci-dessous regroupent les principaux échanges qui ont influencé le résultat final. Certains sont recopiés presque mot pour mot, d'autres sont légèrement nettoyés pour être lisibles, mais leur contenu reflète fidèlement les vraies demandes faites pendant la démarche. Deux outils ont été utilisés : ChatGPT pour les premières recherches d'idées, et Claude pour la rédaction et la structuration du document.
+A. Prompts utilisés avec ChatGPT
 
----
+Prompt 1 — Chercher des idées de projet
 
-### A. Prompts utilisés avec ChatGPT
+    « j'ai un cours de veille techno et je dois faire un projet en lien avec l'IA au service du développeur, donne moi des idées de projet que je pourrais faire en 7 jours »
 
----
+Prompt 2 — Affiner les idées
 
-**Prompt 1 — Chercher des idées de projet**
+    « ok mais je veux quelque chose qui est vraiment en lien avec le métier de développeur, pas juste utiliser une API pour faire afficher du texte, quelque chose de plus concret »
 
-> « j'ai un cours de veille techno et je dois faire un projet en lien avec l'IA au service du développeur, donne moi des idées de projet que je pourrais faire en 7 jours »
+Prompt 3 — Proposer l'idée d'un site pour constructeurs
 
----
+    « est-ce que ce serait une bonne idée de faire un site web pour des constructeurs avec des plugins genre un calculateur d'escaliers, et de l'utiliser comme un cas d'étude pour montrer comment je peux préparer un contexte parfait pour Claude Code et qu'il code l'app tout seul »
 
-**Prompt 2 — Affiner les idées**
+Prompt 4 — Proposer l'idée de générateur de commits Git
 
-> « ok mais je veux quelque chose qui est vraiment en lien avec le métier de développeur, pas juste utiliser une API pour faire afficher du texte, quelque chose de plus concret »
+    « une autre idée serait un script qui analyse les changements Git et génère automatiquement les messages de commit avec Claude, est-ce que c'est assez pour un projet de 7 jours »
 
----
+Prompt 5 — Proposer l'idée de base de données
 
-**Prompt 3 — Rejeter les idées trop faciles**
+    « une autre idée que j'ai c'est un site web où tu décris ton projet, Claude te pose des questions pour être sûr de comprendre, et à la fin ça génère un schéma de base de données complet en PlantUML avec un fichier .wsd téléchargeable »
 
-> « non celle là c'est trop facile tu demandes juste à Claude de faire des specs et c'est tout, je veux quelque chose de plus intéressant, donne moi d'autre idée »
+B. Prompts utilisés avec Claude
 
----
+Prompt 6 — Comprendre le SDD et choisir l'outil
 
-**Prompt 4 — Proposer l'idée principale**
+    « peux-tu m'expliquer c'est quoi exactement la Specification Driven Development et lequel des outils suggérés par le prof (SuperPowers, SpecKit, OpenSpec, GSD) tu me recommandes pour mon projet de site web pour constructeurs avec un calculateur d'escaliers »
 
-> « est-ce que ce serait possible de faire une boucle ou Claude Code code une application, Claude dans Chrome regarde l'application dans le navigateur et envoie un retour à Claude Code pour corriger, genre une boucle automatique sans que tu touches à rien »
+Prompt 7 — Rédiger la proposition formelle complète
 
----
+    « tu dois me rédiger un fichier Markdown complet pour un travail scolaire en français, avec un ton naturel, simple, sérieux, niveau cégep. Je veux que tu suives le même style de structure que l'exemple de proposition formelle fourni par mon professeur. Je veux imiter la forme, pas copier le contenu. Le nom de l'étudiant c'est William Dorval, le cours c'est Veille technologique, volet 1 Specification Driven Development. »
 
-**Prompt 5 — Proposer l'idée de base de données**
+Prompt 8 — Forcer la prérecherche en tableau
 
-> « une autre idée que j'ai c'est un site web où tu décris ton projet, Claude te pose des questions pour être sûr de comprendre, et à la fin ça génère un schéma de base de données complet en PlantUML avec un fichier .wsd téléchargeable »
+    « je veux que la prérecherche soit faite avec un tableau Markdown comme dans l'exemple du prof, avec 3 colonnes : sujet exploré, résumé, pourquoi retenu ou rejeté »
 
----
+Prompt 9 — Adapter au nouveau sujet
 
-### B. Prompts utilisés avec Claude
+    « on change le projet, on laisse tomber la boucle Claude Code + Claude dans Chrome, on garde juste un site web d'aide aux constructeurs avec un plugin de calculateur d'escaliers selon les normes du Québec, et on garde l'angle SDD comme méthodologie principale »
 
----
-
-**Prompt 6 — Rédiger la proposition formelle complète**
-
-> « tu dois me rédiger un fichier Markdown complet pour un travail scolaire en français, avec un ton naturel, simple, sérieux, niveau cégep. Je veux que tu suives le même style de structure que l'exemple de proposition formelle fourni par mon professeur. Je veux imiter la forme, pas copier le contenu. Le nom de l'étudiant c'est William Dorval, le cours c'est Veille technologique, volet 1 Specification Driven Development, la date de remise c'est le 19 avril 2026. »
-
----
-
-**Prompt 7 — Forcer la prérecherche en tableau**
-
-> « je veux que la prérecherche soit faite avec un tableau Markdown comme dans l'exemple du prof, avec 3 colonnes : sujet exploré, résumé, pourquoi retenu ou rejeté »
-
----
-
-**Prompt 8 — Raccourcir le tableau**
-
-> « met les prérecherche vraiment plus petit les texte, genre regarde l'exemple c'est vraiment petit comme résumé et pourquoi rejeté »
-
----
-
-**Prompt 9 — Changer l'idée 3**
-
-> « rajoute que c'est pour créer une base de données en PlantUML ou tu vas écrire avec Claude ou lui il va te poser des questions pour être sûr, et où à la fin ça va créer un .wsd dans le site web ou ça va te donner ta base de données complète en dessin »
-
-
+e
