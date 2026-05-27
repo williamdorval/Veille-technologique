@@ -133,3 +133,10 @@ Avant d'écrire du code, Claude Code DOIT consulter :
 - Escaliers droits seulement (pas tournants, pas paliers multiples)
 - Pas d'IA intégrée dans les calculs eux-mêmes (algorithme déterministe)
 - Pas un remplacement à un professionnel certifié — l'app le dit clairement
+
+<!-- SPECKIT START -->
+Feature en cours : **Page d'accueil — Hero 3D** (branche `001-home-page-3d-hero`)
+Plan actif : `specs/001-home-page-3d-hero/plan.md`
+Spec : `specs/001-home-page-3d-hero/spec.md`
+Contrats UI : `specs/001-home-page-3d-hero/contracts/components.md`
+<!-- SPECKIT END -->
