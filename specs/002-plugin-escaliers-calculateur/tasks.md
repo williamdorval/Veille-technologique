@@ -83,7 +83,7 @@ created: "2026-05-27"
 > Assembler la page principale, valider TypeScript, vérifier la responsivité, et produire le rapport.
 
 - [x] T015 Créer la page principale dans `src/app/plugins/escaliers/page.tsx` : Server Component (pas de 'use client'), Alert shadcn permanente non effaçable en haut (avertissement légal complet), titre "Calculateur d'escaliers" + sous-titre, grid md:grid-cols-2 gap-6 (formulaire gauche, résultats droite), Tabs shadcn pour résultats (Conformité/Matériaux/Plan/3D/Estimation), bouton Imprimer en bas, fonctionnel à partir de 375px — orchestrateur Client Component EscalierCalculateur.tsx si état partagé nécessaire
-- [ ] T016 Valider l'ensemble : exécuter `npx tsc --noEmit` et corriger toutes les erreurs ; vérifier que chaque composant fait ≤150 lignes ; vérifier qu'aucune valeur numérique de norme n'est hardcodée hors de normes.ts ; tester manuellement les cas critiques (2800mm privé→conforme, 3500mm commun→contraintes strictes, 200mm→erreur)
+- [x] T016 Valider l'ensemble : exécuter `npx tsc --noEmit` et corriger toutes les erreurs ; vérifier que chaque composant fait ≤150 lignes ; vérifier qu'aucune valeur numérique de norme n'est hardcodée hors de normes.ts ; tester manuellement les cas critiques (2800mm privé→conforme, 3500mm commun→contraintes strictes, 200mm→erreur)
 - [ ] T017 Créer le rapport final dans `docs/06-livrables/rapport-tranche-2-plugin-escaliers.md` : tâches implémentées (N sur 17), fonctionnalités P1/P2/P3 livrées, normes documentées avec sources, décisions techniques justifiées, limites connues, instructions pour tester manuellement — puis git push origin 002-plugin-escaliers
 
 ---

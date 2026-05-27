@@ -7,17 +7,17 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreeFormulaire, UniteMesure, TypeUsage, MateriauLimon, TypeMarche } from '@/lib/escaliers/types';
-import { LABELS_TYPE_USAGE, LABELS_MATERIAU_LIMON, LABELS_TYPE_MARCHE } from '@/lib/escaliers/normes';
+import { ChampsOptions, FormValues } from './ChampsOptions';
 
 const POUCE = 25.4;
 
 const schemaFormulaire = z.object({
   hauteurTotaleSaisie: z.number().positive('La hauteur doit être positive'),
   uniteMesure: z.enum(['mm', 'pouces'] as const),
+  // Validation UI : plage raisonnable pour le formulaire.
+  // La conformité CCQ (min 860mm) est vérifiée dans conformite.ts
   largeur: z.number()
     .min(600, 'Largeur minimum : 600 mm')
     .max(2500, 'Largeur maximum : 2 500 mm'),
@@ -30,15 +30,13 @@ const schemaFormulaire = z.object({
   typeMarche: z.enum(['bois_traite', 'epinette', 'bois_franc', 'contrepalque', 'composite'] as const),
 });
 
-type FormValues = z.infer<typeof schemaFormulaire>;
-
 interface Props {
   onCalculer: (entree: EntreeFormulaire) => void;
   isCalculating: boolean;
 }
 
 export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(schemaFormulaire),
     defaultValues: {
       hauteurTotaleSaisie: 2800,
@@ -52,6 +50,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
     },
   });
 
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = form;
   const watchedValues = watch();
 
   const soumettre = useCallback((values: FormValues) => {
@@ -73,9 +72,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
 
   // Debounce 300ms pour le recalcul automatique
   useEffect(() => {
-    const timer = setTimeout(() => {
-      handleSubmit(soumettre)();
-    }, 300);
+    const timer = setTimeout(() => { handleSubmit(soumettre)(); }, 300);
     return () => clearTimeout(timer);
   }, [
     watchedValues.hauteurTotaleSaisie, watchedValues.uniteMesure, watchedValues.largeur,
@@ -90,22 +87,20 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(soumettre)} className="space-y-4">
-          {/* Unité */}
+          {/* Toggle unité */}
           <div className="flex gap-2 items-center">
             <Label>Unité :</Label>
-            <button type="button" onClick={() => setValue('uniteMesure', 'mm')}
-              className={`px-3 py-1 rounded text-sm border ${watchedValues.uniteMesure === 'mm' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}>
-              mm
-            </button>
-            <button type="button" onClick={() => setValue('uniteMesure', 'pouces')}
-              className={`px-3 py-1 rounded text-sm border ${watchedValues.uniteMesure === 'pouces' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}>
-              Pouces
-            </button>
+            {(['mm', 'pouces'] as const).map((u) => (
+              <button key={u} type="button" onClick={() => setValue('uniteMesure', u)}
+                className={`px-3 py-1 rounded text-sm border transition-colors ${watchedValues.uniteMesure === u ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted'}`}>
+                {u}
+              </button>
+            ))}
           </div>
 
           {/* Hauteur totale */}
           <div className="space-y-1">
-            <Label htmlFor="hauteur">Hauteur totale à monter ({watchedValues.uniteMesure})</Label>
+            <Label htmlFor="hauteur">Hauteur totale ({watchedValues.uniteMesure})</Label>
             <Input id="hauteur" type="number" step="1"
               {...register('hauteurTotaleSaisie', { valueAsNumber: true })} />
             {errors.hauteurTotaleSaisie && (
@@ -133,54 +128,8 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
             )}
           </div>
 
-          {/* Type d'usage */}
-          <div className="space-y-1">
-            <Label>Type d&apos;usage</Label>
-            <Select value={watchedValues.typeUsage}
-              onValueChange={(v) => setValue('typeUsage', v as TypeUsage)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {(Object.entries(LABELS_TYPE_USAGE) as [TypeUsage, string][]).map(([val, label]) => (
-                  <SelectItem key={val} value={val}>{label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Options matériaux */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
-              <Label>Matériau du limon</Label>
-              <Select value={watchedValues.materiauLimon}
-                onValueChange={(v) => setValue('materiauLimon', v as MateriauLimon)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {(Object.entries(LABELS_MATERIAU_LIMON) as [MateriauLimon, string][]).map(([val, label]) => (
-                    <SelectItem key={val} value={val}>{label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1">
-              <Label>Type de marches</Label>
-              <Select value={watchedValues.typeMarche}
-                onValueChange={(v) => setValue('typeMarche', v as TypeMarche)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {(Object.entries(LABELS_TYPE_MARCHE) as [TypeMarche, string][]).map(([val, label]) => (
-                    <SelectItem key={val} value={val}>{label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Contremarches fermées */}
-          <div className="flex items-center gap-3">
-            <Switch id="ferme" checked={watchedValues.contremargesFermees}
-              onCheckedChange={(v) => setValue('contremargesFermees', v)} />
-            <Label htmlFor="ferme">Contremarches fermées</Label>
-          </div>
+          {/* Champs options (usage, matériaux, contremarches) */}
+          <ChampsOptions form={form} />
 
           <Button type="submit" className="w-full" disabled={isCalculating}>
             {isCalculating ? 'Calcul en cours…' : 'Calculer'}
