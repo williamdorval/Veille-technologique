@@ -5,6 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-construction-primaire: var(--construction-primaire);
+  --color-construction-accent: var(--construction-accent);
+  --color-construction-succes: var(--construction-succes);
+  --color-construction-attention: var(--construction-attention);
+  --color-construction-erreur: var(--construction-erreur);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
@@ -49,6 +54,11 @@
 }
 
 :root {
+  --construction-primaire: hsl(217 51% 25%);
+  --construction-accent: hsl(44 96% 49%);
+  --construction-succes: hsl(142 50% 33%);
+  --construction-attention: hsl(32 100% 39%);
+  --construction-erreur: hsl(7 64% 46%);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -84,6 +94,8 @@
 }
 
 .dark {
+  --construction-primaire: hsl(217 51% 70%);
+  --construction-accent: hsl(44 96% 60%);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -126,5 +138,60 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ── Styles d'impression pour le plugin escaliers ─────────────────────────── */
+@media print {
+  /* Masquer les éléments non imprimables */
+  nav,
+  header,
+  footer,
+  [data-no-print],
+  .no-print,
+  button,
+  [role="tablist"],
+  canvas,
+  .visualisation-3d-wrapper {
+    display: none !important;
+  }
+
+  /* Avertissement légal : toujours visible */
+  [data-print-alert] {
+    display: block !important;
+    border: 2px solid #000 !important;
+    padding: 8px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Pleine largeur pour les résultats */
+  .print-full-width,
+  [data-print-section] {
+    width: 100% !important;
+    max-width: 100% !important;
+    break-inside: avoid;
+  }
+
+  /* Mise en page A4 */
+  body {
+    font-size: 11pt;
+    color: #000;
+    background: #fff;
+  }
+
+  /* Saut de page avant les sections importantes */
+  [data-print-pagebreak] {
+    page-break-before: always;
+  }
+
+  /* Tableaux lisibles à l'impression */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    text-align: left;
   }
 }

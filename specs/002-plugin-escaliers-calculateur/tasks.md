@@ -73,8 +73,8 @@ created: "2026-05-27"
 >
 > **Critère de test indépendant** : Après calcul valide, la section estimation affiche une fourchette de coût et un temps estimé. Le bouton Imprimer déclenche window.print(). L'impression exclut la visualisation 3D.
 
-- [ ] T013 [US3] Créer le composant estimation dans `src/components/plugins/escaliers/EstimationProjet.tsx` : Card shadcn, temps estimé en heures (arrondi 0.5h), fourchette coût basse-haute en CAD, avertissement obligatoire "Prix indicatifs — obtenir des soumissions"
-- [ ] T014 [US3] Ajouter les styles CSS d'impression dans `src/app/globals.css` sous @media print : masquer Alert/formulaire/boutons/navigation/canvas 3D, afficher en pleine largeur Conformité/Matériaux/Plan, optimiser pour page A4
+- [x] T013 [US3] Créer le composant estimation dans `src/components/plugins/escaliers/EstimationProjet.tsx` : Card shadcn, temps estimé en heures (arrondi 0.5h), fourchette coût basse-haute en CAD, avertissement obligatoire "Prix indicatifs — obtenir des soumissions"
+- [x] T014 [US3] Ajouter les styles CSS d'impression dans `src/app/globals.css` sous @media print : masquer Alert/formulaire/boutons/navigation/canvas 3D, afficher en pleine largeur Conformité/Matériaux/Plan, optimiser pour page A4
 
 ---
 
@@ -82,7 +82,7 @@ created: "2026-05-27"
 
 > Assembler la page principale, valider TypeScript, vérifier la responsivité, et produire le rapport.
 
-- [ ] T015 Créer la page principale dans `src/app/plugins/escaliers/page.tsx` : Server Component (pas de 'use client'), Alert shadcn permanente non effaçable en haut (avertissement légal complet), titre "Calculateur d'escaliers" + sous-titre, grid md:grid-cols-2 gap-6 (formulaire gauche, résultats droite), Tabs shadcn pour résultats (Conformité/Matériaux/Plan/3D/Estimation), bouton Imprimer en bas, fonctionnel à partir de 375px — orchestrateur Client Component EscalierCalculateur.tsx si état partagé nécessaire
+- [x] T015 Créer la page principale dans `src/app/plugins/escaliers/page.tsx` : Server Component (pas de 'use client'), Alert shadcn permanente non effaçable en haut (avertissement légal complet), titre "Calculateur d'escaliers" + sous-titre, grid md:grid-cols-2 gap-6 (formulaire gauche, résultats droite), Tabs shadcn pour résultats (Conformité/Matériaux/Plan/3D/Estimation), bouton Imprimer en bas, fonctionnel à partir de 375px — orchestrateur Client Component EscalierCalculateur.tsx si état partagé nécessaire
 - [ ] T016 Valider l'ensemble : exécuter `npx tsc --noEmit` et corriger toutes les erreurs ; vérifier que chaque composant fait ≤150 lignes ; vérifier qu'aucune valeur numérique de norme n'est hardcodée hors de normes.ts ; tester manuellement les cas critiques (2800mm privé→conforme, 3500mm commun→contraintes strictes, 200mm→erreur)
 - [ ] T017 Créer le rapport final dans `docs/06-livrables/rapport-tranche-2-plugin-escaliers.md` : tâches implémentées (N sur 17), fonctionnalités P1/P2/P3 livrées, normes documentées avec sources, décisions techniques justifiées, limites connues, instructions pour tester manuellement — puis git push origin 002-plugin-escaliers
 
