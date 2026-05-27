@@ -60,10 +60,10 @@ created: "2026-05-27"
 >
 > **Critère de test indépendant** : Après calcul valide, la liste matériaux affiche limons×2, marches×N, contremarches×N (si fermé), la visualisation 3D pivote librement ou le SVG 2D s'affiche en fallback.
 
-- [ ] T009 [P] [US2] Créer le composant liste matériaux dans `src/components/plugins/escaliers/ListeMateriaux.tsx` : Card shadcn, tableau avec colonnes élément/quantité/dimensions/matériau, badges "main courante requise" (si ≥3 marches) et "garde-corps requis" (si chute >600mm), total estimé avec avertissement "prix indicatifs 2025"
-- [ ] T010 [P] [US2] Créer le composant plan de construction dans `src/components/plugins/escaliers/PlanConstruction.tsx` : 7 Card numérotées shadcn, chaque étape avec titre/description/dimensions clés, étapes conditionnelles (main courante, garde-corps) clairement marquées
-- [ ] T011 [US2] Créer la visualisation 3D dans `src/components/plugins/escaliers/Visualisation3D.tsx` (wrapper 'use client' avec dynamic import ssr:false + détection WebGL + fallback SVG 2D), `src/components/plugins/escaliers/EscalierScene.tsx` (Canvas R3F avec OrbitControls drei, AmbientLight+DirectionalLight), `src/components/plugins/escaliers/EscalierMesh.tsx` (BoxGeometry pour limons×2+marches+contremarches, MeshStandardMaterial couleurs par matériau, modèle centré à l'origine) — si R3F échoue après 3 tentatives : implémenter SVG uniquement
-- [ ] T012 [US2] Valider P2 : npx tsc --noEmit sur T009–T011, vérifier que le fallback SVG s'affiche si WebGL est simulé comme absent
+- [x] T009 [P] [US2] Créer le composant liste matériaux dans `src/components/plugins/escaliers/ListeMateriaux.tsx` : Card shadcn, tableau avec colonnes élément/quantité/dimensions/matériau, badges "main courante requise" (si ≥3 marches) et "garde-corps requis" (si chute >600mm), total estimé avec avertissement "prix indicatifs 2025"
+- [x] T010 [P] [US2] Créer le composant plan de construction dans `src/components/plugins/escaliers/PlanConstruction.tsx` : 7 Card numérotées shadcn, chaque étape avec titre/description/dimensions clés, étapes conditionnelles (main courante, garde-corps) clairement marquées
+- [x] T011 [US2] Créer la visualisation 3D dans `src/components/plugins/escaliers/Visualisation3D.tsx` (wrapper 'use client' avec dynamic import ssr:false + détection WebGL + fallback SVG 2D), `src/components/plugins/escaliers/EscalierScene.tsx` (Canvas R3F avec OrbitControls drei, AmbientLight+DirectionalLight), `src/components/plugins/escaliers/EscalierMesh.tsx` (BoxGeometry pour limons×2+marches+contremarches, MeshStandardMaterial couleurs par matériau, modèle centré à l'origine) — si R3F échoue après 3 tentatives : implémenter SVG uniquement
+- [x] T012 [US2] Valider P2 : npx tsc --noEmit sur T009–T011, vérifier que le fallback SVG s'affiche si WebGL est simulé comme absent
 
 ---
 
