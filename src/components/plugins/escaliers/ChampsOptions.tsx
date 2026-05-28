@@ -10,7 +10,6 @@ import { LABELS_TYPE_USAGE, LABELS_MATERIAU_LIMON, LABELS_TYPE_MARCHE } from '@/
 // Type partagé entre FormulaireEscalier et ce composant
 export interface FormValues {
   hauteurTotaleSaisie: number;
-  uniteMesure: 'mm' | 'pouces';
   largeur: number;
   hauteurPlafond: number;
   typeUsage: TypeUsage;

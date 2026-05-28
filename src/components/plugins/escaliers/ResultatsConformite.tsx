@@ -4,13 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ResultatCalcul, IndicateurConformite, StatutConformite } from '@/lib/escaliers/types';
+import { useUnite, formatValeur, labelUnite } from '@/lib/shared/use-unite';
 
 interface Props {
   resultat: ResultatCalcul;
-}
-
-function mmEnPouces(mm: number): string {
-  return (mm / 25.4).toFixed(2);
 }
 
 function badgeVariant(statut: StatutConformite): 'default' | 'secondary' | 'destructive' | 'outline' {
@@ -41,14 +38,15 @@ function IndicateurCard({ indicateur }: { indicateur: IndicateurConformite }) {
 }
 
 export function ResultatsConformite({ resultat }: Props) {
+  const { unite } = useUnite('escaliers');
   const { nombreMarches, hauteurContremarche, giron, longueurAuSol, longueurLimon, angleDegres } = resultat;
 
   const lignesDimensions = [
     { label: 'Nombre de marches', valeur: `${nombreMarches}`, unite: '' },
-    { label: 'Hauteur de contremarche', valeur: `${hauteurContremarche}`, unite: `mm (${mmEnPouces(hauteurContremarche)} po)` },
-    { label: 'Giron (profondeur)', valeur: `${giron}`, unite: `mm (${mmEnPouces(giron)} po)` },
-    { label: 'Longueur au sol', valeur: `${longueurAuSol}`, unite: `mm (${mmEnPouces(longueurAuSol)} po)` },
-    { label: 'Longueur du limon', valeur: `${longueurLimon}`, unite: `mm (${mmEnPouces(longueurLimon)} po)` },
+    { label: 'Hauteur de contremarche', valeur: formatValeur(hauteurContremarche, unite), unite: labelUnite(unite) },
+    { label: 'Giron (profondeur)', valeur: formatValeur(giron, unite), unite: labelUnite(unite) },
+    { label: 'Longueur au sol', valeur: formatValeur(longueurAuSol, unite), unite: labelUnite(unite) },
+    { label: 'Longueur du limon', valeur: formatValeur(longueurLimon, unite), unite: labelUnite(unite) },
     { label: 'Angle', valeur: `${angleDegres}°`, unite: '' },
   ];
 

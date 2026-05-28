@@ -9,13 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreeFormulaire, UniteMesure, TypeUsage, MateriauLimon, TypeMarche } from '@/lib/escaliers/types';
+import { useUnite, mmVers, depuisMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
+import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 import { ChampsOptions, FormValues } from './ChampsOptions';
-
-const POUCE = 25.4;
 
 const schemaFormulaire = z.object({
   hauteurTotaleSaisie: z.number().positive('La hauteur doit être positive'),
-  uniteMesure: z.enum(['mm', 'pouces'] as const),
   // Validation UI : plage raisonnable pour le formulaire.
   // La conformité CCQ (min 860mm) est vérifiée dans conformite.ts
   largeur: z.number()
@@ -36,11 +35,12 @@ interface Props {
 }
 
 export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
+  const { unite, choisirUnite } = useUnite('escaliers');
+
   const form = useForm<FormValues>({
     resolver: zodResolver(schemaFormulaire),
     defaultValues: {
       hauteurTotaleSaisie: 2800,
-      uniteMesure: 'mm',
       largeur: 900,
       hauteurPlafond: 2400,
       typeUsage: 'residentiel_prive',
@@ -50,17 +50,15 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
     },
   });
 
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = form;
+  const { handleSubmit, watch, setValue, formState: { errors } } = form;
   const watchedValues = watch();
 
   const soumettre = useCallback((values: FormValues) => {
-    const hauteurMm = values.uniteMesure === 'pouces'
-      ? values.hauteurTotaleSaisie * POUCE
-      : values.hauteurTotaleSaisie;
+    // Tous les champs sont déjà en mm dans le formulaire
     onCalculer({
-      hauteurTotale: hauteurMm,
+      hauteurTotale: values.hauteurTotaleSaisie,
       hauteurTotaleSaisie: values.hauteurTotaleSaisie,
-      uniteMesure: values.uniteMesure as UniteMesure,
+      uniteMesure: 'mm' as UniteMesure,
       largeur: values.largeur,
       hauteurPlafond: values.hauteurPlafond,
       typeUsage: values.typeUsage as TypeUsage,
@@ -75,7 +73,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
     const timer = setTimeout(() => { handleSubmit(soumettre)(); }, 300);
     return () => clearTimeout(timer);
   }, [
-    watchedValues.hauteurTotaleSaisie, watchedValues.uniteMesure, watchedValues.largeur,
+    watchedValues.hauteurTotaleSaisie, watchedValues.largeur,
     watchedValues.hauteurPlafond, watchedValues.typeUsage, watchedValues.contremargesFermees,
     watchedValues.materiauLimon, watchedValues.typeMarche, handleSubmit, soumettre,
   ]);
@@ -87,22 +85,22 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(soumettre)} className="space-y-4">
-          {/* Toggle unité */}
-          <div className="flex gap-2 items-center">
-            <Label>Unité :</Label>
-            {(['mm', 'pouces'] as const).map((u) => (
-              <button key={u} type="button" onClick={() => setValue('uniteMesure', u)}
-                className={`px-3 py-1 rounded text-sm border transition-colors ${watchedValues.uniteMesure === u ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted'}`}>
-                {u}
-              </button>
-            ))}
-          </div>
+          {/* Sélecteur d'unité partagé */}
+          <SelecteurUnite unite={unite} onChangerUnite={choisirUnite} />
 
           {/* Hauteur totale */}
           <div className="space-y-1">
-            <Label htmlFor="hauteur">Hauteur totale ({watchedValues.uniteMesure})</Label>
-            <Input id="hauteur" type="number" step="1"
-              {...register('hauteurTotaleSaisie', { valueAsNumber: true })} />
+            <Label htmlFor="hauteur">Hauteur totale ({labelUnite(unite)})</Label>
+            <Input
+              id="hauteur"
+              type="number"
+              step={stepUnite(unite)}
+              value={formatValeur(watchedValues.hauteurTotaleSaisie ?? 2800, unite)}
+              onChange={(e) => {
+                const raw = parseFloat(e.target.value);
+                if (!isNaN(raw)) setValue('hauteurTotaleSaisie', depuisMm(raw, unite), { shouldValidate: true });
+              }}
+            />
             {errors.hauteurTotaleSaisie && (
               <p className="text-destructive text-sm">{errors.hauteurTotaleSaisie.message}</p>
             )}
@@ -110,9 +108,17 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
 
           {/* Largeur */}
           <div className="space-y-1">
-            <Label htmlFor="largeur">Largeur souhaitée (mm)</Label>
-            <Input id="largeur" type="number" step="10"
-              {...register('largeur', { valueAsNumber: true })} />
+            <Label htmlFor="largeur">Largeur souhaitée ({labelUnite(unite)})</Label>
+            <Input
+              id="largeur"
+              type="number"
+              step={stepUnite(unite)}
+              value={formatValeur(watchedValues.largeur ?? 900, unite)}
+              onChange={(e) => {
+                const raw = parseFloat(e.target.value);
+                if (!isNaN(raw)) setValue('largeur', depuisMm(raw, unite), { shouldValidate: true });
+              }}
+            />
             {errors.largeur && (
               <p className="text-destructive text-sm">{errors.largeur.message}</p>
             )}
@@ -120,9 +126,17 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
 
           {/* Hauteur plafond */}
           <div className="space-y-1">
-            <Label htmlFor="plafond">Hauteur du plafond (mm)</Label>
-            <Input id="plafond" type="number" step="10"
-              {...register('hauteurPlafond', { valueAsNumber: true })} />
+            <Label htmlFor="plafond">Hauteur du plafond ({labelUnite(unite)})</Label>
+            <Input
+              id="plafond"
+              type="number"
+              step={stepUnite(unite)}
+              value={formatValeur(watchedValues.hauteurPlafond ?? 2400, unite)}
+              onChange={(e) => {
+                const raw = parseFloat(e.target.value);
+                if (!isNaN(raw)) setValue('hauteurPlafond', depuisMm(raw, unite), { shouldValidate: true });
+              }}
+            />
             {errors.hauteurPlafond && (
               <p className="text-destructive text-sm">{errors.hauteurPlafond.message}</p>
             )}
