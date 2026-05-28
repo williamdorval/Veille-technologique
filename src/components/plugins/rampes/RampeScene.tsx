@@ -42,29 +42,19 @@ function SurfaceSupport({
   materiau: MateriauRampe;
 }) {
   if (typeInstallation === 'escalier') {
-    // 7 marches montant en diagonale (gauche → droite)
     const NB_MARCHES = 7;
-    const marcheW = L / NB_MARCHES;
-    const marcheH = 0.18; // contremarche
-    const marcheD = 1.0;  // profondeur
-
+    const montee = NB_MARCHES * 0.18;
+    const angle = Math.atan2(montee, L);
+    const hypLen = Math.sqrt(L * L + montee * montee);
     return (
-      <group>
-        {Array.from({ length: NB_MARCHES }).map((_, i) => (
-          <mesh
-            key={`marche-${i}`}
-            position={[
-              -L / 2 + i * marcheW + marcheW / 2,
-              i * marcheH + marcheH / 2,
-              0,
-            ]}
-            receiveShadow
-          >
-            <boxGeometry args={[marcheW + 0.01, marcheH, marcheD]} />
-            <meshStandardMaterial {...MAT_DALLE_BOIS} />
-          </mesh>
-        ))}
-      </group>
+      <mesh
+        position={[0, montee / 2 - 0.04, 0]}
+        rotation={[0, 0, angle]}
+        receiveShadow
+      >
+        <boxGeometry args={[hypLen + 0.1, 0.1, 1.0]} />
+        <meshStandardMaterial {...MAT_DALLE_BOIS} />
+      </mesh>
     );
   }
 
