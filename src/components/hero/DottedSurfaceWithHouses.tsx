@@ -1,7 +1,7 @@
-'use client';
+﻿'use client';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 interface HouseConfig {
@@ -22,6 +22,11 @@ export function DottedSurfaceWithHouses({ className, ...props }: Props) {
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const animationIdRef = useRef<number>(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -127,21 +132,16 @@ export function DottedSurfaceWithHouses({ className, ...props }: Props) {
     };
   }, [theme]);
 
-  // Fallback statique si prefers-reduced-motion
-  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return (
-      <div
-        className={cn('absolute inset-0 bg-gradient-to-br from-construction-primaire/20 to-transparent', className)}
-        {...props}
-      />
-    );
-  }
-
   return (
     <div
       ref={containerRef}
-      className={cn('pointer-events-none absolute inset-0', className)}
+      className={cn(
+        'pointer-events-none absolute inset-0',
+        prefersReducedMotion && 'bg-gradient-to-br from-construction-primaire/20 to-transparent',
+        className
+      )}
       {...props}
     />
   );
 }
+
