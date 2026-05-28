@@ -1,4 +1,4 @@
-# Prêt à pousser sur GitHub
+﻿# Prêt à pousser sur GitHub
 
 **Date :** 2026-05-27
 **Testé localement :** `npm run build` — 0 erreurs TypeScript, 6 routes statiques générées
@@ -69,8 +69,19 @@ Il n'y a pas de branches séparées 003/004/005 — tout est dans une seule bran
 
 ---
 
+
+## Corrections 3D -- 2026-05-28
+
+| Plugin | Bug corrige | Commit |
+|--------|-------------|--------|
+| Rampes | Escalier parasite retire -- rampe inclinee a la place des marches | c1c5ed7 |
+| Plancher | Camera corrigee (vue de cote) -- solives visibles en perspective | 3520ec8 |
+| Toiture | Rotations versants corrigees + yCentre exact + boxGeometry | 35d8da1 |
+
+---
 ## Problèmes connus / Tâches en suspens
 
 - Les portées de solives (plancher) utilisent un calcul de flèche élastique simplifié. Pour usage structurel officiel, consulter les tableaux du CNB 2020 et un ingénieur.
 - Les charges de neige sont indicatives (CNB 2020 Annexe C). Valeurs exactes par municipalité nécessitent l'accès au CNB.
 - La visualisation 3D de la toiture montre toujours deux versants (pignon), même si le type "croupe" est sélectionné — les calculs sont corrects pour tous les types.
+
