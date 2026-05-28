@@ -14,8 +14,12 @@ import { useUnite, versMm, formatValeur, labelUnite, stepUnite } from '@/lib/sha
 import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 
 const schema = z.object({
-  longueurRampe: z.number().min(300, 'Min 300 mm').max(30000, 'Max 30 000 mm'),
-  hauteurChute: z.number().min(0, 'Min 0 mm').max(10000, 'Max 10 000 mm'),
+  longueurRampe: z.number()
+    .min(300, 'Longueur minimale : 300 mm (limite interne)')
+    .max(30000, 'Longueur maximale : 30 000 mm (limite interne)'),
+  hauteurChute: z.number()
+    .min(0, 'La hauteur de chute ne peut pas être négative')
+    .max(10000, 'Hauteur de chute maximale : 10 000 mm (limite interne)'),
   typeUsage: z.enum(['residentiel_prive', 'residentiel_commun', 'commercial'] as const),
   materiau: z.enum(['bois', 'metal', 'verre', 'cable'] as const),
   typeInstallation: z.enum(['escalier', 'balcon', 'terrasse'] as const),
@@ -78,7 +82,7 @@ export function FormulaireRampe({ onCalculer }: Props) {
               id="longueur"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.longueurRampe ?? 3000, unite)}
+              value={formatValeur(watchedValues.longueurRampe, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
                 if (!isNaN(raw)) setValue('longueurRampe', versMm(raw, unite), { shouldValidate: true });
@@ -94,7 +98,7 @@ export function FormulaireRampe({ onCalculer }: Props) {
               id="hauteurChute"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.hauteurChute ?? 1200, unite)}
+              value={formatValeur(watchedValues.hauteurChute, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
                 if (!isNaN(raw)) setValue('hauteurChute', versMm(raw, unite), { shouldValidate: true });
