@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { ResultatsPlancher } from '@/lib/plancher/types';
+import { ResultatsPlancher, TypeBois, TypeSousPlancher } from '@/lib/plancher/types';
 
 const PlancherScene = dynamic(() => import('./PlancherScene'), {
   ssr: false,
@@ -17,9 +17,11 @@ interface Props {
   resultats: ResultatsPlancher;
   portee: number;
   largeur: number;
+  typeBois?: TypeBois;
+  typeSousPlancher?: TypeSousPlancher;
 }
 
-export function Visualisation3D({ resultats, portee, largeur }: Props) {
+export function Visualisation3D({ resultats, portee, largeur, typeBois, typeSousPlancher }: Props) {
   return (
     <div className="w-full h-72 rounded-lg overflow-hidden border bg-muted/20">
       <Suspense fallback={
@@ -27,7 +29,13 @@ export function Visualisation3D({ resultats, portee, largeur }: Props) {
           <span className="text-muted-foreground text-sm">Chargement…</span>
         </div>
       }>
-        <PlancherScene resultats={resultats} portee={portee} largeur={largeur} />
+        <PlancherScene
+          resultats={resultats}
+          portee={portee}
+          largeur={largeur}
+          typeBois={typeBois}
+          typeSousPlancher={typeSousPlancher}
+        />
       </Suspense>
     </div>
   );

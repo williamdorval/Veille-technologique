@@ -62,7 +62,13 @@ export function PlancherCalculateur() {
             </TabsContent>
 
             <TabsContent value="visuel" className="mt-4">
-              <Visualisation3D resultats={resultats} portee={entrees.longueur} largeur={entrees.largeur} />
+              <Visualisation3D
+                resultats={resultats}
+                portee={entrees.longueur}
+                largeur={entrees.largeur}
+                typeBois={entrees.typeBois}
+                typeSousPlancher={entrees.typeSousPlancher}
+              />
             </TabsContent>
           </Tabs>
         )}
