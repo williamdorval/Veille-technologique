@@ -55,7 +55,7 @@ export function stepUnite(unite: UniteSaisie): string {
     mm: '1',
     cm: '0.1',
     m: '0.001',
-    po: '0.25',
+    po: '0.25', // 1/4 de pouce — précision courante en construction
   };
   return steps[unite];
 }
@@ -69,11 +69,6 @@ export function stepUnite(unite: UniteSaisie): string {
 export function useUnite(pluginKey: string): {
   unite: UniteSaisie;
   choisirUnite: (u: UniteSaisie) => void;
-  mmVers: typeof mmVers;
-  depuisMm: typeof depuisMm;
-  formatValeur: typeof formatValeur;
-  labelUnite: typeof labelUnite;
-  stepUnite: typeof stepUnite;
 } {
   const storageKey = `constructeurs-unite-${pluginKey}`;
 
@@ -104,10 +99,5 @@ export function useUnite(pluginKey: string): {
   return {
     unite,
     choisirUnite,
-    mmVers,
-    depuisMm,
-    formatValeur,
-    labelUnite,
-    stepUnite,
   };
 }

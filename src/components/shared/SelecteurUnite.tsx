@@ -22,6 +22,7 @@ export function SelecteurUnite({ unite, onChangerUnite }: Props) {
           <button
             key={u}
             type="button"
+            aria-pressed={unite === u}
             onClick={() => onChangerUnite(u)}
             className={`px-3 py-1 rounded text-sm border transition-colors ${
               unite === u
