@@ -69,7 +69,11 @@ export function RampeCalculateur() {
             </TabsContent>
 
             <TabsContent value="visuel" className="mt-4">
-              <Visualisation3D resultats={resultats} materiau={entrees.materiau as MateriauRampe} />
+              <Visualisation3D
+                resultats={resultats}
+                materiau={entrees.materiau as MateriauRampe}
+                typeInstallation={entrees.typeInstallation}
+              />
             </TabsContent>
 
             <TabsContent value="materiaux" className="mt-4">

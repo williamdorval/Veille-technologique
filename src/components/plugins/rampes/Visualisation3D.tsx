@@ -2,9 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { ResultatsRampe } from '@/lib/rampes/types';
-import { MateriauRampe } from '@/lib/rampes/types';
-import { COULEURS_3D } from '@/lib/rampes/normes';
+import { ResultatsRampe, MateriauRampe, TypeInstallation } from '@/lib/rampes/types';
 
 // Chargement dynamique pour éviter les erreurs SSR avec Three.js
 const RampeScene = dynamic(() => import('./RampeScene'), {
@@ -17,12 +15,12 @@ const RampeScene = dynamic(() => import('./RampeScene'), {
 });
 
 interface Props {
-  resultats: ResultatsRampe;
+  resultats: ResultatsRampe | null;
   materiau: MateriauRampe;
+  typeInstallation: TypeInstallation;
 }
 
-export function Visualisation3D({ resultats, materiau }: Props) {
-  const mat = COULEURS_3D[materiau];
+export function Visualisation3D({ resultats, materiau, typeInstallation }: Props) {
   return (
     <div className="w-full h-72 rounded-lg overflow-hidden border bg-muted/20">
       <Suspense fallback={
@@ -30,7 +28,11 @@ export function Visualisation3D({ resultats, materiau }: Props) {
           <span className="text-muted-foreground text-sm">Chargement…</span>
         </div>
       }>
-        <RampeScene resultats={resultats} matProps={mat} />
+        <RampeScene
+          resultats={resultats}
+          materiau={materiau}
+          typeInstallation={typeInstallation}
+        />
       </Suspense>
     </div>
   );
