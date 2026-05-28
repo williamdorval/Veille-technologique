@@ -1,8 +1,10 @@
 import {
+  Anchor,
   Check,
   Construction,
   Fence,
-  Square,
+  Layers,
+  Thermometer,
   Triangle,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -23,19 +25,34 @@ const PLUGINS = [
   {
     icon: Fence,
     title: 'Rampes et garde-corps',
-    description: 'Calcul des dimensions de rampes et garde-corps conformes.',
-    status: 'coming-soon' as const,
+    description: "Calcule la hauteur, l'espacement des barreaux et les matériaux d'une rampe conforme au CCQ.",
+    status: 'available' as const,
+    href: '/plugins/rampes',
   },
   {
-    icon: Square,
+    icon: Layers,
     title: 'Calcul de plancher',
-    description: 'Dimensionnement des solives et poutres de plancher.',
-    status: 'coming-soon' as const,
+    description: "Dimensionne les solives selon la portée et l'usage. Vérifie la flèche L/360 du CNB 2020.",
+    status: 'available' as const,
+    href: '/plugins/plancher',
   },
   {
     icon: Triangle,
     title: 'Estimation de toiture',
-    description: 'Calcul de la surface et des matériaux de toiture.',
+    description: 'Calcule la surface, les bardeaux, les chevrons et la ventilation selon le CCQ et le CNB.',
+    status: 'available' as const,
+    href: '/plugins/toiture',
+  },
+  {
+    icon: Anchor,
+    title: 'Calcul de fondation',
+    description: 'Dimensionnement des semelles et des murs de fondation selon le CCQ. Bientôt disponible.',
+    status: 'coming-soon' as const,
+  },
+  {
+    icon: Thermometer,
+    title: 'Isolation thermique',
+    description: 'Calcul de la valeur R et des matériaux d\'isolation selon les zones climatiques du Québec.',
     status: 'coming-soon' as const,
   },
 ];
