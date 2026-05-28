@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ResultatsRampe, IndicateurConformiteRampe, StatutConformite } from '@/lib/rampes/types';
+import { useUnite, formatValeur, labelUnite } from '@/lib/shared/use-unite';
 
 interface Props {
   resultats: ResultatsRampe;
@@ -16,7 +17,7 @@ function badgeVariant(statut: StatutConformite): 'default' | 'secondary' | 'dest
 }
 
 function badgeLabel(statut: StatutConformite): string {
-  if (statut === 'conforme') return '✓ Conforme';
+  if (statut === 'conforme') return '✔ Conforme';
   if (statut === 'avertissement') return '⚠ Avertissement';
   return '✗ Non conforme';
 }
@@ -35,18 +36,22 @@ function IndicateurCard({ indicateur, nom }: { indicateur: IndicateurConformiteR
 }
 
 export function ResultatsConformite({ resultats }: Props) {
+  const { unite } = useUnite('rampes');
+
   const {
     hauteurGardeCorpsRequise, hauteurMainCouranteMin, hauteurMainCouranteMax,
     espacementBarreaux, nombrePoteaux, nombreBarreaux, longueurMainCourante,
   } = resultats;
 
+  const uniteLabel = labelUnite(unite);
+
   const dimensions = [
-    { label: 'Hauteur garde-corps requise', valeur: `${hauteurGardeCorpsRequise} mm` },
-    { label: 'Hauteur main courante', valeur: `${hauteurMainCouranteMin}–${hauteurMainCouranteMax} mm` },
-    { label: 'Espacement des barreaux', valeur: `${espacementBarreaux} mm` },
+    { label: 'Hauteur garde-corps requise', valeur: `${formatValeur(hauteurGardeCorpsRequise, unite)} ${uniteLabel}` },
+    { label: 'Hauteur main courante', valeur: `${formatValeur(hauteurMainCouranteMin, unite)}–${formatValeur(hauteurMainCouranteMax, unite)} ${uniteLabel}` },
+    { label: 'Espacement des barreaux', valeur: `${formatValeur(espacementBarreaux, unite)} ${uniteLabel} (norme)` },
     { label: 'Nombre de poteaux', valeur: `${nombrePoteaux}` },
     { label: 'Nombre de barreaux', valeur: `${nombreBarreaux}` },
-    { label: 'Longueur main courante', valeur: `${longueurMainCourante} mm` },
+    { label: 'Longueur main courante', valeur: `${formatValeur(longueurMainCourante, unite)} ${uniteLabel}` },
   ];
 
   return (
@@ -56,7 +61,7 @@ export function ResultatsConformite({ resultats }: Props) {
           <CardTitle className="flex items-center gap-2">
             Dimensions calculées
             {resultats.estConforme
-              ? <Badge variant="default">✓ Tout conforme</Badge>
+              ? <Badge variant="default">✔ Tout conforme</Badge>
               : resultats.nbErreurs > 0
                 ? <Badge variant="destructive">{resultats.nbErreurs} erreur(s)</Badge>
                 : <Badge variant="secondary">{resultats.nbAvertissements} avertissement(s)</Badge>
@@ -89,7 +94,7 @@ export function ResultatsConformite({ resultats }: Props) {
           </div>
           <Separator className="my-3" />
           <p className="text-xs text-muted-foreground">
-            Sources : Code de construction du Québec (CCQ), Chapitre I – Bâtiment, Articles 9.8.7.4, 9.8.8.1, 9.8.8.3.
+            Sources : Code de construction du Québec (CCQ), Chapitre I — Bâtiment, Articles 9.8.7.4, 9.8.8.1, 9.8.8.3.
             Vérifier avec la version officielle (rbq.gouv.qc.ca).
           </p>
         </CardContent>

@@ -10,6 +10,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreesRampe, TypeUsageRampe, MateriauRampe, TypeInstallation } from '@/lib/rampes/types';
 import { LABELS_TYPE_USAGE, LABELS_MATERIAU, LABELS_TYPE_INSTALLATION } from '@/lib/rampes/normes';
+import { useUnite, versMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
+import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 
 const schema = z.object({
   longueurRampe: z.number().min(300, 'Min 300 mm').max(30000, 'Max 30 000 mm'),
@@ -26,7 +28,9 @@ interface Props {
 }
 
 export function FormulaireRampe({ onCalculer }: Props) {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
+  const { unite, choisirUnite } = useUnite('rampes');
+
+  const { handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       longueurRampe: 3000,
@@ -65,19 +69,37 @@ export function FormulaireRampe({ onCalculer }: Props) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(soumettre)} className="space-y-4">
+          <SelecteurUnite unite={unite} onChangerUnite={choisirUnite} />
+
           <div className="space-y-1">
-            <Label htmlFor="longueur">Longueur de la rampe (mm)</Label>
+            <Label htmlFor="longueur">Longueur de la rampe ({labelUnite(unite)})</Label>
             <p className="text-xs text-muted-foreground">Distance totale de la rampe, de bout en bout</p>
-            <Input id="longueur" type="number" step="10"
-              {...register('longueurRampe', { valueAsNumber: true })} />
+            <Input
+              id="longueur"
+              type="number"
+              step={stepUnite(unite)}
+              value={formatValeur(watchedValues.longueurRampe ?? 3000, unite)}
+              onChange={(e) => {
+                const raw = parseFloat(e.target.value);
+                if (!isNaN(raw)) setValue('longueurRampe', versMm(raw, unite), { shouldValidate: true });
+              }}
+            />
             {errors.longueurRampe && <p className="text-destructive text-sm">{errors.longueurRampe.message}</p>}
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="hauteurChute">Hauteur de chute possible (mm)</Label>
+            <Label htmlFor="hauteurChute">Hauteur de chute possible ({labelUnite(unite)})</Label>
             <p className="text-xs text-muted-foreground">Distance entre le plancher protégé et le sol en dessous</p>
-            <Input id="hauteurChute" type="number" step="10"
-              {...register('hauteurChute', { valueAsNumber: true })} />
+            <Input
+              id="hauteurChute"
+              type="number"
+              step={stepUnite(unite)}
+              value={formatValeur(watchedValues.hauteurChute ?? 1200, unite)}
+              onChange={(e) => {
+                const raw = parseFloat(e.target.value);
+                if (!isNaN(raw)) setValue('hauteurChute', versMm(raw, unite), { shouldValidate: true });
+              }}
+            />
             {errors.hauteurChute && <p className="text-destructive text-sm">{errors.hauteurChute.message}</p>}
           </div>
 
