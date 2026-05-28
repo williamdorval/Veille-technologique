@@ -69,6 +69,8 @@ export function ToitureCalculateur() {
                 largeur={entrees.largeurBatiment}
                 penteDegres={entrees.penteDegres}
                 debord={entrees.debordToit}
+                typeToit={entrees.typeToit}
+                typeRevetement={entrees.typeRevetement}
               />
             </TabsContent>
           </Tabs>

@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import type { ResultatsToiture } from '@/lib/toiture/types';
+import type { ResultatsToiture, TypeToit, TypeRevetement } from '@/lib/toiture/types';
 
 const ToitureScene = dynamic(() => import('./ToitureScene'), {
   ssr: false,
@@ -19,9 +19,11 @@ interface Props {
   largeur: number;
   penteDegres: number;
   debord: number;
+  typeToit: TypeToit;
+  typeRevetement: TypeRevetement;
 }
 
-export function Visualisation3D({ resultats, longueur, largeur, penteDegres, debord }: Props) {
+export function Visualisation3D({ resultats, longueur, largeur, penteDegres, debord, typeToit, typeRevetement }: Props) {
   return (
     <div className="w-full h-80 rounded-lg overflow-hidden border bg-muted/20">
       <Suspense fallback={
@@ -30,8 +32,13 @@ export function Visualisation3D({ resultats, longueur, largeur, penteDegres, deb
         </div>
       }>
         <ToitureScene
-          resultats={resultats} longueur={longueur} largeur={largeur}
-          penteDegres={penteDegres} debord={debord}
+          resultats={resultats}
+          longueur={longueur}
+          largeur={largeur}
+          penteDegres={penteDegres}
+          debord={debord}
+          typeToit={typeToit}
+          typeRevetement={typeRevetement}
         />
       </Suspense>
     </div>
