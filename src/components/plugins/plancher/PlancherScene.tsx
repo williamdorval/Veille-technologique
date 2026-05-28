@@ -423,9 +423,9 @@ export default function PlancherScene({
   const porteeM = (portee > 0 ? portee : 4000) / 1000;
   const largeurM = (largeur > 0 ? largeur : 5000) / 1000;
 
-  const camX = largeurM * 1.2;
-  const camY = porteeM * 0.8;
-  const camZ = largeurM * 1.5;
+  const camX = largeurM * 0.8;
+  const camY = Math.max(porteeM, largeurM) * 0.45 + 0.5;
+  const camZ = porteeM * 0.8;
 
   return (
     <Canvas
@@ -472,7 +472,7 @@ export default function PlancherScene({
         enableZoom
         enablePan={false}
         maxPolarAngle={Math.PI * 0.85}
-        target={[0, 0, 0]}
+        target={[0, 0.12, 0]}
       />
     </Canvas>
   );
