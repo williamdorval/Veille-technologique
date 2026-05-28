@@ -1,5 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ToitureCalculateur } from '@/components/plugins/toiture/ToitureCalculateur';
+import { ToitureCalculateurClient } from '@/components/plugins/toiture/ToitureCalculateurClient';
 
 export const metadata = {
   title: 'Estimation de toiture — Plateforme constructeurs',
@@ -21,7 +21,7 @@ export default function ToiturePage() {
         <h1 className="text-3xl font-bold tracking-tight mb-2">Estimation de toiture</h1>
         <p className="text-muted-foreground">Calculez la surface, les matériaux et la ventilation de votre toit selon le CCQ.</p>
       </div>
-      <ToitureCalculateur />
+      <ToitureCalculateurClient />
     </main>
   );
 }

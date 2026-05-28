@@ -1,5 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { RampeCalculateur } from '@/components/plugins/rampes/RampeCalculateur';
+import { RampeCalculateurClient } from '@/components/plugins/rampes/RampeCalculateurClient';
 
 export const metadata = {
   title: 'Calculateur de rampes et garde-corps — Plateforme constructeurs',
@@ -21,7 +21,7 @@ export default function RampesPage() {
         <h1 className="text-3xl font-bold tracking-tight mb-2">Calculateur de rampes et garde-corps</h1>
         <p className="text-muted-foreground">Calculez les dimensions conformes au Code de construction du Québec.</p>
       </div>
-      <RampeCalculateur />
+      <RampeCalculateurClient />
     </main>
   );
 }

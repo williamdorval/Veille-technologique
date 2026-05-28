@@ -1,5 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { PlancherCalculateur } from '@/components/plugins/plancher/PlancherCalculateur';
+import { PlancherCalculateurClient } from '@/components/plugins/plancher/PlancherCalculateurClient';
 
 export const metadata = {
   title: 'Calculateur de plancher — Plateforme constructeurs',
@@ -21,7 +21,7 @@ export default function PlancherPage() {
         <h1 className="text-3xl font-bold tracking-tight mb-2">Calculateur de plancher</h1>
         <p className="text-muted-foreground">Sélectionnez la bonne dimension de solive selon la portée et l&apos;usage (CNB 2020, CCQ).</p>
       </div>
-      <PlancherCalculateur />
+      <PlancherCalculateurClient />
     </main>
   );
 }
