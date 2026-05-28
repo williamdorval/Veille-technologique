@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreeFormulaire, UniteMesure, TypeUsage, MateriauLimon, TypeMarche } from '@/lib/escaliers/types';
-import { useUnite, mmVers, depuisMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
+import { useUnite, versMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
 import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 import { ChampsOptions, FormValues } from './ChampsOptions';
 
@@ -98,7 +98,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               value={formatValeur(watchedValues.hauteurTotaleSaisie ?? 2800, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('hauteurTotaleSaisie', depuisMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('hauteurTotaleSaisie', versMm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.hauteurTotaleSaisie && (
@@ -116,7 +116,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               value={formatValeur(watchedValues.largeur ?? 900, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('largeur', depuisMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('largeur', versMm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.largeur && (
@@ -134,7 +134,7 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               value={formatValeur(watchedValues.hauteurPlafond ?? 2400, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('hauteurPlafond', depuisMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('hauteurPlafond', versMm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.hauteurPlafond && (

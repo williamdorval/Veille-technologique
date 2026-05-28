@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -23,7 +23,7 @@ export function mmVers(mm: number, unite: UniteSaisie): number {
 }
 
 /** Convertit une valeur saisie dans l'unité choisie → mm */
-export function depuisMm(valeur: number, unite: UniteSaisie): number {
+export function versMm(valeur: number, unite: UniteSaisie): number {
   return valeur / FACTEURS_DEPUIS_MM[unite];
 }
 

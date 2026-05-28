@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -77,11 +77,11 @@ export function ResultatsConformite({ resultat }: Props) {
         <CardContent>
           <table className="w-full text-sm">
             <tbody>
-              {lignesDimensions.map(({ label, valeur, unite }) => (
+              {lignesDimensions.map(({ label, valeur, unite: uniteAffichee }) => (
                 <tr key={label} className="border-b last:border-0">
                   <td className="py-1.5 text-muted-foreground">{label}</td>
                   <td className="py-1.5 font-medium text-right">
-                    {valeur} <span className="text-muted-foreground font-normal">{unite}</span>
+                    {valeur} <span className="text-muted-foreground font-normal">{uniteAffichee}</span>
                   </td>
                 </tr>
               ))}
