@@ -1,87 +1,83 @@
 ﻿# Prêt à pousser sur GitHub
 
-**Date :** 2026-05-27
-**Testé localement :** `npm run build` — 0 erreurs TypeScript, 6 routes statiques générées
+**Dernière mise à jour :** 2026-05-29
+**Build :** `npm run build` — 0 erreurs TypeScript, 6 routes statiques générées
 
 ---
 
-## État du projet
+## Nouveautés depuis le dernier push
 
-4 plugins complets : escaliers (existant amélioré), rampes, plancher, toiture.
-Page d'accueil mise à jour avec les 4 plugins disponibles + 2 cartes "Bientôt".
-Normes du Québec documentées avec sources officielles dans `docs/04-normes-quebec/` (16 fichiers).
-Visualisation 3D (Three.js/R3F) sur les 4 plugins.
+### Conversion mm → cm (commits f441ed8 à f5967b8)
+Tous les plugins et la documentation utilisent maintenant les centimètres comme unité interne.
+
+| Plugin | Changements |
+|--------|-------------|
+| Partagé | `use-unite.ts` cm-centrique, `SelecteurUnite` options [cm, po] |
+| Escaliers | 21 constantes `_CM`, `poucesEnCm` (2,54), défauts 280/90/240 cm |
+| Rampes | 9 constantes `_CM`, bornes 30-3000 cm, défauts 300/120 cm |
+| Plancher | Euler-Bernoulli interne en mm, interface en cm, espacement 30/40/60 cm |
+| Toiture | `/100` pour mètres, longueur chevron en cm, bornes en cm |
+| Docs normes | Format `X cm (Y mm)` dans les 15 fichiers markdown |
+
+### Refactoring scènes 3D (commits 09d9a6a à df0657a)
+4 scènes React Three Fiber éclatées en sous-composants (cible < 200 lignes).
+
+| Scène | Avant | Après (nb fichiers) |
+|-------|-------|---------------------|
+| EscalierScene | 478 lignes | 5 fichiers (max 178 l.) |
+| RampeScene | 510 lignes | 7 fichiers (max 166 l.) |
+| PlancherScene | 479 lignes | 5 fichiers (max 149 l.) |
+| ToitureScene | 314 lignes | 3 fichiers (max 141 l.) |
+
+### Optimisation docs (commit df5175a)
+- `CLAUDE.md` : 142 → 64 lignes
+- `docs/CONTEXT_MAP.md` : carte quoi charger selon la tâche (évite de tout lire)
+- `docs/04-normes-quebec/RESUME_VALEURS.md` : toutes les normes en 1 tableau
+- `docs/PROMPT_DEMARRAGE_SESSION.md` : prompt 5 lignes début de session
 
 ---
 
-## Commits prêts à être pushés
+## Tests recommandés avant de pousser
+
+1. `npm run dev` → ouvrir http://localhost:3000
+2. Tester les 4 plugins (valeurs par défaut affichées en cm maintenant) :
+   - `/plugins/escaliers` → 280 cm, 90 cm → ~15 marches, conformité verte
+   - `/plugins/rampes` → 300 cm, chute 120 cm → garde-corps 90 cm
+   - `/plugins/plancher` → portée 400 cm, largeur 500 cm → solive 2×10
+   - `/plugins/toiture` → 1000×800 cm, pente 26° → ~80 m² développés
+3. Vérifier le sélecteur cm/po sur escaliers et rampes
+4. Vérifier les scènes 3D (même rendu visuel qu'avant)
+5. Console DevTools (F12) → aucune erreur rouge
+
+---
+
+## Commits prêts à être poussés
 
 ```
-5e79c1d docs: rapport final projet plateforme constructeurs
-40d7962 feat(accueil): 4 plugins disponibles et 2 nouvelles cartes a venir
-ea1392a feat(toiture): plugin estimation toiture — surface, materiaux, charges neige Quebec
-f878523 feat(plancher): plugin calcul de plancher — dimensionnement solives CNB 2020
-fdb9df0 feat(rampes): plugin rampes et garde-corps complet — spec SDD, types, calculs, UI, 3D
-da4ebc3 docs(normes): normes Quebec pour rampes plancher toiture avec sources
+df5175a docs(optimisation): CLAUDE.md condense + guides contexte session
+df0657a refactor(toiture): scene 3D eclatee en sous-composants < 200 lignes
+d06b1d6 refactor(plancher): scene 3D eclatee en sous-composants < 200 lignes
+bae7604 refactor(rampes): scene 3D eclatee en sous-composants < 200 lignes
+09d9a6a refactor(escaliers): scene 3D eclatee en sous-composants < 200 lignes
+f5967b8 docs(normes-quebec): conversion mm vers cm dans toute la documentation
+bfaae1c refactor(toiture): conversion mm vers cm — normes, calculs, UI
+69394ad refactor(plancher): conversion mm vers cm — normes, formule, UI
+f441ed8 refactor(rampes): conversion mm vers cm — normes, calculs, UI
+0c5a9e8 refactor(escaliers): conversion mm vers cm — normes, calculs, UI et hook partage
 ```
 
 ---
 
-## Branches locales
-
-```
-  001-home-page-3d-hero
-* 002-plugin-escaliers   ← branche de travail (tous les plugins)
-  main
-```
-
----
-
-## Tests recommandés AVANT de pousser
-
-1. `npm install` (au cas où des dépendances manquent)
-2. `npm run dev`
-3. Ouvrir http://localhost:3000
-   - Vérifier le hero 3D et les 4 cartes plugins cliquables
-   - Vérifier les 2 cartes "Bientôt" (Fondation, Isolation)
-4. Tester `/plugins/escaliers`
-   - Hauteur 2800 mm, largeur 900 mm → vérifier ~15 marches, conformité verte
-5. Tester `/plugins/rampes`
-   - Longueur 3000 mm, hauteur chute 1200 mm → garde-corps 900 mm, barreaux ≤100 mm
-6. Tester `/plugins/plancher`
-   - Portée 4000 mm, largeur 5000 mm, salon, SPF → vérifier recommandation solive 2×10
-7. Tester `/plugins/toiture`
-   - Bâtiment 10000×8000 mm, pente 26°, bardeau asphalte, Québec (ville) → ~80 m² développés
-8. Alterner thème clair/sombre sur chaque page (bouton en haut à droite)
-9. Ouvrir Console DevTools (F12) → aucune erreur rouge attendue
-10. Tester sur viewport 375 px (mobile) — vérifier responsive
-
----
-
-## Pour pousher (faire par William)
+## Pour pousser (faire par William)
 
 ```bash
 git push origin 002-plugin-escaliers
 ```
 
-Note : tous les plugins (rampes, plancher, toiture) sont sur la branche `002-plugin-escaliers`.
-Il n'y a pas de branches séparées 003/004/005 — tout est dans une seule branche de travail propre.
-
 ---
 
+## Problèmes connus / limitations
 
-## Corrections 3D -- 2026-05-28
-
-| Plugin | Bug corrige | Commit |
-|--------|-------------|--------|
-| Rampes | Escalier parasite retire -- rampe inclinee a la place des marches | c1c5ed7 |
-| Plancher | Camera corrigee (vue de cote) -- solives visibles en perspective | 3520ec8 |
-| Toiture | Rotations versants corrigees + yCentre exact + boxGeometry | 35d8da1 |
-
----
-## Problèmes connus / Tâches en suspens
-
-- Les portées de solives (plancher) utilisent un calcul de flèche élastique simplifié. Pour usage structurel officiel, consulter les tableaux du CNB 2020 et un ingénieur.
-- Les charges de neige sont indicatives (CNB 2020 Annexe C). Valeurs exactes par municipalité nécessitent l'accès au CNB.
-- La visualisation 3D de la toiture montre toujours deux versants (pignon), même si le type "croupe" est sélectionné — les calculs sont corrects pour tous les types.
-
+- La visualisation 3D toiture affiche toujours deux versants (pignon) même si type "croupe" sélectionné — calculs corrects pour tous les types.
+- Portées plancher : calcul de flèche élastique simplifié. Pour usage structurel officiel, consulter CNB 2020 et un ingénieur.
+- Charges de neige indicatives (CNB 2020 Annexe C) — valeurs exactes par municipalité dans le CNB.
