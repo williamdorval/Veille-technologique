@@ -1,221 +1,102 @@
-# Plugin calculateur d'escaliers
+﻿# Plugin calculateur d'escaliers — Spec MVP
 
 ## Description
 
-Le calculateur d'escaliers est le premier plugin de la plateforme. Il aide les constructeurs québécois amateurs à planifier un escalier droit conforme au Code de construction du Québec (CCQ).
+Calculateur d'escaliers professionnel basé sur les exercices émoicq (YouTube) de charpenterie québécoise. Reproduit exactement la logique d'un maître charpentier québécois.
 
-L'application ne remplace pas un professionnel certifié. Un avertissement légal est affiché en permanence sur la page.
+## Utilisateurs cibles
 
----
+- **Client** : veut savoir combien ça va coûter et si son escalier est faisable
+- **Entrepreneur / charpentier** : veut faire une soumission professionnelle
 
-## Entrées du formulaire
+## Fonctionnalités
 
-### Section 1 — Mesures de base
+### Deux modes de calcul
+- **Course illimitée** : tu donnes la hauteur, le calculateur optimise tout
+- **Course limitée** : tu imposes l'espace au sol, le giron s'adapte
 
-| Champ | Type | Unité | Plage valide | Obligatoire |
-|---|---|---|---|---|
-| Hauteur totale à monter | Nombre | mm ou pouces | 400–6 000 mm | Oui |
-| Unité de mesure | Sélection | mm / pouces | — | Oui |
-| Largeur souhaitée | Nombre | mm | 600–2 500 mm | Oui |
-| Hauteur du plafond (dégagement) | Nombre | mm | 1 800–4 000 mm | Oui |
+### Résultats produits
+1. **Recommandation** : meilleure configuration avec score /100, 3 rapports Blondel-Maximum
+2. **Alternatives** : 5 configurations classées par score
+3. **Crochet** (mode limité) : vérification sous le chevêtre
+4. **Puits d'escalier** : longueur de l'ouverture dans le plancher
+5. **Formules** : calculs transparents avec vraies valeurs
+6. **Estimation $** : liste matériaux + coût (Canac/Rona 2025) + taxes QC
+7. **Plan de construction** : étapes séquentielles avec dimensions
+8. **Vue 3D** : visualisation interactive
 
-### Section 2 — Type d'usage
+### Aide intégrée
+Chaque champ du formulaire a un bouton `?` qui explique le terme en langage simple.
 
-| Valeur | Description |
-|---|---|
-| `residentiel_prive` | Maison individuelle, escalier intérieur d'un seul logement |
-| `residentiel_commun` | Escalier de corridor, immeuble d'appartements |
-| `commercial` | Usage commercial ou institutionnel |
+## Algorithme (exercices émoicq 1 à 5)
 
-### Section 3 — Options de construction
+| Exercice | Ce qu'il fait |
+|----------|--------------|
+| 1 | H = hauteur/N, limon = √(H²+G²), angle = atan(H/G) |
+| 2 | Loi Blondel : 2H + G ≈ 630 mm |
+| 3 | 3 rapports Blondel-Maximum, score 0-100, toutes options |
+| 4 | Course limitée, giron forcé, crochet = (G + nez) - chevêtre |
+| 5 | Puits = ((échappée + plafond) × G) / H + 50 mm |
 
-| Champ | Type | Description |
-|---|---|---|
-| Contremarches fermées | Booléen | Si false = escalier ouvert (sans contremarches) |
-| Matériau du limon | Sélection | Épinette, bois franc, acier, composite |
-| Type de marches | Sélection | Bois traité, épinette, bois franc, contreplaqué, composite |
+## Normes CCQ appliquées (Partie 9)
 
----
+- Art. 9.8.4.1 : contremarche 12,5 à 20 cm (résidentiel privé)
+- Art. 9.8.4.2 : giron min 23,5 cm (résidentiel privé)
+- Art. 9.8.2.1 : largeur min 86 cm
+- Art. 9.8.3.1 : échappée min 195 cm
+- Art. 9.8.4.4 : constance des marches (max 0,95 cm d'écart)
+- Art. 9.8.7.4 : main courante si ≥ 3 marches
+- Art. 9.8.8 : garde-corps si chute > 60 cm
 
-## Sorties — Priorité 1 (P1) : Dimensions et conformité
+## Unités
 
-Ces résultats s'affichent immédiatement après le calcul.
+- **Stockage interne** : mm (millimètres, standard charpenterie)
+- **Affichage défaut** : cm (centimètres)
+- **Sélecteur** : cm | po | mm | m
 
-### Dimensions calculées
+## Prix et estimation
 
-| Résultat | Formule |
-|---|---|
-| Nombre de marches | `round(hauteurTotale / hauteurContremarche_cible)` |
-| Hauteur de contremarche | `hauteurTotale / nombreMarches` |
-| Giron | `BLONDEL_CIBLE - 2 * hauteurContremarche` (ajusté aux bornes) |
-| Longueur au sol | `nombreMarches * giron` |
-| Longueur du limon | `sqrt(longueurAuSol² + hauteurTotale²)` |
-| Angle | `atan2(hauteurTotale, longueurAuSol) * (180/π)` |
+Prix 2025 relevés chez Canac, Rona, BMR (Québec). Taxes incluses dans l'affichage (TPS 5% + TVQ 9,975% = 14,975%).
 
-### Indicateurs de conformité
+Taux charpentier : 55-75 $/h (qualifié), 75-110 $/h (entrepreneur).
 
-Chaque indicateur affiche une pastille colorée avec la valeur, la norme applicable et la source.
-
-| Indicateur | Vert | Orange | Rouge |
-|---|---|---|---|
-| Hauteur contremarche | Dans les normes | Proche des limites (±5mm) | Hors normes |
-| Giron | Dans les normes | Proche des limites | Hors normes |
-| Formule de Blondel (2H+G) | 600–640mm | 590–600 ou 640–650mm | < 590 ou > 650mm |
-| Dégagement de tête | ≥ min requis | 50mm sous le min | < min requis |
-| Largeur | ≥ min requis | 20mm sous le min | < min requis |
-
----
-
-## Sorties — Priorité 2 (P2) : Matériaux et plan
-
-### Liste de matériaux
-
-Quantités calculées automatiquement :
-
-| Élément | Formule de calcul |
-|---|---|
-| Limons (2) | `longueurLimon + 150mm de jeu` × 2 pièces |
-| Marches | `nombreMarches` pièces, dimensions `largeur × (giron + nosing)` |
-| Contremarches | `nombreMarches` pièces (si fermé), dimensions `largeur × hauteurContremarche` |
-| Vis/boulons | Quantité standard selon matériau (voir `src/lib/escaliers/materiaux.ts`) |
-| Quincaillerie d'ancrage | 2 supports bas + 2 supports haut |
-
-### Plan de construction étape par étape
-
-Étapes générées automatiquement selon les paramètres :
-
-1. Préparer les limons (tracé et découpe)
-2. Poser les supports d'ancrage (bas et haut)
-3. Installer les limons
-4. Fixer les contremarches (si fermé)
-5. Fixer les marches
-6. Installer la main courante (si ≥ 3 marches)
-7. Installer le garde-corps (si hauteur de chute > 600mm)
-
-### Visualisation 3D
-
-- Rendu avec @react-three/fiber + @react-three/drei
-- Vue orbite (rotation libre) + zoom
-- Couleurs par matériau (voir section technique)
-- Fallback SVG 2D si le navigateur ne supporte pas WebGL
-
----
-
-## Sorties — Priorité 3 (P3) : Estimation et impression
-
-### Estimation de temps (valeurs indicatives)
-
-| Activité | Base de calcul |
-|---|---|
-| Traçage et coupe des limons | 2–3h |
-| Pose des limons | 1h |
-| Pose des marches/contremarches | 15–20 min par marche |
-| Finition et main courante | 2–4h |
-| **Total estimé** | Calculé automatiquement |
-
-> Ces valeurs sont indicatives pour un constructeur amateur avec outils standard.
-
-### Estimation de coût
-
-| Poste | Base de calcul |
-|---|---|
-| Bois / matériau | Prix unitaire par essence (valeur indicative 2025) |
-| Quincaillerie | Forfait selon nombre de marches |
-| **Total estimé** | Fourchette basse–haute |
-
-> Avertissement visible : "Les prix varient selon les fournisseurs. Obtenir des soumissions." 
-
-### Impression
-
-- Bouton "Imprimer / Enregistrer PDF" (print CSS optimisé)
-- Inclut : dimensions, conformité, liste de matériaux, plan de construction
-- Exclut : visualisation 3D (non imprimable)
-
----
-
-## Avertissement légal (obligatoire, permanent)
-
-Affiché en haut de page en tout temps, jamais effaçable :
-
-> **Ce calculateur est un outil d'aide à la planification uniquement.**
-> Il ne remplace pas l'expertise d'un professionnel certifié (architecte, ingénieur ou entrepreneur licencié RBQ).
-> Avant de construire, consultez un professionnel et vérifiez les exigences de permis auprès de votre municipalité.
-> Les normes présentées sont basées sur le Code de construction du Québec (CCQ) — vérifiez toujours avec la version en vigueur.
-
----
-
-## Structure technique
-
-### Fichiers source
+## Fichiers source
 
 ```
-src/
-├── app/plugins/escaliers/
-│   └── page.tsx                    ← page principale du plugin
-├── components/plugins/escaliers/
-│   ├── FormulaireEscalier.tsx      ← formulaire react-hook-form + zod
-│   ├── ResultatsConformite.tsx     ← indicateurs vert/orange/rouge
-│   ├── ListeMateriaux.tsx          ← tableau de matériaux
-│   ├── PlanConstruction.tsx        ← étapes de construction
-│   ├── Visualisation3D.tsx         ← wrapper R3F + fallback SVG
-│   └── EscalierMesh.tsx            ← géométrie Three.js
-└── lib/escaliers/
-    ├── types.ts                    ← types TypeScript
-    ├── normes.ts                   ← constantes de normes avec sources
-    ├── calculs.ts                  ← algorithme de calcul
-    ├── materiaux.ts                ← calcul des quantités
-    └── plan-construction.ts        ← génération des étapes
+src/lib/escaliers/
+  unit-converter.ts          # mm ↔ cm ↔ m ↔ po
+  stair-rules.ts             # constantes CCQ
+  stair-types.ts             # types TypeScript
+  stair-calculator.ts        # exercice 1
+  stair-blondel.ts           # exercice 2
+  stair-builder.ts           # utilitaire partagé
+  stair-unlimited-run.ts     # exercice 3
+  stair-scoring.ts           # score 0-100
+  stair-limited-run.ts       # exercice 4
+  stair-hook.ts              # crochet ex.4
+  stair-pit.ts               # puits ex.5
+  stair-validation.ts        # règles CCQ
+  stair-recommendations.ts   # textes en français
+  stair-materials.ts         # matériaux + prix 2025
+  stair-construction-plan.ts # plan étape par étape
+
+src/components/plugins/escaliers/
+  FormulaireEscalierPro.tsx  # formulaire + boutons ?
+  HelpButton.tsx             # aide au clic
+  EscalierCalculateurPro.tsx # orchestrateur 8 onglets
+  ResultatsRecommandation.tsx
+  ResultatsAlternatives.tsx
+  ResultatsCrochet.tsx
+  ResultatsPuits.tsx
+  ResultatsFormules.tsx
+  EstimationPro.tsx          # soumission professionnelle
 ```
 
-### Couleurs des matériaux (visualisation 3D)
+## Documentation détaillée
 
-| Matériau | Couleur hex | Propriétés Three.js |
-|---|---|---|
-| Bois traité | `#8B6F47` | roughness 0.8 |
-| Épinette | `#E5D4B1` | roughness 0.7 |
-| Bois franc | `#6B4423` | roughness 0.6 |
-| Acier | `#6B7280` | metalness 0.8, roughness 0.2 |
-| Contreplaqué | `#C8A878` | roughness 0.8 |
-| Composite | `#4A5568` | roughness 0.5 |
-
-### Dépendances npm requises
-
-- `@react-three/fiber` — moteur 3D React
-- `@react-three/drei` — helpers Three.js (OrbitControls, etc.)
-- `react-hook-form` — gestion du formulaire
-- `zod` — validation des entrées
-- `three` (déjà inclus via R3F)
-- `@types/three` (dev dependency)
-
-### Layout de la page
-
-```
-┌─────────────────────────────────────────┐
-│  ⚠️ AVERTISSEMENT LÉGAL (permanent)     │
-├─────────────────────────────────────────┤
-│  Titre + description du plugin          │
-├──────────────────┬──────────────────────┤
-│                  │                      │
-│   FORMULAIRE     │   RÉSULTATS          │
-│   (gauche)       │   - Dimensions       │
-│                  │   - Conformité       │
-│   Mesures        │   - Matériaux        │
-│   Type d'usage   │   - Plan             │
-│   Options        │   - Visualisation 3D │
-│                  │   - Estimation       │
-│   [Calculer]     │   [Imprimer]         │
-│                  │                      │
-└──────────────────┴──────────────────────┘
-```
-
-Mobile (< 768px) : formulaire en haut, résultats en bas, 1 colonne.
-
----
-
-## Limites connues (dans la portée du MVP)
-
-- Escaliers droits uniquement (pas de tournants, pas de paliers intermédiaires)
-- Pas de calcul pour les escaliers colimaçons ou balancés
-- Pas de calcul de résistance structurale (hors portée)
-- Les prix estimés sont indicatifs et non mis à jour en temps réel
-- Le calculateur ne tient pas compte des exigences de permis municipaux (variables)
+Voir `docs/escaliers/` pour l'explication complète de chaque partie :
+- `calculs.md` — algorithmes exercices 1-5
+- `normes.md` — règles CCQ
+- `estimation.md` — prix et calcul de coût
+- `scene-3d.md` — visualisation Three.js/R3F
+- `plan-construction.md` — plan de construction
