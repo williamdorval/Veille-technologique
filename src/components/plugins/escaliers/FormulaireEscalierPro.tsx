@@ -34,7 +34,7 @@ const LIMON_LABELS: Record<MateriauLimon, string> = { epinette: 'Épinette', boi
 const MARCHE_LABELS: Record<TypeMarche, string> = { bois_traite: 'Bois traité', epinette: 'Épinette', bois_franc: 'Bois franc', contrepalque: 'Contreplaqué', composite: 'Composite' };
 
 export function FormulaireEscalierPro({ onCalculer, isCalculating }: Props) {
-  const [unit, setUnit] = useState<UnitDisplay>('mm');
+  const [unit, setUnit] = useState<UnitDisplay>('cm');
   const [mode, setMode] = useState<StairMode>('unlimited_run');
 
   const form = useForm<FormValues>({
@@ -152,3 +152,4 @@ export function FormulaireEscalierPro({ onCalculer, isCalculating }: Props) {
     </Card>
   );
 }
+
