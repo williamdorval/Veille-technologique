@@ -1,4 +1,4 @@
-﻿# Estimation de coût et de matériaux — Professionnel
+# Estimation de coût et de matériaux — Professionnel
 
 > Fichier source : `src/lib/escaliers/stair-materials.ts`
 > Composant : `src/components/plugins/escaliers/EstimationPro.tsx`

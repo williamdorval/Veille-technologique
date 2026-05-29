@@ -1,4 +1,4 @@
-﻿# Comment les calculs fonctionnent — Escaliers professionnel
+# Comment les calculs fonctionnent — Escaliers professionnel
 
 > Fichiers source : `src/lib/escaliers/stair-calculator.ts`, `stair-blondel.ts`, `stair-unlimited-run.ts`, `stair-limited-run.ts`
 > Source des exercices : série émoicq (YouTube) sur la charpenterie québécoise

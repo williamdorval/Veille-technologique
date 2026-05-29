@@ -1,4 +1,4 @@
-﻿# Plugin Escaliers — Documentation complète
+# Plugin Escaliers — Documentation complète
 
 Ce dossier documente le plugin calculateur d'escaliers professionnel.
 
