@@ -1,11 +1,11 @@
-'use client';
+﻿'use client';
 import dynamic from 'next/dynamic';
 
-const EscalierCalculateur = dynamic(
-  () => import('./EscalierCalculateur').then(m => m.EscalierCalculateur),
+const EscalierCalculateurPro = dynamic(
+  () => import('./EscalierCalculateurPro').then(m => m.EscalierCalculateurPro),
   { ssr: false }
 );
 
 export function EscalierCalculateurClient() {
-  return <EscalierCalculateur />;
+  return <EscalierCalculateurPro />;
 }
