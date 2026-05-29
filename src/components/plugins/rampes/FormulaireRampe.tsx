@@ -10,16 +10,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreesRampe, TypeUsageRampe, MateriauRampe, TypeInstallation } from '@/lib/rampes/types';
 import { LABELS_TYPE_USAGE, LABELS_MATERIAU, LABELS_TYPE_INSTALLATION } from '@/lib/rampes/normes';
-import { useUnite, versMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
+import { useUnite, versCm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
 import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 
 const schema = z.object({
   longueurRampe: z.number()
-    .min(300, 'Longueur minimale : 300 mm (limite interne)')
-    .max(30000, 'Longueur maximale : 30 000 mm (limite interne)'),
+    .min(30, 'Longueur minimale : 30 cm (limite interne)')
+    .max(3000, 'Longueur maximale : 3 000 cm (limite interne)'),
   hauteurChute: z.number()
     .min(0, 'La hauteur de chute ne peut pas être négative')
-    .max(10000, 'Hauteur de chute maximale : 10 000 mm (limite interne)'),
+    .max(1000, 'Hauteur de chute maximale : 1 000 cm (limite interne)'),
   typeUsage: z.enum(['residentiel_prive', 'residentiel_commun', 'commercial'] as const),
   materiau: z.enum(['bois', 'metal', 'verre', 'cable'] as const),
   typeInstallation: z.enum(['escalier', 'balcon', 'terrasse'] as const),
@@ -37,8 +37,8 @@ export function FormulaireRampe({ onCalculer }: Props) {
   const { handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      longueurRampe: 3000,
-      hauteurChute: 1200,
+      longueurRampe: 300,
+      hauteurChute: 120,
       typeUsage: 'residentiel_prive',
       materiau: 'bois',
       typeInstallation: 'escalier',
@@ -82,10 +82,10 @@ export function FormulaireRampe({ onCalculer }: Props) {
               id="longueur"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.longueurRampe, unite)}
+              value={formatValeur(watchedValues.longueurRampe ?? 300, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('longueurRampe', versMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('longueurRampe', versCm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.longueurRampe && <p className="text-destructive text-sm">{errors.longueurRampe.message}</p>}
@@ -98,10 +98,10 @@ export function FormulaireRampe({ onCalculer }: Props) {
               id="hauteurChute"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.hauteurChute, unite)}
+              value={formatValeur(watchedValues.hauteurChute ?? 120, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('hauteurChute', versMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('hauteurChute', versCm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.hauteurChute && <p className="text-destructive text-sm">{errors.hauteurChute.message}</p>}

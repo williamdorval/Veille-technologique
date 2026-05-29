@@ -7,14 +7,14 @@ interface Props {
   pieces: PieceMateriaux[];
 }
 
-function mmEnMetres(mm: number): string {
-  return (mm / 1000).toFixed(2);
+function cmEnMetres(cm: number): string {
+  return (cm / 100).toFixed(2);
 }
 
 function exportCSV(pieces: PieceMateriaux[]): void {
-  const header = 'Pièce,Quantité,Longueur (mm),Longueur (m),Unité,Matériau,Note';
+  const header = 'Pièce,Quantité,Longueur (cm),Longueur (m),Unité,Matériau,Note';
   const lignes = pieces.map(p =>
-    `"${p.nom}",${p.quantite},${p.longueur},${mmEnMetres(p.longueur)},"${p.unite}","${p.materiau}","${p.noteIndicative ?? ''}"`
+    `"${p.nom}",${p.quantite},${p.longueur},${cmEnMetres(p.longueur)},"${p.unite}","${p.materiau}","${p.noteIndicative ?? ''}"`
   );
   const csv = [header, ...lignes].join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -59,7 +59,7 @@ export function ListeMateriaux({ pieces }: Props) {
                     )}
                   </td>
                   <td className="py-2 text-right">{p.quantite} {p.unite}</td>
-                  <td className="py-2 text-right">{p.longueur} mm</td>
+                  <td className="py-2 text-right">{p.longueur} cm</td>
                   <td className="py-2 text-left pl-3 text-muted-foreground">{p.materiau}</td>
                 </tr>
               ))}

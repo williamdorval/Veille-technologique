@@ -11,52 +11,52 @@ import {
 } from './types';
 import { NORMES_GARDE_CORPS, SEUILS_AVERTISSEMENT_RAMPE } from './normes';
 
-// ── Validation des entrées ──────────────────────────────────────────────
+// ── Validation des entrées ──────────────────────────────────────────────────
 function validerEntrees(entrees: EntreesRampe): string | null {
-  if (entrees.longueurRampe < 300 || entrees.longueurRampe > 30000) {
-    return 'La longueur de la rampe doit être entre 300 mm et 30 000 mm.';
+  if (entrees.longueurRampe < 30 || entrees.longueurRampe > 3000) {
+    return 'La longueur de la rampe doit être entre 30 cm et 3 000 cm.';
   }
-  if (entrees.hauteurChute < 0 || entrees.hauteurChute > 10000) {
-    return 'La hauteur de chute doit être entre 0 et 10 000 mm.';
+  if (entrees.hauteurChute < 0 || entrees.hauteurChute > 1000) {
+    return 'La hauteur de chute doit être entre 0 et 1 000 cm.';
   }
   return null;
 }
 
-// ── Hauteur de garde-corps requise ─────────────────────────────────────
+// ── Hauteur de garde-corps requise ──────────────────────────────────────────
 export function calculerHauteurGardeCorps(entrees: EntreesRampe): number {
   const { hauteurChute, typeUsage } = entrees;
   const n = NORMES_GARDE_CORPS;
 
   if (typeUsage === 'residentiel_commun' || typeUsage === 'commercial') {
-    return n.HAUTEUR_MIN_COMMUN_MM;
+    return n.HAUTEUR_MIN_COMMUN_CM;
   }
   // résidentiel privé
-  if (hauteurChute >= 1800) return n.HAUTEUR_MIN_ELEVEE_MM;
-  if (hauteurChute > n.HAUTEUR_CHUTE_SEUIL_MM) return n.HAUTEUR_MIN_FAIBLE_MM;
-  // chute <= 600mm : pas obligatoire, on retourne quand même 900 comme recommandé
-  return n.HAUTEUR_MIN_FAIBLE_MM;
+  if (hauteurChute >= 180) return n.HAUTEUR_MIN_ELEVEE_CM;
+  if (hauteurChute > n.HAUTEUR_CHUTE_SEUIL_CM) return n.HAUTEUR_MIN_FAIBLE_CM;
+  // chute <= 60 cm : pas obligatoire, on retourne quand même 90 comme recommandé
+  return n.HAUTEUR_MIN_FAIBLE_CM;
 }
 
-// ── Nombre de poteaux ──────────────────────────────────────────────────
-export function calculerNombrePoteaux(longueurMm: number): number {
-  const espacement = NORMES_GARDE_CORPS.ESPACEMENT_MAX_POTEAUX_MM;
+// ── Nombre de poteaux ───────────────────────────────────────────────────────
+export function calculerNombrePoteaux(longueurCm: number): number {
+  const espacement = NORMES_GARDE_CORPS.ESPACEMENT_MAX_POTEAUX_CM;
   // poteau au début, poteau à la fin, et poteaux intermédiaires
-  const nbIntermediaires = Math.ceil(longueurMm / espacement) - 1;
+  const nbIntermediaires = Math.ceil(longueurCm / espacement) - 1;
   return nbIntermediaires + 2; // extrémités incluses
 }
 
-// ── Espacement réel des barreaux ───────────────────────────────────────
-// On calcule le nombre de barreaux pour respecter ≤ 100 mm
+// ── Espacement réel des barreaux ────────────────────────────────────────────
+// On calcule le nombre de barreaux pour respecter ≤ 10 cm
 export function calculerNombreEtEspacementBarreaux(
-  longueurMm: number,
+  longueurCm: number,
   nbPoteaux: number,
 ): { nombreBarreaux: number; espacementReel: number } {
-  const MAX = NORMES_GARDE_CORPS.ESPACEMENT_MAX_BARREAUX_MM;
-  const espPoteau = NORMES_GARDE_CORPS.ESPACEMENT_MAX_POTEAUX_MM;
+  const MAX = NORMES_GARDE_CORPS.ESPACEMENT_MAX_BARREAUX_CM;
+  const espPoteau = NORMES_GARDE_CORPS.ESPACEMENT_MAX_POTEAUX_CM;
   const nbPanneaux = nbPoteaux - 1;
-  const longueurPanneau = nbPanneaux > 0 ? longueurMm / nbPanneaux : longueurMm;
+  const longueurPanneau = nbPanneaux > 0 ? longueurCm / nbPanneaux : longueurCm;
 
-  // Nombre de barreaux par panneau pour respecter ≤ MAX mm
+  // Nombre de barreaux par panneau pour respecter ≤ MAX cm
   const nbParPanneau = Math.ceil(longueurPanneau / MAX) - 1;
   const nombreBarreaux = nbParPanneau * nbPanneaux;
   // Espacement réel (avec les barreaux placés)
@@ -71,7 +71,7 @@ export function calculerNombreEtEspacementBarreaux(
   };
 }
 
-// ── Indicateur de conformité ───────────────────────────────────────────
+// ── Indicateur de conformité ────────────────────────────────────────────────
 function creerIndicateur(
   valeurCalculee: number,
   valeurLimite: number,
@@ -90,10 +90,10 @@ function creerIndicateur(
     const marge = valeurLimite - valeurCalculee;
     if (!conforme) {
       statut = 'non_conforme';
-      messageStatut = `${valeurCalculee} ${unite} — dépasse le maximum de ${valeurLimite} ${unite}`;
+      messageStatut = `${valeurCalculee} ${unite} – dépasse le maximum de ${valeurLimite} ${unite}`;
     } else if (marge <= zoneOrange) {
       statut = 'avertissement';
-      messageStatut = `${valeurCalculee} ${unite} — proche du maximum (${valeurLimite} ${unite})`;
+      messageStatut = `${valeurCalculee} ${unite} – proche du maximum (${valeurLimite} ${unite})`;
     } else {
       statut = 'conforme';
       messageStatut = `${valeurCalculee} ${unite} ≤ ${valeurLimite} ${unite} ✓`;
@@ -103,10 +103,10 @@ function creerIndicateur(
     const marge = valeurCalculee - valeurLimite;
     if (!conforme) {
       statut = 'non_conforme';
-      messageStatut = `${valeurCalculee} ${unite} — inférieur au minimum requis de ${valeurLimite} ${unite}`;
+      messageStatut = `${valeurCalculee} ${unite} – inférieur au minimum requis de ${valeurLimite} ${unite}`;
     } else if (marge <= zoneOrange) {
       statut = 'avertissement';
-      messageStatut = `${valeurCalculee} ${unite} — proche du minimum (${valeurLimite} ${unite})`;
+      messageStatut = `${valeurCalculee} ${unite} – proche du minimum (${valeurLimite} ${unite})`;
     } else {
       statut = 'conforme';
       messageStatut = `${valeurCalculee} ${unite} ≥ ${valeurLimite} ${unite} ✓`;
@@ -116,7 +116,7 @@ function creerIndicateur(
   return { conforme, statut, valeurCalculee, valeurLimite, unite, article, source, messageStatut };
 }
 
-// ── Calcul principal ───────────────────────────────────────────────────
+// ── Calcul principal ─────────────────────────────────────────────────────────
 export function calculerRampe(entrees: EntreesRampe): ResultatOuErreur {
   const erreur = validerEntrees(entrees);
   if (erreur) {
@@ -130,47 +130,47 @@ export function calculerRampe(entrees: EntreesRampe): ResultatOuErreur {
   const hauteurGardeCorpsRequise = calculerHauteurGardeCorps(entrees);
   const nombrePoteaux = calculerNombrePoteaux(longueurRampe);
   const { nombreBarreaux, espacementReel } = calculerNombreEtEspacementBarreaux(longueurRampe, nombrePoteaux);
-  const longueurMainCourante = longueurRampe + (typeInstallation === 'escalier' ? 2 * n.DEPASSEMENT_MAIN_COURANTE_MM : 0);
+  const longueurMainCourante = longueurRampe + (typeInstallation === 'escalier' ? 2 * n.DEPASSEMENT_MAIN_COURANTE_CM : 0);
 
   // Conformité hauteur garde-corps
   const hauteurGardeCorps = creerIndicateur(
     hauteurGardeCorpsRequise,
     hauteurGardeCorpsRequise,
     false,
-    'mm',
+    'cm',
     'CCQ Art. 9.8.8.1',
     'https://qccodes.ca/escaliers-et-rampes/',
-    s.GARDE_CORPS_ZONE_ORANGE_MM,
+    s.GARDE_CORPS_ZONE_ORANGE_CM,
   );
   // Hauteur effectivement conforme si >= requis (ici on calcule le minimum requis)
   hauteurGardeCorps.conforme = true;
   hauteurGardeCorps.statut = 'conforme';
-  hauteurGardeCorps.messageStatut = `Hauteur requise : ${hauteurGardeCorpsRequise} mm (CCQ 9.8.8.1)`;
+  hauteurGardeCorps.messageStatut = `Hauteur requise : ${hauteurGardeCorpsRequise} cm (CCQ 9.8.8.1)`;
 
   // Conformité espacement barreaux
   const espacementBarreaux = creerIndicateur(
-    Math.round(espacementReel),
-    n.ESPACEMENT_MAX_BARREAUX_MM,
+    Math.round(espacementReel * 10) / 10,
+    n.ESPACEMENT_MAX_BARREAUX_CM,
     true,
-    'mm',
+    'cm',
     'CCQ Art. 9.8.8.3',
     'https://qccodes.ca/escaliers-et-rampes/',
-    10,
+    1,
   );
 
   // Conformité main courante (hauteur dans la plage)
   const mainCouranteIndicateur = creerIndicateur(
-    n.HAUTEUR_MAIN_COURANTE_MIN_MM,
-    n.HAUTEUR_MAIN_COURANTE_MIN_MM,
+    n.HAUTEUR_MAIN_COURANTE_MIN_CM,
+    n.HAUTEUR_MAIN_COURANTE_MIN_CM,
     false,
-    'mm',
+    'cm',
     'CCQ Art. 9.8.7.4',
     'https://qccodes.ca/escaliers-et-rampes/',
-    s.MAIN_COURANTE_ZONE_ORANGE_MM,
+    s.MAIN_COURANTE_ZONE_ORANGE_CM,
   );
   mainCouranteIndicateur.conforme = true;
   mainCouranteIndicateur.statut = 'conforme';
-  mainCouranteIndicateur.messageStatut = `Plage requise : ${n.HAUTEUR_MAIN_COURANTE_MIN_MM}–${n.HAUTEUR_MAIN_COURANTE_MAX_MM} mm (CCQ 9.8.7.4)`;
+  mainCouranteIndicateur.messageStatut = `Plage requise : ${n.HAUTEUR_MAIN_COURANTE_MIN_CM}–${n.HAUTEUR_MAIN_COURANTE_MAX_CM} cm (CCQ 9.8.7.4)`;
 
   const conformite: ConformiteRampe = {
     hauteurGardeCorps,
@@ -185,9 +185,9 @@ export function calculerRampe(entrees: EntreesRampe): ResultatOuErreur {
 
   const resultat: ResultatsRampe = {
     hauteurGardeCorpsRequise,
-    hauteurMainCouranteMin: n.HAUTEUR_MAIN_COURANTE_MIN_MM,
-    hauteurMainCouranteMax: n.HAUTEUR_MAIN_COURANTE_MAX_MM,
-    espacementBarreaux: Math.round(espacementReel),
+    hauteurMainCouranteMin: n.HAUTEUR_MAIN_COURANTE_MIN_CM,
+    hauteurMainCouranteMax: n.HAUTEUR_MAIN_COURANTE_MAX_CM,
+    espacementBarreaux: Math.round(espacementReel * 10) / 10,
     nombrePoteaux,
     nombreBarreaux,
     longueurMainCourante,

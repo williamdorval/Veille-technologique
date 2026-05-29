@@ -7,8 +7,8 @@ export type TypeInstallation = 'escalier' | 'balcon' | 'terrasse';
 export type StatutConformite = 'conforme' | 'avertissement' | 'non_conforme';
 
 export interface EntreesRampe {
-  longueurRampe: number;       // mm
-  hauteurChute: number;        // mm
+  longueurRampe: number;       // cm
+  hauteurChute: number;        // cm
   typeUsage: TypeUsageRampe;
   materiau: MateriauRampe;
   typeInstallation: TypeInstallation;
@@ -32,13 +32,13 @@ export interface ConformiteRampe {
 }
 
 export interface ResultatsRampe {
-  hauteurGardeCorpsRequise: number;   // mm
-  hauteurMainCouranteMin: number;     // mm
-  hauteurMainCouranteMax: number;     // mm
-  espacementBarreaux: number;         // mm (valeur calculée, ≤ 100 mm)
+  hauteurGardeCorpsRequise: number;   // cm
+  hauteurMainCouranteMin: number;     // cm
+  hauteurMainCouranteMax: number;     // cm
+  espacementBarreaux: number;         // cm (valeur calculée, ≤ 10 cm)
   nombrePoteaux: number;
   nombreBarreaux: number;
-  longueurMainCourante: number;       // mm (inclut dépassements)
+  longueurMainCourante: number;       // cm (inclut dépassements)
   conformite: ConformiteRampe;
   estConforme: boolean;
   nbErreurs: number;
@@ -48,7 +48,7 @@ export interface ResultatsRampe {
 export interface PieceMateriaux {
   nom: string;
   quantite: number;
-  longueur: number;      // mm
+  longueur: number;      // cm
   unite: string;
   materiau: string;
   noteIndicative?: string;
