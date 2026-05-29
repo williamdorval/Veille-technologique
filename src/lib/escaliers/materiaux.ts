@@ -16,41 +16,41 @@ export function calculerMateriaux(
   entree: EntreeFormulaire
 ): PieceMateriaux[] {
   const pieces: PieceMateriaux[] = [];
-  const jeuLimon = 150; // mm de jeu en plus pour les limons
+  const jeuLimon = 15; // cm de jeu en plus pour les limons
 
   // ── Limons (2 pièces) ──────────────────────────────────────────────────────
   const longueurLimon = Math.round(dim.longueurLimon + jeuLimon);
   const prixLimon =
     PRIX_INDICATIFS_CAD.limon[entree.materiauLimon] *
-    (longueurLimon / 1000);
+    (longueurLimon / 100);
 
   pieces.push({
     nom: 'Limon',
     quantite: 2,
     longueur: longueurLimon,
-    largeur: entree.materiauLimon === 'acier' ? null : 235,
-    hauteur: entree.materiauLimon === 'acier' ? null : 38,
-    unite: 'mm',
+    largeur: entree.materiauLimon === 'acier' ? null : 23.5,
+    hauteur: entree.materiauLimon === 'acier' ? null : 3.8,
+    unite: 'cm',
     materiau: entree.materiauLimon,
     prixUnitaireIndicatif: Math.round(prixLimon * 100) / 100,
   });
 
   // ── Marches ────────────────────────────────────────────────────────────────
   const largeurMarche = entree.largeur;
-  const profondeurMarche = dim.giron + NORMES_CCQ.NOSING_STANDARD_MM;
+  const profondeurMarche = dim.giron + NORMES_CCQ.NOSING_STANDARD_CM;
 
   let prixMarche: number;
   if (entree.typeMarche === 'contrepalque') {
-    // Contreplaqué : calculé par feuille 4×8 pi = 1219×2438 mm
-    const feuille_w = 1219;
-    const feuille_h = 2438;
+    // Contreplaqué : calculé par feuille 4×8 pi = 121.9×243.8 cm
+    const feuille_w = 121.9;
+    const feuille_h = 243.8;
     const marchesParFeuille = Math.floor(feuille_w / largeurMarche) *
       Math.floor(feuille_h / profondeurMarche);
     const feuillesNecessaires = Math.ceil(dim.nombreMarches / Math.max(marchesParFeuille, 1));
     prixMarche = (feuillesNecessaires * PRIX_INDICATIFS_CAD.marche.contrepalque) / dim.nombreMarches;
   } else {
     prixMarche = PRIX_INDICATIFS_CAD.marche[entree.typeMarche] *
-      (profondeurMarche / 1000);
+      (profondeurMarche / 100);
   }
 
   pieces.push({
@@ -58,8 +58,8 @@ export function calculerMateriaux(
     quantite: dim.nombreMarches,
     longueur: largeurMarche,
     largeur: profondeurMarche,
-    hauteur: 38,
-    unite: 'mm',
+    hauteur: 3.8,
+    unite: 'cm',
     materiau: entree.typeMarche,
     prixUnitaireIndicatif: Math.round(prixMarche * 100) / 100,
   });
@@ -68,15 +68,15 @@ export function calculerMateriaux(
   if (entree.contremargesFermees) {
     const prixContremarche =
       PRIX_INDICATIFS_CAD.marche[entree.typeMarche] *
-      (dim.hauteurContremarche / 1000);
+      (dim.hauteurContremarche / 100);
 
     pieces.push({
       nom: 'Contremarche',
       quantite: dim.nombreMarches,
       longueur: largeurMarche,
       largeur: Math.round(dim.hauteurContremarche),
-      hauteur: 19,
-      unite: 'mm',
+      hauteur: 1.9,
+      unite: 'cm',
       materiau: entree.typeMarche,
       prixUnitaireIndicatif: Math.round(prixContremarche * 100) / 100,
     });

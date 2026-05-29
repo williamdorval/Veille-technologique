@@ -21,13 +21,13 @@ export function genererPlanConstruction(
     numero: 1,
     titre: 'Préparer et tracer les limons',
     description:
-      `Couper les deux limons à ${Math.round(dim.longueurLimon + 150)} mm. ` +
+      `Couper les deux limons à ${Math.round(dim.longueurLimon + 15)} cm. ` +
       `Tracer les ${dim.nombreMarches} encoches avec un gabarit d'escalier : ` +
-      `hauteur ${dim.hauteurContremarche} mm et giron ${dim.giron} mm par marche.`,
+      `hauteur ${dim.hauteurContremarche} cm et giron ${dim.giron} cm par marche.`,
     dimensionsCles: [
-      { label: 'Longueur du limon', valeur: `${Math.round(dim.longueurLimon + 150)} mm` },
-      { label: 'Hauteur de contremarche', valeur: `${dim.hauteurContremarche} mm` },
-      { label: 'Giron', valeur: `${dim.giron} mm` },
+      { label: 'Longueur du limon', valeur: `${Math.round(dim.longueurLimon + 15)} cm` },
+      { label: 'Hauteur de contremarche', valeur: `${dim.hauteurContremarche} cm` },
+      { label: 'Giron', valeur: `${dim.giron} cm` },
       { label: 'Angle', valeur: `${dim.angleDegres}°` },
     ],
     obligatoireSelonNormes: false,
@@ -41,8 +41,8 @@ export function genererPlanConstruction(
       'Fixer 2 supports au bas (sur le plancher ou la dalle) et 2 supports en haut ' +
       '(sur le plancher ou la charpente). Vérifier l\'aplomb et le niveau avant de fixer définitivement.',
     dimensionsCles: [
-      { label: 'Longueur totale au sol', valeur: `${dim.longueurAuSol} mm` },
-      { label: 'Largeur de l\'escalier', valeur: `${entree.largeur} mm` },
+      { label: 'Longueur totale au sol', valeur: `${dim.longueurAuSol} cm` },
+      { label: 'Largeur de l\'escalier', valeur: `${entree.largeur} cm` },
     ],
     obligatoireSelonNormes: false,
   });
@@ -52,10 +52,10 @@ export function genererPlanConstruction(
     numero: 3,
     titre: 'Installer les limons',
     description:
-      `Poser les deux limons en parallèle, à ${entree.largeur} mm d'écartement (entre faces intérieures). ` +
+      `Poser les deux limons en parallèle, à ${entree.largeur} cm d'écartement (entre faces intérieures). ` +
       'Fixer aux supports d\'ancrage. Vérifier que les deux limons sont parfaitement parallèles.',
     dimensionsCles: [
-      { label: 'Écartement intérieur', valeur: `${entree.largeur} mm` },
+      { label: 'Écartement intérieur', valeur: `${entree.largeur} cm` },
     ],
     obligatoireSelonNormes: false,
   });
@@ -66,13 +66,13 @@ export function genererPlanConstruction(
       numero: 4,
       titre: 'Fixer les contremarches',
       description:
-        `Couper ${dim.nombreMarches} contremarches à ${entree.largeur} mm de largeur et ` +
-        `${Math.round(dim.hauteurContremarche)} mm de hauteur (19 mm d'épaisseur). ` +
+        `Couper ${dim.nombreMarches} contremarches à ${entree.largeur} cm de largeur et ` +
+        `${Math.round(dim.hauteurContremarche)} cm de hauteur (1.9 cm d'épaisseur). ` +
         'Les fixer dans les encoches des limons. Commencer par le bas.',
       dimensionsCles: [
-        { label: 'Hauteur de contremarche', valeur: `${Math.round(dim.hauteurContremarche)} mm` },
-        { label: 'Largeur', valeur: `${entree.largeur} mm` },
-        { label: 'Épaisseur', valeur: '19 mm' },
+        { label: 'Hauteur de contremarche', valeur: `${Math.round(dim.hauteurContremarche)} cm` },
+        { label: 'Largeur', valeur: `${entree.largeur} cm` },
+        { label: 'Épaisseur', valeur: '1.9 cm' },
       ],
       obligatoireSelonNormes: false,
     });
@@ -84,13 +84,13 @@ export function genererPlanConstruction(
     numero: numeroEtape,
     titre: 'Fixer les marches',
     description:
-      `Couper ${dim.nombreMarches} marches à ${entree.largeur} mm de largeur et ` +
-      `${dim.giron + NORMES_CCQ.NOSING_STANDARD_MM} mm de profondeur (incluant le nez de marche de ${NORMES_CCQ.NOSING_STANDARD_MM} mm). ` +
+      `Couper ${dim.nombreMarches} marches à ${entree.largeur} cm de largeur et ` +
+      `${dim.giron + NORMES_CCQ.NOSING_STANDARD_CM} cm de profondeur (incluant le nez de marche de ${NORMES_CCQ.NOSING_STANDARD_CM} cm). ` +
       'Fixer chaque marche avec 4 vis minimum (2 de chaque côté). Commencer par le bas.',
     dimensionsCles: [
-      { label: 'Profondeur de marche (avec nez)', valeur: `${dim.giron + NORMES_CCQ.NOSING_STANDARD_MM} mm` },
-      { label: 'Largeur', valeur: `${entree.largeur} mm` },
-      { label: 'Épaisseur', valeur: '38 mm' },
+      { label: 'Profondeur de marche (avec nez)', valeur: `${dim.giron + NORMES_CCQ.NOSING_STANDARD_CM} cm` },
+      { label: 'Largeur', valeur: `${entree.largeur} cm` },
+      { label: 'Épaisseur', valeur: '3.8 cm' },
     ],
     obligatoireSelonNormes: false,
   });
@@ -98,7 +98,7 @@ export function genererPlanConstruction(
   // ── Étape 6 : Main courante (si obligatoire) ──────────────────────────────
   const mainCouranteObligatoire =
     dim.nombreMarches >= NORMES_CCQ.MAIN_COURANTE_OBLIGATOIRE_MIN_MARCHES;
-  const doubleMainCourante = entree.largeur >= NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_MM;
+  const doubleMainCourante = entree.largeur >= NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_CM;
 
   if (mainCouranteObligatoire) {
     const numeroMC = entree.contremargesFermees ? 6 : 5;
@@ -107,40 +107,40 @@ export function genererPlanConstruction(
       titre: `Installer la main courante${doubleMainCourante ? ' (deux côtés — OBLIGATOIRE)' : ''}`,
       description:
         `La main courante est OBLIGATOIRE (${dim.nombreMarches} marches ≥ ${NORMES_CCQ.MAIN_COURANTE_OBLIGATOIRE_MIN_MARCHES}). ` +
-        `Hauteur : entre ${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_MM} mm et ${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_MM} mm, ` +
-        `mesurée depuis le nez de la marche. Distance minimale du mur : ${NORMES_CCQ.MAIN_COURANTE_DISTANCE_MUR_MIN_MM} mm. ` +
-        (doubleMainCourante ? `Largeur ≥ ${NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_MM} mm : main courante des DEUX côtés obligatoire. ` : ''),
+        `Hauteur : entre ${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_CM} cm et ${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_CM} cm, ` +
+        `mesurée depuis le nez de la marche. Distance minimale du mur : ${NORMES_CCQ.MAIN_COURANTE_DISTANCE_MUR_MIN_CM} cm. ` +
+        (doubleMainCourante ? `Largeur ≥ ${NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_CM} cm : main courante des DEUX côtés obligatoire. ` : ''),
       dimensionsCles: [
-        { label: 'Hauteur min', valeur: `${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_MM} mm` },
-        { label: 'Hauteur max', valeur: `${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_MM} mm` },
-        { label: 'Distance du mur', valeur: `${NORMES_CCQ.MAIN_COURANTE_DISTANCE_MUR_MIN_MM} mm min` },
+        { label: 'Hauteur min', valeur: `${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_CM} cm` },
+        { label: 'Hauteur max', valeur: `${NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_CM} cm` },
+        { label: 'Distance du mur', valeur: `${NORMES_CCQ.MAIN_COURANTE_DISTANCE_MUR_MIN_CM} cm min` },
       ],
       obligatoireSelonNormes: true,
     });
   }
 
-  // ── Étape 7 : Garde-corps (si hauteur > 600mm) ────────────────────────────
+  // ── Étape 7 : Garde-corps (si hauteur > 60 cm) ────────────────────────────
   const gardeCorpsObligatoire =
-    entree.hauteurTotale > NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM;
+    entree.hauteurTotale > NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_CM;
 
   if (gardeCorpsObligatoire) {
     const derniereEtape = etapes.length + 1;
     const hauteurMinGC =
-      entree.hauteurTotale > 1800
-        ? NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_ELEVE_MM
-        : NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_PRIVE_MM;
+      entree.hauteurTotale > 180
+        ? NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_ELEVE_CM
+        : NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_PRIVE_CM;
 
     etapes.push({
       numero: derniereEtape,
       titre: 'Installer le garde-corps (OBLIGATOIRE)',
       description:
-        `Un garde-corps est OBLIGATOIRE : hauteur de chute ${Math.round(entree.hauteurTotale)} mm > ${NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM} mm. ` +
-        `Hauteur minimale : ${hauteurMinGC} mm mesurée depuis le nez de la marche. ` +
-        `Espacement maximal entre barreaux : ${NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_MM} mm ` +
-        '(aucune ouverture permettant le passage d\'une sphère de 100 mm).',
+        `Un garde-corps est OBLIGATOIRE : hauteur de chute ${Math.round(entree.hauteurTotale)} cm > ${NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_CM} cm. ` +
+        `Hauteur minimale : ${hauteurMinGC} cm mesurée depuis le nez de la marche. ` +
+        `Espacement maximal entre barreaux : ${NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_CM} cm ` +
+        '(aucune ouverture permettant le passage d\'une sphère de 10 cm).',
       dimensionsCles: [
-        { label: 'Hauteur min garde-corps', valeur: `${hauteurMinGC} mm` },
-        { label: 'Espacement max barreaux', valeur: `${NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_MM} mm` },
+        { label: 'Hauteur min garde-corps', valeur: `${hauteurMinGC} cm` },
+        { label: 'Espacement max barreaux', valeur: `${NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_CM} cm` },
       ],
       obligatoireSelonNormes: true,
     });

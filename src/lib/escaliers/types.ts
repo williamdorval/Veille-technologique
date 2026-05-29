@@ -1,18 +1,18 @@
 // types.ts — Types TypeScript pour le calculateur d'escaliers
 // Aucune valeur de norme ici — toutes dans normes.ts
 
-export type UniteMesure = 'mm' | 'pouces';
+export type UniteMesure = 'cm' | 'pouces';
 export type TypeUsage = 'residentiel_prive' | 'residentiel_commun' | 'commercial';
 export type MateriauLimon = 'epinette' | 'bois_franc' | 'acier' | 'composite';
 export type TypeMarche = 'bois_traite' | 'epinette' | 'bois_franc' | 'contrepalque' | 'composite';
 export type StatutConformite = 'conforme' | 'avertissement' | 'non_conforme';
 
 export interface EntreeFormulaire {
-  hauteurTotale: number;        // toujours en mm (converti si pouces saisis)
+  hauteurTotale: number;        // toujours en cm (converti si pouces saisis)
   hauteurTotaleSaisie: number;  // valeur brute saisie par l'utilisateur
   uniteMesure: UniteMesure;
-  largeur: number;              // mm
-  hauteurPlafond: number;       // mm
+  largeur: number;              // cm
+  hauteurPlafond: number;       // cm
   typeUsage: TypeUsage;
   contremargesFermees: boolean;
   materiauLimon: MateriauLimon;
@@ -41,20 +41,20 @@ export interface ConformiteResultat {
 
 export interface DimensionsEscalier {
   nombreMarches: number;
-  hauteurContremarche: number;  // mm, arrondi 1 décimale
-  giron: number;                // mm, arrondi 1 décimale
-  longueurAuSol: number;        // mm
-  longueurLimon: number;        // mm, arrondi 1 décimale
+  hauteurContremarche: number;  // cm, arrondi 1 décimale
+  giron: number;                // cm, arrondi 1 décimale
+  longueurAuSol: number;        // cm
+  longueurLimon: number;        // cm, arrondi 1 décimale
   angleDegres: number;          // degrés, arrondi 1 décimale
-  blondel: number;              // 2H + G en mm
+  blondel: number;              // 2H + G en cm
 }
 
 export interface PieceMateriaux {
   nom: string;
   quantite: number;
-  longueur: number;             // mm
-  largeur: number | null;       // mm
-  hauteur: number | null;       // mm
+  longueur: number;             // cm
+  largeur: number | null;       // cm
+  hauteur: number | null;       // cm
   unite: string;
   materiau: string;
   prixUnitaireIndicatif: number; // CAD/unité

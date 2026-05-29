@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,20 +9,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EntreeFormulaire, UniteMesure, TypeUsage, MateriauLimon, TypeMarche } from '@/lib/escaliers/types';
-import { useUnite, versMm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
+import { useUnite, versCm, formatValeur, labelUnite, stepUnite } from '@/lib/shared/use-unite';
 import { SelecteurUnite } from '@/components/shared/SelecteurUnite';
 import { ChampsOptions, FormValues } from './ChampsOptions';
 
 const schemaFormulaire = z.object({
   hauteurTotaleSaisie: z.number().positive('La hauteur doit être positive'),
   // Validation UI : plage raisonnable pour le formulaire.
-  // La conformité CCQ (min 860mm) est vérifiée dans conformite.ts
+  // La conformité CCQ (min 86 cm) est vérifiée dans conformite.ts
   largeur: z.number()
-    .min(600, 'Largeur minimum : 600 mm')
-    .max(2500, 'Largeur maximum : 2 500 mm'),
+    .min(60, 'Largeur minimum : 60 cm')
+    .max(250, 'Largeur maximum : 250 cm'),
   hauteurPlafond: z.number()
-    .min(1800, 'Hauteur de plafond minimum : 1 800 mm')
-    .max(4000, 'Hauteur de plafond maximum : 4 000 mm'),
+    .min(180, 'Hauteur de plafond minimum : 180 cm')
+    .max(400, 'Hauteur de plafond maximum : 400 cm'),
   typeUsage: z.enum(['residentiel_prive', 'residentiel_commun', 'commercial'] as const),
   contremargesFermees: z.boolean(),
   materiauLimon: z.enum(['epinette', 'bois_franc', 'acier', 'composite'] as const),
@@ -40,9 +40,9 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schemaFormulaire),
     defaultValues: {
-      hauteurTotaleSaisie: 2800,
-      largeur: 900,
-      hauteurPlafond: 2400,
+      hauteurTotaleSaisie: 280,
+      largeur: 90,
+      hauteurPlafond: 240,
       typeUsage: 'residentiel_prive',
       contremargesFermees: true,
       materiauLimon: 'epinette',
@@ -54,11 +54,11 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
   const watchedValues = watch();
 
   const soumettre = useCallback((values: FormValues) => {
-    // Tous les champs sont déjà en mm dans le formulaire
+    // Tous les champs sont déjà en cm dans le formulaire
     onCalculer({
       hauteurTotale: values.hauteurTotaleSaisie,
       hauteurTotaleSaisie: values.hauteurTotaleSaisie,
-      uniteMesure: 'mm' as UniteMesure,
+      uniteMesure: 'cm' as UniteMesure,
       largeur: values.largeur,
       hauteurPlafond: values.hauteurPlafond,
       typeUsage: values.typeUsage as TypeUsage,
@@ -95,10 +95,10 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               id="hauteur"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.hauteurTotaleSaisie ?? 2800, unite)}
+              value={formatValeur(watchedValues.hauteurTotaleSaisie ?? 280, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('hauteurTotaleSaisie', versMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('hauteurTotaleSaisie', versCm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.hauteurTotaleSaisie && (
@@ -113,10 +113,10 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               id="largeur"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.largeur ?? 900, unite)}
+              value={formatValeur(watchedValues.largeur ?? 90, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('largeur', versMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('largeur', versCm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.largeur && (
@@ -131,10 +131,10 @@ export function FormulaireEscalier({ onCalculer, isCalculating }: Props) {
               id="plafond"
               type="number"
               step={stepUnite(unite)}
-              value={formatValeur(watchedValues.hauteurPlafond ?? 2400, unite)}
+              value={formatValeur(watchedValues.hauteurPlafond ?? 240, unite)}
               onChange={(e) => {
                 const raw = parseFloat(e.target.value);
-                if (!isNaN(raw)) setValue('hauteurPlafond', versMm(raw, unite), { shouldValidate: true });
+                if (!isNaN(raw)) setValue('hauteurPlafond', versCm(raw, unite), { shouldValidate: true });
               }}
             />
             {errors.hauteurPlafond && (

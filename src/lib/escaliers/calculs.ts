@@ -9,42 +9,42 @@ import { genererPlanConstruction } from './plan-construction';
 
 // ─── CONVERSION D'UNITÉS ────────────────────────────────────────────────────
 
-export function poucesEnMm(pouces: number): number {
-  return pouces * 25.4;
+export function poucesEnCm(pouces: number): number {
+  return pouces * 2.54;
 }
 
-export function mmEnPouces(mm: number): number {
-  return Math.round((mm / 25.4) * 100) / 100;
+export function cmEnPouces(cm: number): number {
+  return Math.round((cm / 2.54) * 100) / 100;
 }
 
 // ─── FONCTION PRINCIPALE ────────────────────────────────────────────────────
 
 export function calculerEscalier(entree: EntreeFormulaire): ResultatOuErreur {
   // Validation des plages d'entrée
-  if (entree.hauteurTotale < 400 || entree.hauteurTotale > 6000) {
+  if (entree.hauteurTotale < 40 || entree.hauteurTotale > 600) {
     return {
       succes: false,
       erreur: {
         code: 'HAUTEUR_INVALIDE',
-        message: `La hauteur totale doit être entre 400 mm et 6 000 mm (valeur : ${Math.round(entree.hauteurTotale)} mm)`,
+        message: `La hauteur totale doit être entre 40 cm et 600 cm (valeur : ${Math.round(entree.hauteurTotale)} cm)`,
         champ: 'hauteurTotale',
       },
     };
   }
 
-  if (entree.largeur < 600 || entree.largeur > 2500) {
+  if (entree.largeur < 60 || entree.largeur > 250) {
     return {
       succes: false,
       erreur: {
         code: 'LARGEUR_INVALIDE',
-        message: `La largeur doit être entre 600 mm et 2 500 mm (valeur : ${Math.round(entree.largeur)} mm)`,
+        message: `La largeur doit être entre 60 cm et 250 cm (valeur : ${Math.round(entree.largeur)} cm)`,
         champ: 'largeur',
       },
     };
   }
 
-  // ── Calcul du nombre de marches optimal (minimise l'écart à Blondel 630mm) ─
-  const nbBase = Math.round(entree.hauteurTotale / NORMES_CCQ.CONTREMARCHE_IDEAL_MM);
+  // ── Calcul du nombre de marches optimal (minimise l'écart à Blondel 63 cm) ─
+  const nbBase = Math.round(entree.hauteurTotale / NORMES_CCQ.CONTREMARCHE_IDEAL_CM);
   const candidats = [nbBase - 1, nbBase, nbBase + 1].filter((n) => n >= 2);
 
   if (candidats.length === 0) {
@@ -52,28 +52,28 @@ export function calculerEscalier(entree: EntreeFormulaire): ResultatOuErreur {
       succes: false,
       erreur: {
         code: 'IMPOSSIBLE_DEUX_MARCHES',
-        message: `Hauteur ${Math.round(entree.hauteurTotale)} mm insuffisante pour 2 marches minimum.`,
+        message: `Hauteur ${Math.round(entree.hauteurTotale)} cm insuffisante pour 2 marches minimum.`,
         champ: 'hauteurTotale',
       },
     };
   }
 
   const gironMin = entree.typeUsage === 'residentiel_prive'
-    ? NORMES_CCQ.GIRON_MIN_PRIVE_MM : NORMES_CCQ.GIRON_MIN_COMMUN_MM;
+    ? NORMES_CCQ.GIRON_MIN_PRIVE_CM : NORMES_CCQ.GIRON_MIN_COMMUN_CM;
 
   let meilleureNb = nbBase;
   let meilleurEcart = Infinity;
   for (const n of candidats) {
     const h = entree.hauteurTotale / n;
-    const g = Math.min(Math.max(NORMES_CCQ.BLONDEL_CIBLE_MM - 2 * h, gironMin), NORMES_CCQ.GIRON_MAX_MM);
-    const ecart = Math.abs(2 * h + g - NORMES_CCQ.BLONDEL_CIBLE_MM);
+    const g = Math.min(Math.max(NORMES_CCQ.BLONDEL_CIBLE_CM - 2 * h, gironMin), NORMES_CCQ.GIRON_MAX_CM);
+    const ecart = Math.abs(2 * h + g - NORMES_CCQ.BLONDEL_CIBLE_CM);
     if (ecart < meilleurEcart) { meilleurEcart = ecart; meilleureNb = n; }
   }
 
   const nombreMarches = meilleureNb;
   const hauteurContremarche = Math.round((entree.hauteurTotale / nombreMarches) * 10) / 10;
-  const gironBrut = NORMES_CCQ.BLONDEL_CIBLE_MM - 2 * hauteurContremarche;
-  const giron = Math.round(Math.min(Math.max(gironBrut, gironMin), NORMES_CCQ.GIRON_MAX_MM) * 10) / 10;
+  const gironBrut = NORMES_CCQ.BLONDEL_CIBLE_CM - 2 * hauteurContremarche;
+  const giron = Math.round(Math.min(Math.max(gironBrut, gironMin), NORMES_CCQ.GIRON_MAX_CM) * 10) / 10;
   const longueurAuSol = Math.round(nombreMarches * giron);
   const longueurLimon = Math.round(Math.sqrt(longueurAuSol ** 2 + entree.hauteurTotale ** 2) * 10) / 10;
   const angleDegres = Math.round(Math.atan2(entree.hauteurTotale, longueurAuSol) * (180 / Math.PI) * 10) / 10;

@@ -11,7 +11,7 @@ interface Props {
 
 // ─── Composant ────────────────────────────────────────────────────────────────
 
-const UNITES: UniteSaisie[] = ['mm', 'cm', 'm', 'po'];
+const UNITES: UniteSaisie[] = ['cm', 'po'];
 
 export function SelecteurUnite({ unite, onChangerUnite }: Props) {
   return (

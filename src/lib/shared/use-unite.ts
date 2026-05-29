@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -6,36 +6,36 @@ import { useState, useEffect } from 'react';
 
 export type UniteSaisie = 'mm' | 'cm' | 'm' | 'po';
 
-// ─── Facteurs de conversion depuis mm ─────────────────────────────────────────
+// ─── Facteurs de conversion depuis cm ─────────────────────────────────────────
 
-const FACTEURS_DEPUIS_MM: Record<UniteSaisie, number> = {
-  mm: 1,
-  cm: 1 / 10,
-  m: 1 / 1000,
-  po: 1 / 25.4,
+const FACTEURS_DEPUIS_CM: Record<UniteSaisie, number> = {
+  mm: 10,
+  cm: 1,
+  m: 0.01,
+  po: 1 / 2.54,
 };
 
 // ─── Fonctions utilitaires ────────────────────────────────────────────────────
 
-/** Convertit mm → unité d'affichage */
-export function mmVers(mm: number, unite: UniteSaisie): number {
-  return mm * FACTEURS_DEPUIS_MM[unite];
+/** Convertit cm → unité d'affichage */
+export function cmVers(cm: number, unite: UniteSaisie): number {
+  return cm * FACTEURS_DEPUIS_CM[unite];
 }
 
-/** Convertit une valeur saisie dans l'unité choisie → mm */
-export function versMm(valeur: number, unite: UniteSaisie): number {
-  return valeur / FACTEURS_DEPUIS_MM[unite];
+/** Convertit une valeur saisie dans l'unité choisie → cm */
+export function versCm(valeur: number, unite: UniteSaisie): number {
+  return valeur / FACTEURS_DEPUIS_CM[unite];
 }
 
 /** Formate pour affichage avec le bon nombre de décimales selon l'unité */
-export function formatValeur(mm: number, unite: UniteSaisie): string {
+export function formatValeur(cm: number, unite: UniteSaisie): string {
   const decimales: Record<UniteSaisie, number> = {
     mm: 0,
     cm: 1,
     m: 3,
     po: 2,
   };
-  return mmVers(mm, unite).toFixed(decimales[unite]);
+  return cmVers(cm, unite).toFixed(decimales[unite]);
 }
 
 /** Retourne le label d'affichage de l'unité */
@@ -72,8 +72,8 @@ export function useUnite(pluginKey: string): {
 } {
   const storageKey = `constructeurs-unite-${pluginKey}`;
 
-  // Initialiser avec 'mm' pour éviter l'erreur SSR
-  const [unite, setUnite] = useState<UniteSaisie>('mm');
+  // Initialiser avec 'cm' pour éviter l'erreur SSR
+  const [unite, setUnite] = useState<UniteSaisie>('cm');
 
   // Lire localStorage côté client seulement
   useEffect(() => {

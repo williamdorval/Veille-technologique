@@ -1,5 +1,6 @@
 // normes.ts — Constantes du Code de construction du Québec (CCQ)
 // Chapitre I — Bâtiment, Partie 9
+// Unité : centimètres (cm)
 //
 // RÈGLE ABSOLUE : Jamais hardcoder ces valeurs dans les composants.
 // Toujours importer depuis ce fichier.
@@ -13,80 +14,80 @@
 export const NORMES_CCQ = {
   // ─── CONTREMARCHE ────────────────────────────────────────────────────────
   // Article 9.8.4.1 du CCQ — hauteur de contremarche (résidentiel privé)
-  CONTREMARCHE_MIN_MM: 125,
-  CONTREMARCHE_MAX_PRIVE_MM: 200,
+  CONTREMARCHE_MIN_CM: 12.5,
+  CONTREMARCHE_MAX_PRIVE_CM: 20,
   // Article 9.8.4.1 du CCQ — hauteur de contremarche (commun / Partie 3)
-  CONTREMARCHE_MAX_COMMUN_MM: 180,
+  CONTREMARCHE_MAX_COMMUN_CM: 18,
   // Valeur idéale de confort reconnue dans la pratique professionnelle
-  CONTREMARCHE_IDEAL_MM: 180,
+  CONTREMARCHE_IDEAL_CM: 18,
 
   // ─── GIRON ────────────────────────────────────────────────────────────────
   // Article 9.8.4.2 du CCQ — profondeur de marche (résidentiel privé)
-  GIRON_MIN_PRIVE_MM: 210,
+  GIRON_MIN_PRIVE_CM: 21,
   // Article 9.8.4.2 du CCQ — profondeur de marche (commun / Partie 3)
-  GIRON_MIN_COMMUN_MM: 280,
+  GIRON_MIN_COMMUN_CM: 28,
   // Article 9.8.4.2 du CCQ — maximum
-  GIRON_MAX_MM: 355,
+  GIRON_MAX_CM: 35.5,
 
   // ─── LARGEUR ──────────────────────────────────────────────────────────────
   // Article 9.8.2.1 du CCQ — largeur minimale (résidentiel privé)
-  LARGEUR_MIN_PRIVE_MM: 860,
+  LARGEUR_MIN_PRIVE_CM: 86,
   // Article 9.8.2.1 du CCQ — largeur minimale (commun / issues)
-  LARGEUR_MIN_COMMUN_MM: 900,
+  LARGEUR_MIN_COMMUN_CM: 90,
 
   // ─── DÉGAGEMENT DE TÊTE ──────────────────────────────────────────────────
   // Article 9.8.3.1 du CCQ — échappée (résidentiel privé)
-  DEGAGEMENT_TETE_MIN_PRIVE_MM: 1950,
+  DEGAGEMENT_TETE_MIN_PRIVE_CM: 195,
   // Article 9.8.3.1 du CCQ — échappée (commun / Partie 3)
-  DEGAGEMENT_TETE_MIN_COMMUN_MM: 2050,
+  DEGAGEMENT_TETE_MIN_COMMUN_CM: 205,
 
   // ─── FORMULE DE BLONDEL ───────────────────────────────────────────────────
-  // 2H + G = 600 à 640 mm (outil de confort, pratique professionnelle reconnue)
-  // Cible idéale : 630 mm
-  BLONDEL_MIN_MM: 600,
-  BLONDEL_MAX_MM: 640,
-  BLONDEL_CIBLE_MM: 630,
+  // 2H + G = 60 à 64 cm (outil de confort, pratique professionnelle reconnue)
+  // Cible idéale : 63 cm
+  BLONDEL_MIN_CM: 60,
+  BLONDEL_MAX_CM: 64,
+  BLONDEL_CIBLE_CM: 63,
 
   // ─── TOLÉRANCES D'UNIFORMITÉ ─────────────────────────────────────────────
   // Article 9.8.4.4 du CCQ
-  TOLERANCE_CONSECUTIVE_MM: 5,   // écart max entre marches consécutives
-  TOLERANCE_VOLEE_MM: 10,        // écart max sur toute la volée
+  TOLERANCE_CONSECUTIVE_CM: 0.5,   // écart max entre marches consécutives
+  TOLERANCE_VOLEE_CM: 1,           // écart max sur toute la volée
 
   // ─── MAIN COURANTE ────────────────────────────────────────────────────────
   // Article 9.8.7.4 du CCQ
-  MAIN_COURANTE_HAUTEUR_MIN_MM: 800,
-  MAIN_COURANTE_HAUTEUR_MAX_MM: 965,
-  MAIN_COURANTE_HAUTEUR_MAX_AVEC_GARDE_CORPS_MM: 1070,
-  MAIN_COURANTE_DISTANCE_MUR_MIN_MM: 50,
+  MAIN_COURANTE_HAUTEUR_MIN_CM: 80,
+  MAIN_COURANTE_HAUTEUR_MAX_CM: 96.5,
+  MAIN_COURANTE_HAUTEUR_MAX_AVEC_GARDE_CORPS_CM: 107,
+  MAIN_COURANTE_DISTANCE_MUR_MIN_CM: 5,
   MAIN_COURANTE_OBLIGATOIRE_MIN_MARCHES: 3,
-  MAIN_COURANTE_DOUBLE_LARGEUR_MM: 1100, // deux côtés si largeur ≥ 1100mm
+  MAIN_COURANTE_DOUBLE_LARGEUR_CM: 110, // deux côtés si largeur ≥ 110 cm
 
   // ─── GARDE-CORPS ─────────────────────────────────────────────────────────
   // Article 9.8.8 du CCQ
-  GARDE_CORPS_HAUTEUR_MIN_PRIVE_MM: 900,
-  GARDE_CORPS_HAUTEUR_MIN_ELEVE_MM: 1070,  // si hauteur de chute > 1800mm
-  GARDE_CORPS_HAUTEUR_MIN_COMMUN_MM: 1070,
-  GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM: 600, // obligatoire si chute > 600mm
-  GARDE_CORPS_BALUSTRE_MAX_MM: 100,        // espacement max entre barreaux
+  GARDE_CORPS_HAUTEUR_MIN_PRIVE_CM: 90,
+  GARDE_CORPS_HAUTEUR_MIN_ELEVE_CM: 107,  // si hauteur de chute > 180 cm
+  GARDE_CORPS_HAUTEUR_MIN_COMMUN_CM: 107,
+  GARDE_CORPS_OBLIGATOIRE_HAUTEUR_CM: 60, // obligatoire si chute > 60 cm
+  GARDE_CORPS_BALUSTRE_MAX_CM: 10,        // espacement max entre barreaux
 
   // ─── HAUTEUR DE VOLÉE MAXIMALE ───────────────────────────────────────────
   // Au-delà, un palier intermédiaire est requis (hors portée de ce calculateur)
-  HAUTEUR_MAX_VOLEE_MM: 3700,
+  HAUTEUR_MAX_VOLEE_CM: 370,
 
   // ─── NOSING (NEZ DE MARCHE) ──────────────────────────────────────────────
   // Valeur standard pratique (non réglementée explicitement par un article dédié)
-  NOSING_STANDARD_MM: 25,
+  NOSING_STANDARD_CM: 2.5,
 } as const;
 
 // ─── SEUILS D'AVERTISSEMENT (orange) ────────────────────────────────────────
 // Ces valeurs définissent la zone "proche des limites" → pastille orange
 export const SEUILS_AVERTISSEMENT = {
-  CONTREMARCHE_ZONE_ORANGE_BAS: 10,   // mm en dessous du min → orange
-  CONTREMARCHE_ZONE_ORANGE_HAUT: 10,  // mm en dessous du max → orange
-  GIRON_ZONE_ORANGE_BAS: 15,          // mm au-dessus du min → orange
-  BLONDEL_ZONE_ORANGE: 10,            // mm autour des limites → orange
-  DEGAGEMENT_ZONE_ORANGE_MM: 50,      // mm au-dessus du min → orange
-  LARGEUR_ZONE_ORANGE_MM: 20,         // mm au-dessus du min → orange
+  CONTREMARCHE_ZONE_ORANGE_BAS: 1,    // cm en dessous du min → orange
+  CONTREMARCHE_ZONE_ORANGE_HAUT: 1,   // cm en dessous du max → orange
+  GIRON_ZONE_ORANGE_BAS: 1.5,         // cm au-dessus du min → orange
+  BLONDEL_ZONE_ORANGE: 1,             // cm autour des limites → orange
+  DEGAGEMENT_ZONE_ORANGE_CM: 5,       // cm au-dessus du min → orange
+  LARGEUR_ZONE_ORANGE_CM: 2,          // cm au-dessus du min → orange
 } as const;
 
 // ─── LABELS D'AFFICHAGE ──────────────────────────────────────────────────────

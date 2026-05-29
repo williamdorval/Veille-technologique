@@ -25,17 +25,17 @@ function nomMateriau(m: string): string {
 function formatDimensions(piece: PieceMateriaux): string {
   if (piece.longueur === 0) return '—';
   const dims: string[] = [];
-  if (piece.hauteur) dims.push(`${piece.hauteur} mm`);
-  if (piece.largeur) dims.push(`${piece.largeur} mm`);
-  dims.push(`${piece.longueur} mm`);
+  if (piece.hauteur) dims.push(`${piece.hauteur} cm`);
+  if (piece.largeur) dims.push(`${piece.largeur} cm`);
+  dims.push(`${piece.longueur} cm`);
   return dims.join(' × ');
 }
 
 export function ListeMateriaux({ materiaux, estimation, nombreMarches, largeurEscalier, hauteurChute }: Props) {
   const coutTotal = materiaux.reduce((sum, p) => sum + p.quantite * p.prixUnitaireIndicatif, 0);
   const mainCouranteRequise = nombreMarches >= NORMES_CCQ.MAIN_COURANTE_OBLIGATOIRE_MIN_MARCHES;
-  const gardeCorpsRequis = hauteurChute > NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_MM;
-  const doubleMainCourante = largeurEscalier >= NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_MM;
+  const gardeCorpsRequis = hauteurChute > NORMES_CCQ.GARDE_CORPS_OBLIGATOIRE_HAUTEUR_CM;
+  const doubleMainCourante = largeurEscalier >= NORMES_CCQ.MAIN_COURANTE_DOUBLE_LARGEUR_CM;
 
   return (
     <div className="space-y-4">
@@ -76,7 +76,7 @@ export function ListeMateriaux({ materiaux, estimation, nombreMarches, largeurEs
                 {materiaux.map((piece, i) => (
                   <tr key={i} className="border-b last:border-0">
                     <td className="py-2 pr-3 font-medium">{piece.nom}</td>
-                    <td className="py-2 px-2 text-right">{piece.quantite} {piece.unite !== 'mm' ? piece.unite : ''}</td>
+                    <td className="py-2 px-2 text-right">{piece.quantite} {piece.unite !== 'cm' ? piece.unite : ''}</td>
                     <td className="py-2 px-2 text-right text-muted-foreground text-xs">{formatDimensions(piece)}</td>
                     <td className="py-2 pl-2 text-right text-muted-foreground">{nomMateriau(piece.materiau)}</td>
                   </tr>
@@ -115,9 +115,9 @@ export function ListeMateriaux({ materiaux, estimation, nombreMarches, largeurEs
               <div>
                 <p className="font-medium">Main courante (Art. 9.8.7.4)</p>
                 <p className="text-muted-foreground">
-                  Hauteur : {NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_MM}–{NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_MM} mm
+                  Hauteur : {NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MIN_CM}–{NORMES_CCQ.MAIN_COURANTE_HAUTEUR_MAX_CM} cm
                   depuis le nez de marche.
-                  {doubleMainCourante && ' Escalier ≥ 1 100 mm : main courante des deux côtés obligatoire.'}
+                  {doubleMainCourante && ' Escalier ≥ 110 cm : main courante des deux côtés obligatoire.'}
                 </p>
               </div>
             )}
@@ -125,8 +125,8 @@ export function ListeMateriaux({ materiaux, estimation, nombreMarches, largeurEs
               <div>
                 <p className="font-medium">Garde-corps (Art. 9.8.8)</p>
                 <p className="text-muted-foreground">
-                  Hauteur minimale : {NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_PRIVE_MM} mm.
-                  Espacement max entre barreaux : {NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_MM} mm.
+                  Hauteur minimale : {NORMES_CCQ.GARDE_CORPS_HAUTEUR_MIN_PRIVE_CM} cm.
+                  Espacement max entre barreaux : {NORMES_CCQ.GARDE_CORPS_BALUSTRE_MAX_CM} cm.
                 </p>
               </div>
             )}
