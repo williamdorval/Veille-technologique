@@ -8,13 +8,13 @@ export type RegionQuebec =
 export type StatutConformite = 'conforme' | 'avertissement' | 'non_conforme';
 
 export interface EntreesToiture {
-  longueurBatiment: number;     // mm
-  largeurBatiment: number;      // mm
+  longueurBatiment: number;     // cm
+  largeurBatiment: number;      // cm
   penteDegres: number;          // degrés
   typeToit: TypeToit;
   typeRevetement: TypeRevetement;
   region: RegionQuebec;
-  debordToit: number;           // mm (surplomb)
+  debordToit: number;           // cm (surplomb)
 }
 
 export interface IndicateurConformiteToiture {
@@ -37,7 +37,7 @@ export interface ResultatsToiture {
   nombrePaquetsBardeaux?: number;   // pour bardeau asphalte
   surfaceMembraneM2?: number;       // pour membrane
   nombreChevrons: number;
-  longueurChevrons: number;         // mm (développée)
+  longueurChevrons: number;         // cm (développée)
   ventilationEntreeCm2: number;     // cm² (soffites)
   ventilationSortieCm2: number;     // cm² (faîtière)
   chargeNeige: number;              // kPa

@@ -13,13 +13,13 @@ import { LABELS_TYPE_TOIT, LABELS_REVETEMENT, LABELS_REGION } from '@/lib/toitur
 import type { RegionQuebec, TypeToit, TypeRevetement } from '@/lib/toiture/types';
 
 const schema = z.object({
-  longueurBatiment: z.number().min(2000, 'Min 2 000 mm').max(50000, 'Max 50 000 mm'),
-  largeurBatiment: z.number().min(2000, 'Min 2 000 mm').max(30000, 'Max 30 000 mm'),
+  longueurBatiment: z.number().min(200, 'Min 200 cm').max(5000, 'Max 5 000 cm'),
+  largeurBatiment: z.number().min(200, 'Min 200 cm').max(3000, 'Max 3 000 cm'),
   penteDegres: z.number().min(0, 'Min 0°').max(70, 'Max 70°'),
   typeToit: z.enum(['deux_versants', 'croupe', 'appentis'] as const),
   typeRevetement: z.enum(['bardeau_asphalte', 'tole_acier', 'membrane'] as const),
   region: z.enum(['montreal', 'quebec_ville', 'saguenay', 'mauricie', 'estrie', 'outaouais', 'abitibi', 'cote_nord', 'gaspesie'] as const),
-  debordToit: z.number().min(0).max(2000),
+  debordToit: z.number().min(0).max(200),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -32,13 +32,13 @@ export function FormulaireToiture({ onCalculer }: Props) {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      longueurBatiment: 10000,
-      largeurBatiment: 8000,
+      longueurBatiment: 1000,
+      largeurBatiment: 800,
       penteDegres: 26,
       typeToit: 'deux_versants',
       typeRevetement: 'bardeau_asphalte',
       region: 'quebec_ville',
-      debordToit: 600,
+      debordToit: 60,
     },
   });
 
@@ -66,14 +66,14 @@ export function FormulaireToiture({ onCalculer }: Props) {
         <form onSubmit={handleSubmit(soumettre)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <Label htmlFor="longueur">Longueur bâtiment (mm)</Label>
-              <Input id="longueur" type="number" step="100"
+              <Label htmlFor="longueur">Longueur bâtiment (cm)</Label>
+              <Input id="longueur" type="number" step="10"
                 {...register('longueurBatiment', { valueAsNumber: true })} />
               {errors.longueurBatiment && <p className="text-destructive text-xs">{errors.longueurBatiment.message}</p>}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="largeur">Largeur bâtiment (mm)</Label>
-              <Input id="largeur" type="number" step="100"
+              <Label htmlFor="largeur">Largeur bâtiment (cm)</Label>
+              <Input id="largeur" type="number" step="10"
                 {...register('largeurBatiment', { valueAsNumber: true })} />
               {errors.largeurBatiment && <p className="text-destructive text-xs">{errors.largeurBatiment.message}</p>}
             </div>
@@ -87,8 +87,8 @@ export function FormulaireToiture({ onCalculer }: Props) {
               {errors.penteDegres && <p className="text-destructive text-xs">{errors.penteDegres.message}</p>}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="debord">Débord de toit (mm)</Label>
-              <Input id="debord" type="number" step="50"
+              <Label htmlFor="debord">Débord de toit (cm)</Label>
+              <Input id="debord" type="number" step="10"
                 {...register('debordToit', { valueAsNumber: true })} />
             </div>
           </div>

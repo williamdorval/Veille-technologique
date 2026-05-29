@@ -31,7 +31,7 @@ export function ResultatsToiture({ resultats }: Props) {
       ? [{ label: 'Surface membrane (avec surplus 15 %)', valeur: `${surfaceMembraneM2} m²` }]
       : []),
     { label: 'Nombre de chevrons', valeur: `${nombreChevrons}` },
-    { label: 'Longueur des chevrons', valeur: `${longueurChevrons} mm` },
+    { label: 'Longueur des chevrons', valeur: `${longueurChevrons} cm` },
     { label: 'Ventilation entrée (soffites)', valeur: `${ventilationEntreeCm2} cm²` },
     { label: 'Ventilation sortie (faîtière)', valeur: `${ventilationSortieCm2} cm²` },
     { label: 'Charge de neige — région', valeur: `${chargeNeige} kPa` },

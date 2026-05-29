@@ -14,27 +14,27 @@ import {
   RATIO_VENTILATION,
   SURFACE_PAR_PAQUET_M2,
   SURPLUS_BARDEAU,
-  ESPACEMENT_CHEVRONS_MM,
+  ESPACEMENT_CHEVRONS_CM,
 } from './normes';
 
-// ── Validation ─────────────────────────────────────────────────────────
+// ── Validation ────────────────────────────────────────────────────────────────
 function valider(e: EntreesToiture): string | null {
-  if (e.longueurBatiment < 2000 || e.longueurBatiment > 50000) return 'Longueur : 2 000 – 50 000 mm.';
-  if (e.largeurBatiment < 2000 || e.largeurBatiment > 30000) return 'Largeur : 2 000 – 30 000 mm.';
-  if (e.penteDegres < 0 || e.penteDegres > 70) return 'Pente : 0 – 70 degrés.';
-  if (e.debordToit < 0 || e.debordToit > 2000) return 'Débord : 0 – 2 000 mm.';
+  if (e.longueurBatiment < 200 || e.longueurBatiment > 5000) return 'Longueur : 200 — 5 000 cm.';
+  if (e.largeurBatiment < 200 || e.largeurBatiment > 3000) return 'Largeur : 200 — 3 000 cm.';
+  if (e.penteDegres < 0 || e.penteDegres > 70) return 'Pente : 0 — 70 degrés.';
+  if (e.debordToit < 0 || e.debordToit > 200) return 'Débord : 0 — 200 cm.';
   return null;
 }
 
-// ── Surfaces ───────────────────────────────────────────────────────────
+// ── Surfaces ──────────────────────────────────────────────────────────────────
 function calculerSurfaces(e: EntreesToiture): {
   surfaceHorizontale: number;
   surfaceDeveloppee: number;
   longueurChevron: number;
 } {
-  const L = e.longueurBatiment / 1000;     // m
-  const W = e.largeurBatiment / 1000;      // m
-  const debord = e.debordToit / 1000;      // m
+  const L = e.longueurBatiment / 100;     // m
+  const W = e.largeurBatiment / 100;      // m
+  const debord = e.debordToit / 100;      // m
   const pRad = (e.penteDegres * Math.PI) / 180;
   const facteur = 1 / Math.cos(pRad);      // facteur de développement de pente
 
@@ -49,23 +49,23 @@ function calculerSurfaces(e: EntreesToiture): {
     case 'deux_versants':
       surfaceHorizontale = L * W;
       surfaceDeveloppee = longueurAvecDebord * demiLargeur * 2 * facteur;
-      longueurChevron = demiLargeur / Math.cos(pRad) * 1000; // en mm
+      longueurChevron = demiLargeur / Math.cos(pRad) * 100; // en cm
       break;
     case 'appentis':
       surfaceHorizontale = L * W;
       surfaceDeveloppee = longueurAvecDebord * (W + debord) * facteur;
-      longueurChevron = (W + debord) / Math.cos(pRad) * 1000;
+      longueurChevron = (W + debord) / Math.cos(pRad) * 100;
       break;
     case 'croupe':
       surfaceHorizontale = L * W;
       // Approximation croupe : 4 versants, 2 triangulaires + 2 trapézoïdaux
       surfaceDeveloppee = (L * W + (L - W) * W / 2) * facteur + debord * (L + W) * 2;
-      longueurChevron = demiLargeur / Math.cos(pRad) * 1000;
+      longueurChevron = demiLargeur / Math.cos(pRad) * 100;
       break;
     default:
       surfaceHorizontale = L * W;
       surfaceDeveloppee = L * W * facteur;
-      longueurChevron = demiLargeur / Math.cos(pRad) * 1000;
+      longueurChevron = demiLargeur / Math.cos(pRad) * 100;
   }
 
   return {
@@ -75,7 +75,7 @@ function calculerSurfaces(e: EntreesToiture): {
   };
 }
 
-// ── Indicateur de conformité ───────────────────────────────────────────
+// ── Indicateur de conformité ───────────────────────────────────────────────────
 function creerIndicateur(
   valeur: number,
   limite: number,
@@ -112,7 +112,7 @@ function creerIndicateur(
   return { conforme, statut, valeurCalculee: valeur, valeurLimite: limite, unite, article, messageStatut };
 }
 
-// ── Calcul principal ───────────────────────────────────────────────────
+// ── Calcul principal ──────────────────────────────────────────────────────────
 export function calculerToiture(entrees: EntreesToiture): ResultatOuErreur {
   const err = valider(entrees);
   if (err) return { succes: false, erreur: { code: 'ENTREE_INVALIDE', message: err } };
@@ -125,10 +125,10 @@ export function calculerToiture(entrees: EntreesToiture): ResultatOuErreur {
   const { surfaceHorizontale, surfaceDeveloppee } = surfaces;
 
   // Nombre de chevrons
-  const largeurAvecDebord = entrees.largeurBatiment / 1000 + 2 * (entrees.debordToit / 1000);
+  const largeurAvecDebord = entrees.largeurBatiment / 100 + 2 * (entrees.debordToit / 100);
   const nombreChevrons = Math.ceil(
-    (entrees.longueurBatiment / 1000 + 2 * (entrees.debordToit / 1000)) /
-    (ESPACEMENT_CHEVRONS_MM / 1000)
+    (entrees.longueurBatiment / 100 + 2 * (entrees.debordToit / 100)) /
+    (ESPACEMENT_CHEVRONS_CM / 100)
   ) + 1;
 
   // Matériaux de couverture
