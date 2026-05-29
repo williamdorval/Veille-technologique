@@ -95,6 +95,19 @@ export function FormulaireEscalierPro({ onCalculer, isCalculating }: Props) {
                 <TabsTrigger value="limited_run" className="flex-1">Course limitée</TabsTrigger>
               </TabsList>
             </Tabs>
+            {mode === 'unlimited_run' && (
+              <p className="text-xs text-muted-foreground mt-1">
+                <strong>Course illimitée</strong> : tu as de la place, tu choisis juste la hauteur.
+                Le calculateur trouve lui-même le meilleur giron et te propose plusieurs options.
+              </p>
+            )}
+            {mode === 'limited_run' && (
+              <p className="text-xs text-muted-foreground mt-1">
+                <strong>Course limitée</strong> : tu as un espace fixe au sol (ex. 420 cm disponibles).
+                Le giron est calculé automatiquement pour entrer dans cet espace.
+                L&apos;onglet &quot;Crochet&quot; vérifie si l&apos;escalier rentre sous le chevêtre.
+              </p>
+            )}
           </div>
 
           {numField('totalHeightMm', 'Hauteur totale', 'plancher à plancher')}
@@ -152,4 +165,5 @@ export function FormulaireEscalierPro({ onCalculer, isCalculating }: Props) {
     </Card>
   );
 }
+
 

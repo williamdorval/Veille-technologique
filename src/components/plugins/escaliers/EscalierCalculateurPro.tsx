@@ -86,14 +86,14 @@ export function EscalierCalculateurPro() {
             </TabsContent>
             {result.mode === 'limited_run' && result.hookAdjustment && (
               <TabsContent value="crochet" className="mt-4">
-                <ResultatsCrochet hook={result.hookAdjustment} />
+                <ResultatsCrochet hook={result.hookAdjustment} unit={result.input.unit} />
               </TabsContent>
             )}
             <TabsContent value="puits" className="mt-4">
-              <ResultatsPuits pit={result.pit} />
+              <ResultatsPuits pit={result.pit} unit={result.input.unit} />
             </TabsContent>
             <TabsContent value="formules" className="mt-4">
-              <ResultatsFormules result={result} />
+              <ResultatsFormules result={result} unit={result.input.unit} />
             </TabsContent>
             {legacy && (
               <TabsContent value="materiaux" className="mt-4">
@@ -117,3 +117,4 @@ export function EscalierCalculateurPro() {
     </div>
   );
 }
+
