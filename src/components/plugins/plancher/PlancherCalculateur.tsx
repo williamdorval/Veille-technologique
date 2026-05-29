@@ -4,13 +4,13 @@ import { useState, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EntreesPlancher, ResultatsPlancher } from '@/lib/plancher/types';
 import { calculerPlancher } from '@/lib/plancher/calculs';
-import { FormulaireplanCher } from './FormulaireplanCher';
+import { FormulaireplanCher } from './FormulairePlancher';
 import { ResultatsPlancher as ResultatsPlancherUI } from './ResultatsPlancher';
 import { Visualisation3D } from './Visualisation3D';
 
 const ENTREES_DEFAUT: EntreesPlancher = {
-  longueur: 4000,
-  largeur: 5000,
+  longueur: 400,
+  largeur: 500,
   typeUsage: 'salon',
   typeBois: 'SPF',
   typeSousPlancher: 'OSB',

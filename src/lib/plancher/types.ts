@@ -2,15 +2,15 @@
 // Aucune valeur de norme ici — toutes dans normes.ts
 
 export type DimensionSolive = '2x6' | '2x8' | '2x10' | '2x12';
-export type EspacementSolive = 300 | 400 | 600;  // mm (12, 16, 24 pouces)
+export type EspacementSolive = 30 | 40 | 60;  // cm (≈ 12, 16, 24 pouces)
 export type TypeUsagePlancher = 'chambre' | 'salon' | 'salleBain' | 'garage' | 'commercial';
 export type TypeBois = 'SPF' | 'douglas' | 'LVL';
 export type TypeSousPlancher = 'OSB' | 'contreplaque';
 export type StatutConformite = 'conforme' | 'avertissement' | 'non_conforme';
 
 export interface EntreesPlancher {
-  longueur: number;             // mm (portée de la solive)
-  largeur: number;              // mm (largeur de la pièce)
+  longueur: number;             // cm (portée de la solive)
+  largeur: number;              // cm (largeur de la pièce)
   typeUsage: TypeUsagePlancher;
   typeBois: TypeBois;
   typeSousPlancher: TypeSousPlancher;
@@ -38,9 +38,9 @@ export interface ResultatsPlancher {
   nombreSolives: number;
   longueurTotaleBoisM: number;        // mètres linéaires totaux
   quantitePanneaux: number;           // panneaux 4x8
-  epaisseurSousPlancher: number;      // mm
-  fleche: number;                     // mm à mi-portée (calculée)
-  flecheMax: number;                  // mm admissible (L/360)
+  epaisseurSousPlancher: number;      // cm
+  fleche: number;                     // cm à mi-portée (calculée)
+  flecheMax: number;                  // cm admissible (L/360)
   chargeVive: number;                 // kPa
   conformite: ConformitePlancher;
   estConforme: boolean;

@@ -24,8 +24,8 @@ import {
 
 // ── Validation ─────────────────────────────────────────────────────────
 function valider(e: EntreesPlancher): string | null {
-  if (e.longueur < 1000 || e.longueur > 8000) return 'La portée doit être entre 1 000 et 8 000 mm.';
-  if (e.largeur < 1000 || e.largeur > 20000) return 'La largeur doit être entre 1 000 et 20 000 mm.';
+  if (e.longueur < 100 || e.longueur > 800) return 'La portée doit être entre 100 et 800 cm.';
+  if (e.largeur < 100 || e.largeur > 2000) return 'La largeur doit être entre 100 et 2 000 cm.';
   return null;
 }
 
@@ -36,39 +36,41 @@ function inertie(b: number, h: number): number {
 
 // ── Flèche sous charge uniformément répartie ─────────────────────────
 // Formule : δ = 5qL⁴ / (384EI)
-// q = charge en N/mm (kPa × espacement en m × 1000)
-// L = portée en mm
-// E = module élasticité en MPa (N/mm²)
-// I = moment inertie en mm⁴
+// Inputs en cm — conversion interne en mm pour la formule (E en MPa = N/mm²)
+// q = charge en N/mm, L = portée en mm, E = MPa, I = mm⁴
+// Résultat converti de mm à cm avant retour
 function calculerFleche(
-  portee: number,           // mm
-  espacement: number,       // mm
+  portee: number,           // cm
+  espacement: number,       // cm
   chargeKPa: number,        // kPa = kN/m²
   E: number,                // MPa
-  b: number, h: number,     // dimensions solive mm
+  b: number, h: number,     // dimensions solive cm
 ): number {
-  const q = chargeKPa * (espacement / 1000);  // kN/m → N/mm via /1000 * /1 = kN/m² * m = kN/m, puis /1000 pour N/mm
-  // q en kPa * espacement_m = kN/m = N/mm (× 1000 / 1000 = identique)
-  const qNmm = chargeKPa * 1000 * (espacement / 1000) / 1000; // N/mm = Pa*m = (kPa×1000)*m/1000 = kPa*m
-  // Simplifié : q [N/mm] = chargekPa [kN/m²] × espacement[m] × 1000[N/kN] / 1000[mm/m]
-  const qSimple = (chargeKPa * espacement) / 1000; // N/mm
-  const I = inertie(b, h);
-  const L = portee;
-  return (5 * qSimple * Math.pow(L, 4)) / (384 * E * I); // mm
+  // Conversion cm → mm pour la formule Euler-Bernoulli
+  const portee_mm = portee * 10;
+  const espacement_mm = espacement * 10;
+  const b_mm = b * 10;
+  const h_mm = h * 10;
+
+  const qSimple = (chargeKPa * espacement_mm) / 1000; // N/mm
+  const I = inertie(b_mm, h_mm);                       // mm⁴
+  const fleche_mm = (5 * qSimple * Math.pow(portee_mm, 4)) / (384 * E * I); // mm
+
+  return fleche_mm / 10; // cm
 }
 
 // ── Sélection de la solive ─────────────────────────────────────────────
 function selectionnerSolive(
-  portee: number,
-  espacement: EspacementSolive,
+  portee: number,           // cm
+  espacement: EspacementSolive, // cm
   chargeKPa: number,
   E: number,
 ): { dimension: DimensionSolive; fleche: number; flecheMax: number } | null {
-  const flecheMax = portee / FLECHE_RATIO;
+  const flecheMax = portee / FLECHE_RATIO; // cm (L/360 fonctionne dans n'importe quelle unité)
 
   for (const dim of ORDRE_DIMENSIONS) {
-    const { b, h } = DIMENSIONS_SOLIVES[dim];
-    const fleche = calculerFleche(portee, espacement, chargeKPa, E, b, h);
+    const { b, h } = DIMENSIONS_SOLIVES[dim]; // cm
+    const fleche = calculerFleche(portee, espacement, chargeKPa, E, b, h); // cm
     if (fleche <= flecheMax) {
       return { dimension: dim, fleche, flecheMax };
     }
@@ -106,7 +108,7 @@ function creerIndicateur(
     conforme = valeur >= limite;
     if (!conforme) {
       statut = 'non_conforme';
-      messageStatut = `Portée ${valeur} mm — dépasse la portée max admissible`;
+      messageStatut = `Portée ${valeur} cm — dépasse la portée max admissible`;
     } else {
       statut = 'conforme';
       messageStatut = `Portée conforme ✓`;
@@ -126,7 +128,7 @@ export function calculerPlancher(entrees: EntreesPlancher): ResultatOuErreur {
   const chargeTotal = chargeVive + CHARGE_MORTE_KPA + (entrees.presenceElementLourd ? 1.0 : 0);
   const E = MODULE_ELASTICITE[typeBois];
 
-  // Essayer chaque espacement (préférence 400mm → 600mm → 300mm)
+  // Essayer chaque espacement (préférence 40cm → 60cm → 30cm)
   let solution: { dimension: DimensionSolive; espacement: EspacementSolive; fleche: number; flecheMax: number } | null = null;
 
   for (const esp of ESPACEMENTS) {
@@ -142,7 +144,7 @@ export function calculerPlancher(entrees: EntreesPlancher): ResultatOuErreur {
       succes: false,
       erreur: {
         code: 'PORTEE_TROP_GRANDE',
-        message: `La portée de ${longueur} mm est trop grande pour une solive simple. Utilisez une poutre de soutien ou réduisez la portée.`,
+        message: `La portée de ${longueur} cm est trop grande pour une solive simple. Utilisez une poutre de soutien ou réduisez la portée.`,
       },
     };
   }
@@ -150,18 +152,18 @@ export function calculerPlancher(entrees: EntreesPlancher): ResultatOuErreur {
   const { dimension, espacement, fleche, flecheMax } = solution;
   const epaisseurSousPlancher = EPAISSEUR_SOUS_PLANCHER[espacement];
 
-  // Nombre de solives
+  // Nombre de solives (largeur et espacement en cm)
   const nombreSolives = Math.ceil(largeur / espacement) + 1;
-  // Longueur totale de bois (mètres linéaires)
-  const longueurTotaleBoisM = (nombreSolives * longueur) / 1000;
-  // Panneaux 4x8 (1219 x 2438 mm)
-  const surfaceM2 = (longueur / 1000) * (largeur / 1000);
+  // Longueur totale de bois (mètres linéaires) — cm ÷ 100 = m
+  const longueurTotaleBoisM = (nombreSolives * longueur) / 100;
+  // Panneaux 4x8 (1.219 × 2.438 m) — surface en m²
+  const surfaceM2 = (longueur / 100) * (largeur / 100);
   const surfacePanneau = 1.219 * 2.438; // m²
   const quantitePanneaux = Math.ceil(surfaceM2 / surfacePanneau * 1.1); // +10% surplus
 
   // Conformité flèche (L/360)
   const indicateurFleche = creerIndicateur(
-    fleche, flecheMax, true, 'mm', 'CCQ 9.4.3.1 (L/360)', flecheMax * 0.1,
+    fleche, flecheMax, true, 'cm', 'CCQ 9.4.3.1 (L/360)', flecheMax * 0.1,
   );
 
   // Conformité portée (on marque conforme car solution trouvée)
@@ -170,9 +172,9 @@ export function calculerPlancher(entrees: EntreesPlancher): ResultatOuErreur {
     statut: 'conforme',
     valeurCalculee: longueur,
     valeurLimite: longueur,
-    unite: 'mm',
+    unite: 'cm',
     article: 'CNB 2020, Tableau A-9.23.4.2',
-    messageStatut: `Solive ${dimension} convient pour ${longueur} mm de portée ✓`,
+    messageStatut: `Solive ${dimension} convient pour ${longueur} cm de portée ✓`,
   };
 
   const conformite: ConformitePlancher = {

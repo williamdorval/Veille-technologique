@@ -9,8 +9,8 @@ import { ResultatsPlancher, TypeBois, TypeSousPlancher, DimensionSolive } from '
 
 interface Props {
   resultats: ResultatsPlancher;
-  portee: number;    // mm
-  largeur: number;   // mm
+  portee: number;    // cm
+  largeur: number;   // cm
   typeBois?: TypeBois;
   typeSousPlancher?: TypeSousPlancher;
 }
@@ -182,12 +182,12 @@ interface SousPlancherProps {
   L: number;
   W: number;
   hm: number;
-  epaisseurMm: number;
+  epaisseurCm: number;
   typeSousPlancher: TypeSousPlancher;
 }
 
-function SousPlancherMeshes({ L, W, hm, epaisseurMm, typeSousPlancher }: SousPlancherProps) {
-  const ep = epaisseurMm / 1000; // épaisseur en m
+function SousPlancherMeshes({ L, W, hm, epaisseurCm, typeSousPlancher }: SousPlancherProps) {
+  const ep = epaisseurCm / 100; // épaisseur en m
   const mat = COULEUR_SOUS_PLANCHER[typeSousPlancher];
 
   // Dimensions d'un panneau 4'x8' = 1.22m x 2.44m
@@ -344,9 +344,9 @@ function StructureComplete({ resultats, porteeM, largeurM, typeBois, typeSousPla
   const dimSolive = DIMS_SOLIVE[resultats.dimensionSoliveRecommandee];
   const bm = dimSolive.b;
   const hm = dimSolive.h;
-  const espM = resultats.espacementSolive / 1000;
+  const espM = resultats.espacementSolive / 100; // cm → m
   const nbSolives = Math.min(resultats.nombreSolives, 40);
-  const epaisseurSP = resultats.epaisseurSousPlancher; // mm
+  const epaisseurSP = resultats.epaisseurSousPlancher; // cm
   const besoinPoutre = porteeM > 4.0;
 
   return (
@@ -391,7 +391,7 @@ function StructureComplete({ resultats, porteeM, largeurM, typeBois, typeSousPla
         L={porteeM}
         W={largeurM}
         hm={hm}
-        epaisseurMm={epaisseurSP}
+        epaisseurCm={epaisseurSP}
         typeSousPlancher={typeSousPlancher}
       />
 
@@ -419,9 +419,9 @@ export default function PlancherScene({
   typeBois = 'SPF',
   typeSousPlancher = 'OSB',
 }: Props) {
-  // Valeurs par défaut si null/0
-  const porteeM = (portee > 0 ? portee : 4000) / 1000;
-  const largeurM = (largeur > 0 ? largeur : 5000) / 1000;
+  // Valeurs par défaut si null/0 — cm ÷ 100 = m
+  const porteeM = (portee > 0 ? portee : 400) / 100;
+  const largeurM = (largeur > 0 ? largeur : 500) / 100;
 
   const camX = largeurM * 0.8;
   const camY = Math.max(porteeM, largeurM) * 0.45 + 0.5;

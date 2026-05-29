@@ -13,8 +13,8 @@ import { EntreesPlancher } from '@/lib/plancher/types';
 import { LABELS_TYPE_USAGE, LABELS_TYPE_BOIS, LABELS_SOUS_PLANCHER } from '@/lib/plancher/normes';
 
 const schema = z.object({
-  longueur: z.number().min(1000, 'Min 1 000 mm').max(8000, 'Max 8 000 mm'),
-  largeur: z.number().min(1000, 'Min 1 000 mm').max(20000, 'Max 20 000 mm'),
+  longueur: z.number().min(100, 'Min 100 cm').max(800, 'Max 800 cm'),
+  largeur: z.number().min(100, 'Min 100 cm').max(2000, 'Max 2 000 cm'),
   typeUsage: z.enum(['chambre', 'salon', 'salleBain', 'garage', 'commercial'] as const),
   typeBois: z.enum(['SPF', 'douglas', 'LVL'] as const),
   typeSousPlancher: z.enum(['OSB', 'contreplaque'] as const),
@@ -31,8 +31,8 @@ export function FormulaireplanCher({ onCalculer }: Props) {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      longueur: 4000,
-      largeur: 5000,
+      longueur: 400,
+      largeur: 500,
       typeUsage: 'salon',
       typeBois: 'SPF',
       typeSousPlancher: 'OSB',
@@ -67,17 +67,17 @@ export function FormulaireplanCher({ onCalculer }: Props) {
       <CardContent>
         <form onSubmit={handleSubmit(soumettre)} className="space-y-4">
           <div className="space-y-1">
-            <Label htmlFor="longueur">Portée des solives (mm)</Label>
+            <Label htmlFor="longueur">Portée des solives (cm)</Label>
             <p className="text-xs text-muted-foreground">Distance entre les deux murs qui supportent les solives</p>
-            <Input id="longueur" type="number" step="50"
+            <Input id="longueur" type="number" step="5"
               {...register('longueur', { valueAsNumber: true })} />
             {errors.longueur && <p className="text-destructive text-sm">{errors.longueur.message}</p>}
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="largeur">Largeur de la pièce (mm)</Label>
+            <Label htmlFor="largeur">Largeur de la pièce (cm)</Label>
             <p className="text-xs text-muted-foreground">Dimension perpendiculaire aux solives</p>
-            <Input id="largeur" type="number" step="50"
+            <Input id="largeur" type="number" step="5"
               {...register('largeur', { valueAsNumber: true })} />
             {errors.largeur && <p className="text-destructive text-sm">{errors.largeur.message}</p>}
           </div>

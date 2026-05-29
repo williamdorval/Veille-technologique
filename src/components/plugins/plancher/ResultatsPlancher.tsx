@@ -41,14 +41,14 @@ export function ResultatsPlancher({ resultats }: Props) {
   const dims = DIMENSIONS_SOLIVES[dimensionSoliveRecommandee];
 
   const lignes = [
-    { label: 'Solive recommandée', valeur: `${dimensionSoliveRecommandee} (${dims.b}×${dims.h} mm)` },
-    { label: 'Espacement des solives', valeur: `${espacementSolive} mm (${Math.round(espacementSolive / 25.4)}")` },
+    { label: 'Solive recommandée', valeur: `${dimensionSoliveRecommandee} (${dims.b}×${dims.h} cm)` },
+    { label: 'Espacement des solives', valeur: `${espacementSolive} cm (${Math.round(espacementSolive / 2.54)}")` },
     { label: 'Nombre de solives', valeur: `${nombreSolives}` },
     { label: 'Bois total (solives)', valeur: `${longueurTotaleBoisM} m linéaires` },
     { label: 'Panneaux de sous-plancher', valeur: `${quantitePanneaux} panneaux 4×8 pi` },
-    { label: 'Épaisseur sous-plancher', valeur: `${epaisseurSousPlancher} mm` },
-    { label: 'Flèche calculée', valeur: `${fleche} mm` },
-    { label: 'Flèche maximale (L/360)', valeur: `${flecheMax} mm` },
+    { label: 'Épaisseur sous-plancher', valeur: `${epaisseurSousPlancher} cm` },
+    { label: 'Flèche calculée', valeur: `${fleche} cm` },
+    { label: 'Flèche maximale (L/360)', valeur: `${flecheMax} cm` },
     { label: 'Charge vive appliquée', valeur: `${chargeVive} kPa` },
   ];
 

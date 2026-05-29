@@ -1,4 +1,5 @@
 // normes.ts — Constantes pour le calcul de plancher
+// Toutes les dimensions en cm
 //
 // Sources :
 // - CNB 2020, Tableau A-9.23.4.2 (portées des solives)
@@ -45,27 +46,27 @@ export const RESISTANCE_FLEXION: Record<TypeBois, number> = {
 };
 
 // ── DIMENSIONS DES SOLIVES ─────────────────────────────────────────────
-// Largeur × Hauteur en mm — dimensions nominales courantes (bois d'oeuvre)
+// Largeur × Hauteur en cm — dimensions nominales courantes (bois d'oeuvre)
 export const DIMENSIONS_SOLIVES: Record<DimensionSolive, { b: number; h: number }> = {
-  '2x6':  { b: 38, h: 140 },
-  '2x8':  { b: 38, h: 184 },
-  '2x10': { b: 38, h: 235 },
-  '2x12': { b: 38, h: 286 },
+  '2x6':  { b: 3.8, h: 14.0 },
+  '2x8':  { b: 3.8, h: 18.4 },
+  '2x10': { b: 3.8, h: 23.5 },
+  '2x12': { b: 3.8, h: 28.6 },
 };
 
-// ── ÉPAISSEUR SOUS-PLANCHER (mm) ──────────────────────────────────────
+// ── ÉPAISSEUR SOUS-PLANCHER (cm) ──────────────────────────────────────
 // CCQ 9.23.15.3 — minimum selon espacement solives
 export const EPAISSEUR_SOUS_PLANCHER: Record<EspacementSolive, number> = {
-  300: 15.9,   // 5/8 po
-  400: 15.9,   // 5/8 po
-  600: 19.0,   // 3/4 po
+  30: 1.59,   // 5/8 po
+  40: 1.59,   // 5/8 po
+  60: 1.9,    // 3/4 po
 };
 
 // ── ORDRE DE PRÉFÉRENCE DES DIMENSIONS ───────────────────────────────
 export const ORDRE_DIMENSIONS: DimensionSolive[] = ['2x6', '2x8', '2x10', '2x12'];
 
 // ── ESPACEMENTS DISPONIBLES ───────────────────────────────────────────
-export const ESPACEMENTS: EspacementSolive[] = [400, 600, 300];
+export const ESPACEMENTS: EspacementSolive[] = [40, 60, 30];
 
 // ── LABELS ─────────────────────────────────────────────────────────────
 export const LABELS_TYPE_USAGE: Record<TypeUsagePlancher, string> = {
