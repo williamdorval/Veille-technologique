@@ -4,12 +4,12 @@
 Une solive est une pièce de bois horizontale qui supporte le plancher. Plus la portée (distance entre deux appuis) est grande, plus la solive doit être grande. Le Code de construction du Québec donne des tableaux de portées maximales selon la grosseur du bois et l'espacement entre les solives.
 
 ## Valeurs — Portées maximales (en mètres) pour bois SPF n°2, charge vive 1,9 kPa résidentiel
-| Dimension | Esp. 300 mm | Esp. 400 mm | Esp. 600 mm |
+| Dimension | Esp. 30 cm (300 mm) | Esp. 40 cm (400 mm) | Esp. 60 cm (600 mm) |
 |-----------|-------------|-------------|-------------|
-| 38 × 140 mm (2×6) | 2,60 m | 2,37 m | 2,03 m |
-| 38 × 184 mm (2×8) | 3,44 m | 3,13 m | 2,67 m |
-| 38 × 235 mm (2×10) | 4,39 m | 3,99 m | 3,41 m |
-| 38 × 286 mm (2×12) | 5,33 m | 4,85 m | 4,14 m |
+| 3,8 × 14 cm (38 × 140 mm) (2×6) | 2,60 m | 2,37 m | 2,03 m |
+| 3,8 × 18,4 cm (38 × 184 mm) (2×8) | 3,44 m | 3,13 m | 2,67 m |
+| 3,8 × 23,5 cm (38 × 235 mm) (2×10) | 4,39 m | 3,99 m | 3,41 m |
+| 3,8 × 28,6 cm (38 × 286 mm) (2×12) | 5,33 m | 4,85 m | 4,14 m |
 
 Note : Ces valeurs sont indicatives pour bois SPF catégorie n°2. Consulter le tableau A-9.23.4.2 du CNB 2020 pour les valeurs officielles selon l'essence et la catégorie du bois.
 

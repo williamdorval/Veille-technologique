@@ -4,14 +4,14 @@
 Les chevrons sont les pièces de bois inclinées qui forment la structure d'une toiture. Comme les solives de plancher, leur grosseur dépend de la longueur qu'ils doivent couvrir et de l'espacement entre eux. La neige au Québec est très lourde, donc les chevrons doivent être bien dimensionnés.
 
 ## Valeurs — Portées maximales indicatives (bois SPF, pente 4/12, région normale)
-| Dimension | Esp. 400 mm (16 po) | Esp. 600 mm (24 po) |
+| Dimension | Esp. 40 cm (400 mm) (16 po) | Esp. 60 cm (600 mm) (24 po) |
 |-----------|--------------------|--------------------|
-| 38 × 89 mm (2×4) | 2,1 m | 1,8 m |
-| 38 × 140 mm (2×6) | 3,3 m | 2,8 m |
-| 38 × 184 mm (2×8) | 4,4 m | 3,7 m |
-| 38 × 235 mm (2×10) | 5,6 m | 4,7 m |
+| 3,8 × 8,9 cm (38 × 89 mm) (2×4) | 2,1 m | 1,8 m |
+| 3,8 × 14 cm (38 × 140 mm) (2×6) | 3,3 m | 2,8 m |
+| 3,8 × 18,4 cm (38 × 184 mm) (2×8) | 4,4 m | 3,7 m |
+| 3,8 × 23,5 cm (38 × 235 mm) (2×10) | 5,6 m | 4,7 m |
 
-Espacement typique au Québec : 400 mm (16 po) ou 600 mm (24 po) entre chevrons.
+Espacement typique au Québec : 40 cm (400 mm) (16 po) ou 60 cm (600 mm) (24 po) entre chevrons.
 
 Note : Ces valeurs sont indicatives. Consulter le tableau A-9.23.8.2 du CNB 2020 pour les valeurs officielles selon la région de neige.
 
@@ -22,6 +22,6 @@ Note : Ces valeurs sont indicatives. Consulter le tableau A-9.23.8.2 du CNB 2020
 
 ## Valeurs utilisées dans le calculateur
 ```typescript
-ESPACEMENT_CHEVRONS_MM: [400, 600],  // options standard
-ESPACEMENT_DEFAUT_MM: 400,
+ESPACEMENT_CHEVRONS_MM: [400, 600],  // options standard (40 cm et 60 cm)
+ESPACEMENT_DEFAUT_MM: 400,  // 40 cm
 ```

@@ -6,13 +6,13 @@ La main courante est la barre qu'on tient dans sa main pour se stabiliser dans u
 ## Valeurs
 | Paramètre | Min | Max | Recommandé |
 |-----------|-----|-----|------------|
-| Hauteur (résidentiel privé) | 800 mm | 965 mm | 900 mm |
-| Hauteur (si garde-corps intégré) | 800 mm | 1 070 mm | 900 mm |
-| Distance entre main courante et mur | 50 mm | — | 60 mm |
-| Diamètre ou largeur préhensible | 30 mm | 50 mm | 38 mm |
+| Hauteur (résidentiel privé) | 80 cm (800 mm) | 96,5 cm (965 mm) | 90 cm (900 mm) |
+| Hauteur (si garde-corps intégré) | 80 cm (800 mm) | 107 cm (1 070 mm) | 90 cm (900 mm) |
+| Distance entre main courante et mur | 5 cm (50 mm) | — | 6 cm (60 mm) |
+| Diamètre ou largeur préhensible | 3 cm (30 mm) | 5 cm (50 mm) | 3,8 cm (38 mm) |
 
 ## Source officielle
-- Article : CCQ 9.8.7.4 (Code de construction du Québec, Chapitre I – Bâtiment, Partie 9)
+- Article : CCQ 9.8.7.4 (Code de construction du Québec, Chapitre I — Bâtiment, Partie 9)
 - URL : https://qccodes.ca/escaliers-et-rampes/
 - Date de vérification : 2026-05-27
 

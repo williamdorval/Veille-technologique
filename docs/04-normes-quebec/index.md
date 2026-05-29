@@ -12,41 +12,41 @@ Règles du Code de construction du Québec (CCQ, Chapitre I — Bâtiment, Parti
 
 | Règle | Résidentiel privé | Commun/Partie 3 | Article CCQ |
 |---|---|---|---|
-| Contremarche min | 125 mm | 125 mm | Art. 9.8.4.1 |
-| Contremarche max | **200 mm** | **180 mm** | Art. 9.8.4.1 |
-| Contremarche idéale | 175–185 mm | 160–175 mm | (confort) |
-| Giron min (rectangulaire) | 210 mm | 280 mm | Art. 9.8.4.2 |
-| Giron max | 355 mm | sans limite | Art. 9.8.4.2 |
-| Giron idéal | 255–280 mm | 280–300 mm | (confort) |
-| Tolérance marches consécutives | 5 mm max | 5 mm max | Art. 9.8.4.4 |
-| Tolérance sur toute la volée | 10 mm max | 10 mm max | Art. 9.8.4.4 |
+| Contremarche min | 12,5 cm (125 mm) | 12,5 cm (125 mm) | Art. 9.8.4.1 |
+| Contremarche max | **20 cm (200 mm)** | **18 cm (180 mm)** | Art. 9.8.4.1 |
+| Contremarche idéale | 17,5–18,5 cm (175–185 mm) | 16–17,5 cm (160–175 mm) | (confort) |
+| Giron min (rectangulaire) | 21 cm (210 mm) | 28 cm (280 mm) | Art. 9.8.4.2 |
+| Giron max | 35,5 cm (355 mm) | sans limite | Art. 9.8.4.2 |
+| Giron idéal | 25,5–28 cm (255–280 mm) | 28–30 cm (280–300 mm) | (confort) |
+| Tolérance marches consécutives | 0,5 cm (5 mm) max | 0,5 cm (5 mm) max | Art. 9.8.4.4 |
+| Tolérance sur toute la volée | 1 cm (10 mm) max | 1 cm (10 mm) max | Art. 9.8.4.4 |
 
 ### Formule de confort (Blondel)
 
-**2H + G = 600 à 640 mm** (cible idéale : 630 mm)
+**2H + G = 60 à 64 cm (600 à 640 mm)** (cible idéale : 63 cm (630 mm))
 
 | H (contremarche) | G idéal (Blondel) | Conforme min | Conforme max |
 |---|---|---|---|
-| 165 mm | 300 mm | 270 mm | 310 mm |
-| 175 mm | 280 mm | 250 mm | 290 mm |
-| 180 mm | 270 mm | 240 mm | 280 mm |
-| 185 mm | 260 mm | 230 mm | 270 mm |
-| 190 mm | 250 mm | 220 mm | 260 mm |
+| 16,5 cm (165 mm) | 30 cm (300 mm) | 27 cm (270 mm) | 31 cm (310 mm) |
+| 17,5 cm (175 mm) | 28 cm (280 mm) | 25 cm (250 mm) | 29 cm (290 mm) |
+| 18 cm (180 mm) | 27 cm (270 mm) | 24 cm (240 mm) | 28 cm (280 mm) |
+| 18,5 cm (185 mm) | 26 cm (260 mm) | 23 cm (230 mm) | 27 cm (270 mm) |
+| 19 cm (190 mm) | 25 cm (250 mm) | 22 cm (220 mm) | 26 cm (260 mm) |
 
 ### Largeur de l'escalier
 
 | Type d'usage | Largeur minimale | Article CCQ |
 |---|---|---|
-| Résidentiel privé | 860 mm | Art. 9.8.2.1 |
-| Résidentiel commun (issues) | 900 mm | Art. 9.8.2.1 |
-| Commercial (Partie 3) | 900 mm ou + | Art. 9.8.2.1 |
+| Résidentiel privé | 86 cm (860 mm) | Art. 9.8.2.1 |
+| Résidentiel commun (issues) | 90 cm (900 mm) | Art. 9.8.2.1 |
+| Commercial (Partie 3) | 90 cm (900 mm) ou + | Art. 9.8.2.1 |
 
 ### Dégagement de tête (échappée)
 
 | Type d'usage | Minimum | Article CCQ |
 |---|---|---|
-| Résidentiel privé | 1 950 mm | Art. 9.8.3.1 |
-| Résidentiel commun | 2 050 mm | Art. 9.8.3.1 |
+| Résidentiel privé | 195 cm (1 950 mm) | Art. 9.8.3.1 |
+| Résidentiel commun | 205 cm (2 050 mm) | Art. 9.8.3.1 |
 
 ### Angle de l'escalier (informatif, non réglementé directement)
 
@@ -63,22 +63,22 @@ Règles du Code de construction du Québec (CCQ, Chapitre I — Bâtiment, Parti
 
 | Paramètre | Valeur | Article CCQ |
 |---|---|---|
-| Hauteur min | 800 mm | Art. 9.8.7.4 |
-| Hauteur max | 965 mm | Art. 9.8.7.4 |
-| Hauteur max avec garde-corps | 1 070 mm | Art. 9.8.7.4 §3 |
-| Distance du mur | 50 mm min | Art. 9.8.7.4 |
+| Hauteur min | 80 cm (800 mm) | Art. 9.8.7.4 |
+| Hauteur max | 96,5 cm (965 mm) | Art. 9.8.7.4 |
+| Hauteur max avec garde-corps | 107 cm (1 070 mm) | Art. 9.8.7.4 §3 |
+| Distance du mur | 5 cm (50 mm) min | Art. 9.8.7.4 |
 | Obligatoire à partir de | 3 marches | Art. 9.8.7 |
-| Double obligatoire si largeur | ≥ 1 100 mm | Art. 9.8.7 |
+| Double obligatoire si largeur | ≥ 110 cm (1 100 mm) | Art. 9.8.7 |
 
 ### Garde-corps
 
 | Paramètre | Valeur | Article CCQ |
 |---|---|---|
-| Hauteur min (résidentiel privé) | 900 mm | Art. 9.8.8 |
-| Hauteur min (> 1 800 mm du sol) | 1 070 mm | Art. 9.8.8 |
-| Hauteur min (commun) | 1 070 mm | Art. 9.8.8 |
-| Espacement max des barreaux | 100 mm | Art. 9.8.8 |
-| Obligatoire si chute | > 600 mm | Art. 9.8.8 |
+| Hauteur min (résidentiel privé) | 90 cm (900 mm) | Art. 9.8.8 |
+| Hauteur min (> 180 cm (1 800 mm) du sol) | 107 cm (1 070 mm) | Art. 9.8.8 |
+| Hauteur min (commun) | 107 cm (1 070 mm) | Art. 9.8.8 |
+| Espacement max des barreaux | 10 cm (100 mm) | Art. 9.8.8 |
+| Obligatoire si chute | > 60 cm (600 mm) | Art. 9.8.8 |
 
 ---
 

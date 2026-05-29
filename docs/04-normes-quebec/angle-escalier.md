@@ -13,9 +13,9 @@ L'angle n'est pas directement réglementé par un article chiffré dans le CCQ. 
 | Paramètre | Valeur | Commentaire |
 |---|---|---|
 | Angle pratique courant | 30° à 40° | Zone de confort pour la majorité des escaliers résidentiels |
-| Angle avec H=180 mm, G=270 mm | 33,7° | Escalier idéal typique |
-| Angle minimum théorique | ~19° | Si G=355 mm (max) et H=125 mm (min) |
-| Angle maximum théorique | ~43° | Si G=210 mm (min) et H=200 mm (max) |
+| Angle avec H=18 cm (180 mm), G=27 cm (270 mm) | 33,7° | Escalier idéal typique |
+| Angle minimum théorique | ~19° | Si G=35,5 cm (355 mm) (max) et H=12,5 cm (125 mm) (min) |
+| Angle maximum théorique | ~43° | Si G=21 cm (210 mm) (min) et H=20 cm (200 mm) (max) |
 
 > **Note importante :** Il n'existe pas d'article du CCQ qui dit "l'angle doit être entre X° et Y°". L'angle est calculé comme suit :  
 > `angle = arctan(hauteurTotale / longueurAuSol)`  

@@ -4,34 +4,34 @@
 
 La contremarche, c'est la hauteur verticale entre deux marches. Si elle est trop haute, tu vas te fatiguer vite. Si elle est trop basse, tu trébuches facilement. Le Code de construction du Québec fixe des limites précises pour que tout le monde puisse monter et descendre en sécurité.
 
-**Règle importante :** toutes les contremarches d'un même escalier doivent être presque identiques. Une différence de plus de 5 mm entre deux marches consécutives, ou de 10 mm entre la plus haute et la plus basse de la volée, c'est non conforme.
+**Règle importante :** toutes les contremarches d'un même escalier doivent être presque identiques. Une différence de plus de 0,5 cm (5 mm) entre deux marches consécutives, ou de 1 cm (10 mm) entre la plus haute et la plus basse de la volée, c'est non conforme.
 
 ## Les valeurs chiffrées
 
 ### Escalier résidentiel privé (maison individuelle)
 
-| Paramètre | Valeur (mm) | Valeur (pouces) |
+| Paramètre | Valeur (cm) | Valeur (pouces) |
 |---|---|---|
-| Minimum | 125 mm | 5 po |
-| Maximum | 200 mm | 7⅞ po |
-| Idéal (confort) | 175–185 mm | 7 po |
-| Tolérance entre marches consécutives | 5 mm max | — |
-| Tolérance sur toute la volée | 10 mm max | — |
+| Minimum | 12,5 cm (125 mm) | 5 po |
+| Maximum | 20 cm (200 mm) | 7⅞ po |
+| Idéal (confort) | 17,5–18,5 cm (175–185 mm) | 7 po |
+| Tolérance entre marches consécutives | 0,5 cm (5 mm) max | — |
+| Tolérance sur toute la volée | 1 cm (10 mm) max | — |
 
 ### Escalier commun (parties communes d'un immeuble)
 
-| Paramètre | Valeur (mm) | Valeur (pouces) |
+| Paramètre | Valeur (cm) | Valeur (pouces) |
 |---|---|---|
-| Minimum | 125 mm | 5 po |
-| Maximum | 180 mm | 7 po |
+| Minimum | 12,5 cm (125 mm) | 5 po |
+| Maximum | 18 cm (180 mm) | 7 po |
 
-> **Note :** La contremarche maximale est plus stricte (180 mm au lieu de 200 mm) pour les escaliers qui servent plusieurs logements ou du public.
+> **Note :** La contremarche maximale est plus stricte (18 cm (180 mm) au lieu de 20 cm (200 mm)) pour les escaliers qui servent plusieurs logements ou du public.
 
 ## À quel type d'escalier ça s'applique
 
-- **Résidentiel privé :** escalier intérieur d'une maison individuelle ou d'un duplex qui sert un seul logement → max 200 mm
-- **Résidentiel commun :** escalier qui dessert plusieurs logements (corridor d'immeuble, escalier de sortie) → max 180 mm
-- **Commercial / Partie 3 du CNB :** mêmes règles que commun (max 180 mm), souvent plus strict selon l'usage
+- **Résidentiel privé :** escalier intérieur d'une maison individuelle ou d'un duplex qui sert un seul logement → max 20 cm (200 mm)
+- **Résidentiel commun :** escalier qui dessert plusieurs logements (corridor d'immeuble, escalier de sortie) → max 18 cm (180 mm)
+- **Commercial / Partie 3 du CNB :** mêmes règles que commun (max 18 cm (180 mm)), souvent plus strict selon l'usage
 
 ## La source officielle
 
@@ -49,16 +49,16 @@ Dans `src/lib/escaliers/normes.ts` :
 
 ```typescript
 // Résidentiel privé
-CONTREMARCHE_MIN_MM: 125,   // Article 9.8.4.1 CCQ
-CONTREMARCHE_MAX_MM: 200,   // Article 9.8.4.1 CCQ — résidentiel privé
-CONTREMARCHE_IDEAL_MM: 180, // Valeur de confort professionnelle reconnue
+CONTREMARCHE_MIN_MM: 125,   // Article 9.8.4.1 CCQ (12,5 cm)
+CONTREMARCHE_MAX_MM: 200,   // Article 9.8.4.1 CCQ — résidentiel privé (20 cm)
+CONTREMARCHE_IDEAL_MM: 180, // Valeur de confort professionnelle reconnue (18 cm)
 
 // Commun / Partie 3
-CONTREMARCHE_MAX_COMMUN_MM: 180, // Article 9.8.4.1 CCQ — parties communes
+CONTREMARCHE_MAX_COMMUN_MM: 180, // Article 9.8.4.1 CCQ — parties communes (18 cm)
 
 // Tolérances
-TOLERANCE_MARCHES_CONSECUTIVES_MM: 5,  // Article 9.8.4.4 CCQ
-TOLERANCE_VOLEE_ENTIERE_MM: 10,        // Article 9.8.4.4 CCQ
+TOLERANCE_MARCHES_CONSECUTIVES_MM: 5,  // Article 9.8.4.4 CCQ (0,5 cm)
+TOLERANCE_VOLEE_ENTIERE_MM: 10,        // Article 9.8.4.4 CCQ (1 cm)
 ```
 
 L'algorithme calcule `hauteurContremarche = hauteurTotale / nombreMarches` et vérifie que le résultat se trouve dans la plage autorisée selon le type d'usage sélectionné. Si non conforme, l'indicateur passe au rouge.

@@ -3,7 +3,7 @@
 ## Règle
 Quand un plancher est chargé (meubles, personnes), il fléchit un peu. Ce fléchissement doit rester dans des limites acceptables pour que le plancher ne craque pas et reste solide. La règle standard est que la flèche ne dépasse pas L/360, où L est la portée de la solive.
 
-Exemple : une solive de 4 000 mm de portée peut fléchir au maximum 4 000 ÷ 360 = 11 mm.
+Exemple : une solive de 400 cm (4 000 mm) de portée peut fléchir au maximum 4 000 ÷ 360 = 1,1 cm (11 mm).
 
 ## Valeurs
 | Paramètre | Valeur | Source |

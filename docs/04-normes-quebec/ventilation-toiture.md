@@ -12,7 +12,7 @@ La moitié de la ventilation doit être en bas du toit (dans les soffites) et l'
 | Ratio ventilation minimum (avec pare-vapeur) | 1/300 | CCQ 9.19.1.1 |
 | Ventilation basse (soffites) | ≥ 50% du total | CCQ 9.19.1.3 |
 | Ventilation haute (faîtière) | ≥ 50% du total | CCQ 9.19.1.3 |
-| Espace minimum entre isolation et panneau de toit | 63 mm (2,5 po) | CCQ 9.19.1.2 |
+| Espace minimum entre isolation et panneau de toit | 6,3 cm (63 mm) (2,5 po) | CCQ 9.19.1.2 |
 
 ## Source officielle
 - Article : CCQ 9.19.1.1 à 9.19.1.3 (Code de construction du Québec, Chapitre I – Bâtiment, Partie 9)
