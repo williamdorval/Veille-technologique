@@ -1,4 +1,4 @@
-/ Client-side only — exceljs runs in the browser for this plugin
+// Client-side only — exceljs runs in the browser for this plugin
 import ExcelJS from 'exceljs';
 import type { ChampExcel, ValeurValidee } from './types';
 
