@@ -4,6 +4,7 @@ import {
   Construction,
   Fence,
   Layers,
+  ScanLine,
   Thermometer,
   Triangle,
 } from 'lucide-react';
@@ -42,6 +43,13 @@ const PLUGINS = [
     description: 'Calcule la surface, les bardeaux, les chevrons et la ventilation selon le CCQ et le CNB.',
     status: 'available' as const,
     href: '/plugins/toiture',
+  },
+  {
+    icon: ScanLine,
+    title: 'Analyse de plan → Excel',
+    description: "Photographiez un plan, l'IA extrait les dimensions et remplit votre gabarit Excel automatiquement.",
+    status: 'available' as const,
+    href: '/plugins/analyse-plan',
   },
   {
     icon: Anchor,
