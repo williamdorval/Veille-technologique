@@ -1,5 +1,6 @@
 'use client';
-import { Loader2 } from 'lucide-react';
+
+import { Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -13,17 +14,20 @@ export function BoutonAnalyser({ disabled, enChargement, onAnalyser }: Props) {
     <Button
       onClick={onAnalyser}
       disabled={disabled || enChargement}
-      className="w-full min-h-12 text-base"
+      className="w-full min-h-14 text-lg font-semibold bg-amber-500 hover:bg-amber-600 disabled:opacity-40 text-white shadow-md transition-all duration-200"
       size="lg"
       type="button"
     >
       {enChargement ? (
         <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Analyse du plan en cours…
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          Analyse en cours&hellip;
         </>
       ) : (
-        'Analyser le plan'
+        <>
+          <Sparkles className="mr-2 h-5 w-5" />
+          Analyser le plan
+        </>
       )}
     </Button>
   );

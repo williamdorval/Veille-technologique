@@ -1,7 +1,8 @@
 'use client';
+
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { FileSpreadsheet, FileCheck, X } from 'lucide-react';
 
 interface Props {
   excelFile: File | null;
@@ -16,7 +17,6 @@ export function UploadExcel({ excelFile, onChangerExcel }: Props) {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0] ?? null;
     onChangerExcel(file);
-    // Reset so the same file can be re-selected after removal
     e.target.value = '';
   }
 
@@ -34,8 +34,9 @@ export function UploadExcel({ excelFile, onChangerExcel }: Props) {
       />
 
       {excelFile ? (
-        <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/50 px-4 py-3 dark:bg-muted/20">
-          <span className="text-lg" aria-hidden>📊</span>
+        /* Fichier sélectionné — fond vert léger */
+        <div className="flex items-center gap-3 rounded-xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/20 px-4 py-3">
+          <FileCheck className="h-5 w-5 flex-shrink-0 text-green-600 dark:text-green-400" />
           <span className="flex-1 truncate text-sm font-medium text-foreground">
             {excelFile.name}
           </span>
@@ -49,19 +50,22 @@ export function UploadExcel({ excelFile, onChangerExcel }: Props) {
           </button>
         </div>
       ) : (
+        /* Pas de fichier — bouton outline pleine largeur */
         <Button
           variant="outline"
           size="lg"
-          className="w-full min-h-12 text-sm"
+          className="w-full min-h-14 text-lg font-semibold flex items-center gap-3 border-border hover:bg-muted/50"
           onClick={() => inputRef.current?.click()}
           type="button"
         >
-          📊 Choisir un fichier Excel
+          <FileSpreadsheet className="h-5 w-5 flex-shrink-0" />
+          Choisir le fichier Excel
         </Button>
       )}
 
+      {/* Note informative mobile */}
       <p className="text-xs text-muted-foreground">
-        Sur mobile, le sélecteur ouvre Fichiers / OneDrive / Drive — naviguez jusqu&apos;à votre fichier .xlsx.
+        Sur mobile : le sélecteur ouvre Fichiers / OneDrive / Google Drive — naviguez jusqu&apos;à votre fichier .xlsx.
       </p>
     </div>
   );
