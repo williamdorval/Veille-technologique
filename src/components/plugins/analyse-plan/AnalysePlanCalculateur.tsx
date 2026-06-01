@@ -7,8 +7,7 @@ import type { ResultatAnalyse } from '@/lib/analyse-plan/types';
 import { UploadPhotos } from './UploadPhotos';
 import { UploadExcel } from './UploadExcel';
 import { BoutonAnalyser } from './BoutonAnalyser';
-// ListeValidation will be created in Task 4
-// import { ListeValidation } from './ListeValidation';
+import { ListeValidation } from './ListeValidation';
 
 type Etat = 'idle' | 'analyse' | 'validation' | 'erreur';
 
@@ -58,23 +57,20 @@ export function AnalysePlanCalculateur() {
     }
   }
 
-  // Suppress unused warning — excelBuffer will be used by ListeValidation (Task 4)
-  void excelBuffer;
-
-  if (etat === 'validation' && resultat) {
+  if (etat === 'validation' && resultat && excelBuffer) {
     return (
-      <div className="space-y-6">
-        <div className="text-center text-muted-foreground py-8">
-          {/* ListeValidation sera rendu ici (Task 4) */}
-          <p>Analyse terminée — {resultat.champs.length} champs détectés</p>
-        </div>
-        <button
-          onClick={() => { setEtat('idle'); setResultat(null); }}
-          className="text-sm underline text-muted-foreground hover:text-foreground transition-colors"
-        >
-          ← Recommencer
-        </button>
-      </div>
+      <ListeValidation
+        resultat={resultat}
+        excelBuffer={excelBuffer}
+        onRecommencer={() => {
+          setEtat('idle');
+          setResultat(null);
+          setErreurMessage(null);
+          setFiles([]);
+          setExcelFile(null);
+          setExcelBuffer(null);
+        }}
+      />
     );
   }
 
