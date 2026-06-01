@@ -3,6 +3,13 @@ import { construirePromptSysteme, MODELE_GEMINI } from '@/lib/analyse-plan/promp
 import { SCHEMA_GEMINI, schemaResultatAnalyse } from '@/lib/analyse-plan/schema-gemini';
 import type { RequeteAnalyse, ResultatAnalyse } from '@/lib/analyse-plan/types';
 
+const MAX_RETRIES = 3;
+const DELAI_RETRY_MS = 2000;
+
+async function attendreMs(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function POST(req: Request): Promise<Response> {
   // 1. Vérifier la clé API
   const apiKey = process.env.GEMINI_API_KEY;
@@ -33,24 +40,43 @@ export async function POST(req: Request): Promise<Response> {
     return Response.json({ erreur: 'La liste des champs Excel est requise' }, { status: 400 });
   }
 
-  // 3. Appeler Gemini
+  // 3. Appeler Gemini (avec retry sur 503 surcharge)
   try {
     const ai = new GoogleGenAI({ apiKey });
     const prompt = construirePromptSysteme(champs);
 
-    const response = await ai.models.generateContent({
-      model: MODELE_GEMINI,
-      contents: [
-        { text: prompt },
-        ...images.map((img) => ({
-          inlineData: { mimeType: img.mimeType, data: img.base64 },
-        })),
-      ],
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: SCHEMA_GEMINI,
-      },
-    });
+    let response: Awaited<ReturnType<typeof ai.models.generateContent>> | null = null;
+    let dernierreErreur: unknown = null;
+
+    for (let tentative = 1; tentative <= MAX_RETRIES; tentative++) {
+      try {
+        response = await ai.models.generateContent({
+          model: MODELE_GEMINI,
+          contents: [
+            { text: prompt },
+            ...images.map((img) => ({
+              inlineData: { mimeType: img.mimeType, data: img.base64 },
+            })),
+          ],
+          config: {
+            responseMimeType: 'application/json',
+            responseSchema: SCHEMA_GEMINI,
+          },
+        });
+        break;
+      } catch (e: unknown) {
+        dernierreErreur = e;
+        const msg = e instanceof Error ? e.message : '';
+        const est503 = msg.includes('503') || msg.includes('UNAVAILABLE') || msg.includes('high demand');
+        if (est503 && tentative < MAX_RETRIES) {
+          await attendreMs(DELAI_RETRY_MS * tentative);
+          continue;
+        }
+        throw e;
+      }
+    }
+
+    if (!response) throw dernierreErreur;
 
     // 4. Valider la réponse avec zod
     let donneesRaw: unknown;
