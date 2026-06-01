@@ -72,6 +72,15 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     const resultat: ResultatAnalyse = validation.data;
+
+    // Re-mapper celluleCible depuis les champs originaux transmis par le client.
+    // Gemini ne connaît pas les adresses de cellules — il faut les réinjecter ici
+    // en faisant correspondre par cle pour garantir l'écriture dans la bonne cellule.
+    const champsMap = new Map(champs.map((c) => [c.cle, c.celluleCible]));
+    resultat.champs.forEach((c) => {
+      c.celluleCible = champsMap.get(c.cle) ?? c.celluleCible;
+    });
+
     return Response.json(resultat);
 
   } catch (erreur: unknown) {
