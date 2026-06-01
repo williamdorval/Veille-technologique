@@ -56,14 +56,20 @@ async function compresserImage(file: File): Promise<ImagePayload> {
 }
 
 async function passerHeicBrut(file: File): Promise<ImagePayload> {
-  const buffer = await file.arrayBuffer();
-  const uint8 = new Uint8Array(buffer);
-  let binary = '';
-  for (let i = 0; i < uint8.length; i++) {
-    binary += String.fromCharCode(uint8[i]);
-  }
-  const base64 = btoa(binary);
-  return { mimeType: 'image/heic', base64 };
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const base64 = dataUrl.split(',')[1];
+      if (!base64) {
+        reject(new Error(`Conversion HEIC échouée: ${file.name}`));
+        return;
+      }
+      resolve({ mimeType: file.type || 'image/heic', base64 });
+    };
+    reader.onerror = () => reject(new Error(`Lecture HEIC échouée: ${file.name}`));
+    reader.readAsDataURL(file);
+  });
 }
 
 export async function preparerImages(files: File[]): Promise<ImagePayload[]> {

@@ -9,7 +9,7 @@ export interface ChampExcel {
 export interface ChampAnalyse {
   cle: string;
   etiquette: string;
-  valeur: number | string | null;
+  valeur: string | null;
   unite: string | null; // toujours en pouces, ex: "po" ou '"'
   confiance: number;    // 0-100
   statut: StatutChamp;

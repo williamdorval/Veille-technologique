@@ -39,8 +39,8 @@ export const SCHEMA_GEMINI = {
 export const schemaChampAnalyse = z.object({
   cle: z.string(),
   etiquette: z.string(),
-  valeur: z.union([z.number(), z.string(), z.null()]),
-  unite: z.string().nullable(),
+  valeur: z.union([z.string(), z.null()]).optional().default(null),
+  unite: z.string().nullable().optional().default(null),
   confiance: z.number().min(0).max(100),
   statut: z.enum(['ok', 'incertain', 'introuvable', 'illisible']),
   celluleCible: z.string(),
