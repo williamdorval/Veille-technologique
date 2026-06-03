@@ -166,6 +166,7 @@ entrees_toc = [
     ("  3.1", "Fonctionnement", "2"),
     ("  3.2", "Normes appliquées (CCQ)", "3"),
     ("  3.3", "Librairies et outils", "3"),
+    ("  3.4", "Sources YouTube - emoicq", "3"),
     ("4.0", "Plugin Rampes et garde-corps", "3"),
     ("  4.1", "Fonctionnement", "3"),
     ("  4.2", "Normes appliquées (CCQ)", "4"),
@@ -181,16 +182,23 @@ entrees_toc = [
     ("7.0", "Plugin Analyse de plan (intelligence artificielle)", "6"),
     ("  7.1", "Fonctionnement", "6"),
     ("  7.2", "Librairies et outils", "7"),
+    ("  7.3", "Validation séquentielle", "7"),
+    ("  7.4", "Intégration Excel", "7"),
     ("8.0", "Architecture technique", "7"),
     ("  8.1", "Stack technologique", "7"),
     ("  8.2", "Structure du code", "7"),
-    ("9.0", "Conclusion", "8"),
-    ("", "Références", "8"),
+    ("9.0", "Sources de recherche", "8"),
+    ("  9.1", "Calculs - emoicq (YouTube)", "8"),
+    ("  9.2", "Normes de construction", "9"),
+    ("  9.3", "Intelligence artificielle", "9"),
+    ("  9.4", "Technologies web", "9"),
+    ("10.0", "Conclusion", "9"),
+    ("", "Références", "10"),
 ]
 
 for num, titre, page in entrees_toc:
     gras = not num.startswith("  ")
-    pdf.set_font("Helvetica", "B" if gras else "", 10.5)
+    pdf._set("B" if gras else "", 10.5)
     pdf.set_text_color(*BLEU if gras else GRIS)
     texte = f"{num}  {titre}" if num else titre
     largeur_texte = pdf.get_string_width(texte) + 4
@@ -282,6 +290,20 @@ pdf.tableau_deux_cols([
     ("shadcn/ui", "Composants d'interface (boutons, cartes, onglets)"),
     ("Tailwind CSS v4", "Mise en page et styles visuels"),
 ])
+
+pdf.sous_titre("3.4", "Sources YouTube \u2014 émoicq")
+pdf.corps(
+    "Toute la logique de calcul du plugin Escaliers vient de la série de vidéos de la chaîne "
+    "YouTube émoicq, qui explique le calcul d'un escalier selon les normes de charpenterie "
+    "québécoise. Chaque vidéo correspond à un exercice précis, reproduit directement dans le code."
+)
+pdf.tableau_deux_cols([
+    ("Exercice 1", "Calculs de base : contremarche, giron, longueur du limon, angle"),
+    ("Exercice 2", "Loi de Blondel : 2H + G entre 60 et 64 cm (confort de montée)"),
+    ("Exercice 3", "Blondel-Maximum : 3 rapports qualité + score /100"),
+    ("Exercice 4", "Course limitée + crochet sous le chevêtre du plancher supérieur"),
+    ("Exercice 5", "Calcul du puits d'escalier dans le plancher supérieur"),
+], largeur_col1=30)
 
 # 4.0 Plugin Rampes
 pdf.titre_section("4.0", "Plugin Rampes et garde-corps")
@@ -419,6 +441,26 @@ pdf.tableau_deux_cols([
     ("Lucide React", "Icônes (vérification, avertissement, exportation, etc.)"),
 ])
 
+pdf.sous_titre("7.3", "Assistant de validation séquentielle")
+pdf.corps(
+    "Après l'analyse IA, les résultats s'affichent champ par champ. Pour chaque champ, "
+    "l'utilisateur voit la valeur trouvée, le niveau de confiance (0-100), le statut "
+    "(ok / incertain / introuvable / illisible) et une note du modèle. "
+    "Trois boutons : Oui (valeur correcte), Non (saisie manuelle), Non spécifié (cellule vide)."
+)
+
+pdf.sous_titre("7.4", "Format du fichier Excel source")
+pdf.corps(
+    "L'utilisateur prépare un fichier Excel avec les noms de champs en colonne A "
+    "et des cellules vides en colonne B comme cibles. Après validation, le fichier original "
+    "est rempli aux cellules cibles et téléchargé sans toucher la mise en forme existante."
+)
+pdf.tableau_deux_cols([
+    ("Colonne A", "Nom du champ à extraire (ex. Giron, Contremarche, Largeur)"),
+    ("Colonne B vide", "Cellule cible : l'IA écrit la valeur ici après validation"),
+    ("Reste du fichier", "Non modifié : formules et mise en forme conservées"),
+], largeur_col1=50)
+
 # 8.0 Architecture technique
 pdf.titre_section("8.0", "Architecture technique")
 
@@ -451,8 +493,50 @@ pdf.corps(
     "le fichier normes.ts du plugin concerné."
 )
 
-# 9.0 Conclusion
-pdf.titre_section("9.0", "Conclusion")
+# 9.0 Sources de recherche
+pdf.titre_section("9.0", "Sources de recherche")
+
+pdf.sous_titre("9.1", "Calculs de charpenterie \u2014 émoicq (YouTube)")
+pdf.corps(
+    "La série YouTube émoicq est la source principale des algorithmes du plugin Escaliers. "
+    "Les cinq exercices de la série couvrent toutes les formules implémentées dans le code, "
+    "des calculs de base jusqu'au puits dans le plancher supérieur. Les formules proviennent "
+    "directement du Code de construction du Québec — ce qui garantit leur conformité."
+)
+pdf.corps(
+    "Mots-clés utilisés : calcul escalier québec charpenterie, émoicq escalier, "
+    "calcul contremarche giron québec."
+)
+
+pdf.sous_titre("9.2", "Normes de construction (CCQ / RBQ / CNB 2020)")
+pdf.tableau_deux_cols([
+    ("rbq.gouv.qc.ca", "Articles du CCQ — escaliers, rampes, garde-corps"),
+    ("qccodes.ca", "Version lisible du code, recherche par article"),
+    ("plans-architecture.ca", "Fiches pratiques sur les dimensions réglementaires"),
+    ("escalierinterieur.ca", "Tableau normes résidentielles vs commerciales"),
+    ("nrc-cnrc.gc.ca (CNB 2020)", "Charges structurelles, neige par région du Québec"),
+], largeur_col1=55)
+
+pdf.sous_titre("9.3", "Intelligence artificielle \u2014 Gemini")
+pdf.tableau_deux_cols([
+    ("ai.google.dev/docs", "Documentation API Gemini : modèles, appel, structured output"),
+    ("Google AI Studio", "Interface pour tester les prompts en direct avant de coder"),
+    ("ai.google.dev — vision", "Guide analyse d'images : inlineData, base64, multi-images"),
+    ("ai.google.dev — structured-output", "Forcer un JSON de structure fixe en réponse"),
+], largeur_col1=60)
+
+pdf.sous_titre("9.4", "Technologies web")
+pdf.tableau_deux_cols([
+    ("nextjs.org/docs", "App Router, routes API, désactivation SSR pour ExcelJS"),
+    ("docs.pmnd.rs/react-three-fiber", "Canvas 3D, hooks, géométries, lumières"),
+    ("threejs.org/docs", "API Three.js : géométries, matériaux PBR, OrbitControls"),
+    ("ui.shadcn.com", "Composants React copiés dans le projet"),
+    ("github.com/exceljs/exceljs", "Lecture et écriture de fichiers .xlsx côté client"),
+    ("zod.dev", "Validation de schéma TypeScript-first pour les entrées utilisateur"),
+], largeur_col1=60)
+
+# 10.0 Conclusion
+pdf.titre_section("10.0", "Conclusion")
 pdf.corps(
     "Ce projet démontre qu'il est possible de produire un outil professionnel utile dans le cadre d'un "
     "cours collégial, à condition d'utiliser une méthode de développement rigoureuse. La combinaison de "
