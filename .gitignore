@@ -91,3 +91,6 @@ temp/
 .claude/
 carte_mental/
 carte_mental.7z
+
+# === MkDocs ===
+site/

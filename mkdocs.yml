@@ -1,0 +1,68 @@
+site_name: Plateforme d'outils pour constructeurs québécois
+site_description: Rapport de développement Web — 420-1SH-SW, Cégep Shawinigan
+site_author: William Dorval
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Mode sombre
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Mode clair
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+repo_name: williamdorval/Veille-technologique
+repo_url: https://github.com/williamdorval/Veille-technologique
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - tables
+  - attr_list
+  - toc:
+      permalink: true
+
+nav:
+  - Accueil: index.md
+  - Rapport: rapport.md
+  - Recherche: recherche.md
+  - Plugins:
+    - Escaliers: escaliers/index.md
+    - Analyse de plan (IA):
+      - Vue d'ensemble: analyse-plan/index.md
+      - Intelligence artificielle: analyse-plan/ia.md
+      - Intégration Excel: analyse-plan/excel.md
+      - Validation séquentielle: analyse-plan/validation.md
+  - Normes QC:
+    - Résumé des valeurs: 04-normes-quebec/RESUME_VALEURS.md
+  - Architecture:
+    - Stack technique: 02-methodologie/stack-technique.md
+    - Workflow SDD: 02-methodologie/workflow-sdd.md
