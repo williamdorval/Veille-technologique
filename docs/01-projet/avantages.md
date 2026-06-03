@@ -1,6 +1,6 @@
 # Avantages de l'approche
 
-## Code IA prévisible et conforme aux specs
+## Code IA prévisible et conforme aux specs avec ssd et avec tool SpecKit
 
 Avec une spec claire, Claude Code arrête d'inventer des comportements. Il fait ce qui est écrit.
 

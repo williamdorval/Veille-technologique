@@ -40,13 +40,13 @@ Prix par marche = largeur (m) × profondeur (m) × prix par m²
 Profondeur = giron + 28 mm (nez de marche standard)
 ```
 
-| Matériau | Prix / m² 2025 | Commentaire |
-|----------|----------------|-------------|
-| Épinette | 42 $ | 2×12 épinette, ~35$ / feuille 4×8 |
-| Bois traité | 55 $ | ACQ pour extérieur ou humidité |
-| Bois franc | 98 $ | Chêne/érable fini |
-| Contreplaqué | 22 $ | 3/4", ~75$ / feuille 4×8, pour poser un revêtement par-dessus |
-| Composite | 85 $ | Antidérapant, longue durée |
+| Matériau     | Prix / m² 2025 | Commentaire                                                   |
+| ------------ | -------------- | ------------------------------------------------------------- |
+| Épinette     | 42 $           | 2×12 épinette, ~35$ / feuille 4×8                             |
+| Bois traité  | 55 $           | ACQ pour extérieur ou humidité                                |
+| Bois franc   | 98 $           | Chêne/érable fini                                             |
+| Contreplaqué | 22 $           | 3/4", ~75$ / feuille 4×8, pour poser un revêtement par-dessus |
+| Composite    | 85 $           | Antidérapant, longue durée                                    |
 
 **Exemple** : escalier 90 cm de large, giron 28 cm, marche en épinette :
 - Surface = 0,90 × (0,28 + 0,028) = 0,277 m²

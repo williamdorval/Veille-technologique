@@ -1,4 +1,4 @@
-﻿# Plugin calculateur d'escaliers — Spec MVP
+# Plugin calculateur d'escaliers — Spec MVP
 
 ## Description
 

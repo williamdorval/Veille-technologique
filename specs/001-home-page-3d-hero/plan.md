@@ -1,4 +1,4 @@
-﻿# Implementation Plan: Page d'accueil — Hero 3D
+# Implementation Plan: Page d'accueil — Hero 3D
 
 **Branch**: `001-home-page-3d-hero` | **Date**: 2026-05-27 | **Spec**: [spec.md](./spec.md)
 

@@ -1,4 +1,4 @@
-﻿# Tasks: Page d'accueil — Hero 3D
+# Tasks: Page d'accueil — Hero 3D
 
 **Input**: `specs/001-home-page-3d-hero/` — plan.md, spec.md, data-model.md, contracts/components.md, research.md
 
