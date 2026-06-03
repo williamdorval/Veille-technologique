@@ -1,129 +1,102 @@
-# Plugin calculateur d'escaliers
+# Plugin calculateur d'escaliers — Spec MVP
 
-Le plugin qui aide AU COMPLET un constructeur à construire un escalier conforme aux normes du Québec.
+## Description
 
-## Objectif
+Calculateur d'escaliers professionnel basé sur les exercices émoicq (YouTube) de charpenterie québécoise. Reproduit exactement la logique d'un maître charpentier québécois.
 
-Un constructeur entre quelques informations de base (hauteur à franchir, largeur souhaitée, type d'usage) et le plugin lui sort TOUT ce dont il a besoin pour construire son escalier :
+## Utilisateurs cibles
 
-1. Les dimensions exactes de chaque marche
-2. La vérification de conformité aux normes du Québec
-3. La liste complète des matériaux nécessaires (bois, quincaillerie)
-4. Le plan de construction étape par étape
-5. L'estimation du temps de construction
+- **Client** : veut savoir combien ça va coûter et si son escalier est faisable
+- **Entrepreneur / charpentier** : veut faire une soumission professionnelle
 
-## Entrées (formulaire utilisateur)
+## Fonctionnalités
 
-| Champ | Type | Obligatoire | Description |
-|---|---|---|---|
-| Hauteur totale à franchir | nombre (mm ou pouces) | oui | Du sol fini d'en bas au sol fini d'en haut |
-| Largeur de l'escalier souhaitée | nombre (mm ou pouces) | oui | Largeur d'une marche |
-| Type d'usage | choix | oui | Résidentiel privé / Commun / Commercial |
-| Avec ou sans contremarche | choix | oui | Avec : marche pleine. Sans : escalier ajouré |
-| Matériau du limon | choix | oui | Bois traité / Bois d'épinette / Bois franc |
-| Unité de mesure | choix | oui | Millimètres / Pouces |
+### Deux modes de calcul
+- **Course illimitée** : tu donnes la hauteur, le calculateur optimise tout
+- **Course limitée** : tu imposes l'espace au sol, le giron s'adapte
 
-## Sorties P1 (essentiel)
+### Résultats produits
+1. **Recommandation** : meilleure configuration avec score /100, 3 rapports Blondel-Maximum
+2. **Alternatives** : 5 configurations classées par score
+3. **Crochet** (mode limité) : vérification sous le chevêtre
+4. **Puits d'escalier** : longueur de l'ouverture dans le plancher
+5. **Formules** : calculs transparents avec vraies valeurs
+6. **Estimation $** : liste matériaux + coût (Canac/Rona 2025) + taxes QC
+7. **Plan de construction** : étapes séquentielles avec dimensions
+8. **Vue 3D** : visualisation interactive
 
-### Dimensions de l'escalier
+### Aide intégrée
+Chaque champ du formulaire a un bouton `?` qui explique le terme en langage simple.
 
-- Nombre de marches (contremarches)
-- Hauteur exacte de chaque contremarche (en mm et en pouces)
-- Profondeur (giron) de chaque marche (en mm et en pouces)
-- Longueur totale de l'escalier au sol
-- Angle de l'escalier en degrés
+## Algorithme (exercices émoicq 1 à 5)
 
-### Conformité aux normes
+| Exercice | Ce qu'il fait |
+|----------|--------------|
+| 1 | H = hauteur/N, limon = √(H²+G²), angle = atan(H/G) |
+| 2 | Loi Blondel : 2H + G ≈ 630 mm |
+| 3 | 3 rapports Blondel-Maximum, score 0-100, toutes options |
+| 4 | Course limitée, giron forcé, crochet = (G + nez) - chevêtre |
+| 5 | Puits = ((échappée + plafond) × G) / H + 50 mm |
 
-Pour chaque dimension, indicateur clair :
-- ✅ Vert : conforme
-- ⚠️ Orange : limite (acceptable mais à la limite)
-- ❌ Rouge : non conforme avec citation de la norme violée
+## Normes CCQ appliquées (Partie 9)
 
-### Liste basique des matériaux
+- Art. 9.8.4.1 : contremarche 12,5 à 20 cm (résidentiel privé)
+- Art. 9.8.4.2 : giron min 23,5 cm (résidentiel privé)
+- Art. 9.8.2.1 : largeur min 86 cm
+- Art. 9.8.3.1 : échappée min 195 cm
+- Art. 9.8.4.4 : constance des marches (max 0,95 cm d'écart)
+- Art. 9.8.7.4 : main courante si ≥ 3 marches
+- Art. 9.8.8 : garde-corps si chute > 60 cm
 
-- Limons : nombre, longueur, dimensions
-- Marches : nombre, dimensions exactes
-- Contremarches (si applicable) : nombre, dimensions
+## Unités
 
-## Sorties P2 (si temps)
+- **Stockage interne** : mm (millimètres, standard charpenterie)
+- **Affichage défaut** : cm (centimètres)
+- **Sélecteur** : cm | po | mm | m
 
-### Quantités précises de quincaillerie
+## Prix et estimation
 
-Pour CHAQUE assemblage de l'escalier, lister :
-- Vis (type, longueur, quantité) — exemple : « 24 vis à bois 3 pouces pour fixer les marches aux limons »
-- Clous (type, longueur, quantité) — exemple : « 16 clous galvanisés 2½ pouces pour les contremarches »
-- Équerres métalliques (type, quantité) — exemple : « 2 équerres de 4 pouces pour fixer l'escalier au plancher d'arrivée »
-- Supports de marches (s'il y en a)
+Prix 2025 relevés chez Canac, Rona, BMR (Québec). Taxes incluses dans l'affichage (TPS 5% + TVQ 9,975% = 14,975%).
 
-Tous les nombres sont calculés à partir de la géométrie de l'escalier, pas inventés.
+Taux charpentier : 55-75 $/h (qualifié), 75-110 $/h (entrepreneur).
 
-### Plan de construction étape par étape
+## Fichiers source
 
-Liste ordonnée des étapes pour construire l'escalier, en français simple :
+```
+src/lib/escaliers/
+  unit-converter.ts          # mm ↔ cm ↔ m ↔ po
+  stair-rules.ts             # constantes CCQ
+  stair-types.ts             # types TypeScript
+  stair-calculator.ts        # exercice 1
+  stair-blondel.ts           # exercice 2
+  stair-builder.ts           # utilitaire partagé
+  stair-unlimited-run.ts     # exercice 3
+  stair-scoring.ts           # score 0-100
+  stair-limited-run.ts       # exercice 4
+  stair-hook.ts              # crochet ex.4
+  stair-pit.ts               # puits ex.5
+  stair-validation.ts        # règles CCQ
+  stair-recommendations.ts   # textes en français
+  stair-materials.ts         # matériaux + prix 2025
+  stair-construction-plan.ts # plan étape par étape
 
-1. Couper les limons à la longueur X et tracer les encoches selon le gabarit
-2. Couper les Y marches aux dimensions A × B
-3. Couper les Y contremarches aux dimensions C × D
-4. Pré-percer les trous dans les limons
-5. Visser les marches sur les limons (vis Z, à raison de 2 par côté)
-6. Visser les contremarches
-7. Fixer l'ensemble au sol d'arrivée avec les équerres
-8. Vérifier l'aplomb et l'horizontalité de chaque marche
+src/components/plugins/escaliers/
+  FormulaireEscalierPro.tsx  # formulaire + boutons ?
+  HelpButton.tsx             # aide au clic
+  EscalierCalculateurPro.tsx # orchestrateur 8 onglets
+  ResultatsRecommandation.tsx
+  ResultatsAlternatives.tsx
+  ResultatsCrochet.tsx
+  ResultatsPuits.tsx
+  ResultatsFormules.tsx
+  EstimationPro.tsx          # soumission professionnelle
+```
 
-### Schéma visuel
+## Documentation détaillée
 
-Un dessin simple en SVG ou Canvas qui montre l'escalier en coupe avec les cotes principales annotées.
-
-## Sorties P3 (bonus, sûrement pas fait)
-
-- Estimation du temps de construction (heures de travail)
-- Estimation du coût des matériaux (à partir de prix moyens)
-- Export PDF de tout le plan
-
-## Logique de calcul
-
-L'algorithme est dans `src/lib/escaliers/calculs.ts`. Il suit ces étapes :
-
-1. **Estimation initiale du nombre de marches** : `hauteurTotale / hauteurContremarcheCible` (cible ≈ 180 mm pour résidentiel)
-2. **Ajustement pour respecter la plage normée** : si la hauteur calculée sort de la plage permise, on augmente ou diminue le nombre de marches
-3. **Calcul du giron** selon la règle ergonomique (2 × hauteur + giron ≈ 600 à 630 mm) et la valeur minimale du giron permise par la norme
-4. **Vérification de l'angle** final (doit être dans la plage permise)
-5. **Calcul de la longueur du limon** par le théorème de Pythagore
-6. **Calcul des matériaux** à partir de la géométrie obtenue
-
-Toutes les valeurs des normes proviennent de `docs/04-normes-quebec/` et sont importées depuis `src/lib/escaliers/normes.ts`. JAMAIS de valeur inventée dans le code.
-
-## Interface utilisateur
-
-### Layout
-
-- À gauche (ou en haut sur mobile) : le formulaire d'entrée avec les champs ci-dessus, bouton « Calculer »
-- À droite (ou en bas sur mobile) : les résultats organisés en cartes shadcn
-
-### Cartes de résultats
-
-1. **Carte « Dimensions »** — tableau des dimensions calculées
-2. **Carte « Conformité »** — résumé visuel (vert/orange/rouge) + détails au clic
-3. **Carte « Matériaux »** — liste complète avec quantités
-4. **Carte « Plan de construction »** (P2) — étapes numérotées
-5. **Carte « Schéma »** (P2) — dessin SVG
-
-### Composants shadcn utilisés
-
-- `Input`, `Label`, `Select`, `Button` pour le formulaire
-- `Card`, `CardHeader`, `CardContent` pour chaque résultat
-- `Badge` pour les indicateurs de conformité
-- `Separator` entre les sections
-- `Alert` pour l'avertissement « ce n'est pas un remplacement à un professionnel »
-
-## Limites du plugin dans le MVP
-
-- Escaliers droits seulement (pas tournants, pas paliers multiples)
-- Pas de gestion de l'épaisseur des matériaux (le calcul porte sur les dimensions finies)
-- Pas de visualisation 3D (juste 2D en coupe)
-- Calculs en mm ou pouces, pas de mélange dans une même session
-
-## Avertissement obligatoire affiché
-
-> ⚠️ Cet outil donne une estimation conforme aux normes documentées au moment de sa création. Il NE REMPLACE PAS la consultation d'un professionnel certifié (architecte, ingénieur, charpentier d'expérience). L'utilisateur est responsable de valider la conformité finale de son escalier auprès de la Régie du bâtiment du Québec et de la municipalité concernée.
+Voir `docs/escaliers/` pour l'explication complète de chaque partie :
+- `calculs.md` — algorithmes exercices 1-5
+- `normes.md` — règles CCQ
+- `estimation.md` — prix et calcul de coût
+- `scene-3d.md` — visualisation Three.js/R3F
+- `plan-construction.md` — plan de construction

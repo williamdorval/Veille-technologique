@@ -86,3 +86,11 @@ temp/
 
 # === SpecKit ===
 # rien à ignorer normalement, les specs sont versionnées
+
+# === Outils locaux (non versionnés) ===
+.claude/
+carte_mental/
+carte_mental.7z
+
+# === MkDocs ===
+site/

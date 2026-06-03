@@ -22,3 +22,5 @@ uvx --from git+https://github.com/github/spec-kit.git specify init --here --ai c
 | `/speckit.implement` | Implémente une tâche |
 
 Les artefacts sont stockés dans `specs/`.
+
+c,ets un skills 
