@@ -24,7 +24,19 @@ Ce projet propose une alternative concrète : une plateforme web regroupant plus
 
 La plateforme est conçue comme un ensemble de plugins indépendants, accessibles depuis une interface web. Le MVP comprend cinq plugins : escaliers, rampes et garde-corps, plancher, toiture, et un outil d'analyse de plans par intelligence artificielle. Tous les calculs se font côté client, sans base de données ni serveur, ce qui garantit un déploiement simple et une utilisation possible sans connexion internet.
 
-### 2.2 Méthode de développement (SDD)
+### 2.2 Page d'accueil — Effet 3D animé
+
+La page d'accueil présente un arrière-plan 3D animé construit avec Three.js (sans R3F, pour garder la légèreté). L'effet combine un terrain de particules en grille et des maisons filaires flottantes.
+
+Le terrain est une grille de 40 × 60 points séparés de 150 px. À chaque image, la hauteur Y de chaque point est recalculée avec une double formule sinus :
+
+```js
+Y = sin((colonne + compteur) × 0.3) × 50 + sin((ligne + compteur) × 0.5) × 50
+```
+
+Deux ondes sinusoïdales superposées — une par axe — créent l'effet de vague croisée. Aucune matrice ni vecteur n'intervient : juste de l'arithmétique recalculée 60 fois par seconde via `requestAnimationFrame`. Les maisons (cube + toit conique en wireframe) montent et descendent indépendamment, chacune avec un décalage de phase (0, 1.5, 3.0, 4.5) pour que le mouvement paraisse naturel. Sur mobile, la densité est réduite et seulement deux maisons s'affichent.
+
+### 2.3 Méthode de développement (SDD)
 
 Le projet suit la méthode SDD (Specification Driven Development), une approche qui oblige à rédiger une spécification complète avant d'écrire une seule ligne de code. Cette méthode réduit les erreurs d'implémentation, facilite la revue de code et documente les décisions de conception. Chaque fonctionnalité passe par cinq étapes : spécification, plan technique, liste de tâches, implémentation et validation.
 
@@ -73,6 +85,28 @@ La logique de calcul vient entièrement de la série de vidéos de la chaîne é
 | Exercice 3 [[3]](#ref-3) | Blondel-Maximum : trois rapports qualité + score /100 | `stair-scoring.ts` |
 | Exercice 4 [[4]](#ref-4) | Course limitée + crochet sous le chevêtre | `stair-limited-run.ts` |
 | Exercice 5 [[5]](#ref-5) | Calcul du puits d'escalier dans le plancher supérieur | `stair-pit.ts` |
+
+### 3.5 Visualisation 3D — Comment les calculs fonctionnent
+
+La scène R3F de l'escalier n'utilise pas de matrices complexes. Tout repose sur des positions XYZ et deux formules de trigonométrie.
+
+**Positions des marches** — chaque marche `i` est un cube placé par simple multiplication :
+
+```js
+posY = i × hauteurContremarche   // monte à chaque marche
+posZ = i × giron + giron / 2     // avance à chaque marche
+```
+
+**Limons** — les planches inclinées demandent deux formules classiques :
+
+```js
+longueurDiagonale = √(longueurHorizontale² + hauteurTotale²)   // Pythagore
+angleEscalier     = atan2(hauteurTotale, longueurHorizontale)   // arctangente
+```
+
+Le limon est positionné au centre de l'escalier puis incliné avec cet angle. C'est la seule rotation dans toute la scène.
+
+**Conversion** — les dimensions en cm sont divisées par 100 pour obtenir des unités Three.js cohérentes (19 cm → 0.19). Les proportions restent correctes même si les valeurs absolues changent.
 
 ---
 
@@ -182,6 +216,24 @@ Après l'analyse IA, les résultats s'affichent champ par champ. Pour chaque cha
 | Colonne A | Nom du champ à extraire (ex. Giron, Contremarche, Largeur) |
 | Colonne B vide | Cellule cible : l'IA écrit la valeur ici après validation |
 | Reste du fichier | Non modifié — formules et mise en forme conservées |
+
+### 7.5 Flux simplifié — Ce qui se passe réellement
+
+```
+[1] Photos du plan téléversées
+        ↓
+[2] Fichier Excel source téléversé (colonne A = champs à chercher, colonne B = vide)
+        ↓
+[3] Images converties en base64 → envoyées à Gemini 2.0 Flash avec la liste des champs
+        ↓
+[4] Gemini retourne un JSON : valeur + niveau de confiance (0-100) + statut + note par champ
+        ↓
+[5] L'utilisateur valide champ par champ → Oui / Non (correction manuelle) / Non spécifié
+        ↓
+[6] ExcelJS écrit les valeurs validées dans les cellules cibles → téléchargement du fichier
+```
+
+L'IA ne devine jamais une valeur absente — elle indique `introuvable`. La validation manuelle reste obligatoire car l'IA peut mal lire une écriture manuscrite ou confondre deux dimensions proches. Tout se passe dans le navigateur ; aucun fichier n'est stocké sur un serveur.
 
 ---
 

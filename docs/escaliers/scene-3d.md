@@ -25,6 +25,48 @@ Sans Three.js, faire de la 3D dans un navigateur nécessiterait des centaines de
 
 C'est plus naturel pour un développeur React et ça s'intègre directement dans l'application Next.js.
 
+### Comment la scène escalier a été construite — calculs concrets
+
+La scène 3D n'utilise pas de matrices complexes. Tout repose sur des positions XYZ et deux formules de trigonométrie de base.
+
+**Positions des marches**
+
+Chaque marche est un cube (`boxGeometry`). Sa position est calculée ainsi pour la marche numéro `i` :
+
+```js
+posX = 0                                     // centré sur l'axe
+posY = i × hauteurContremarche               // monte à chaque marche
+posZ = i × giron + (giron / 2)              // avance à chaque marche
+```
+
+Juste deux multiplications. Aucun vecteur.
+
+**Angle et longueur du limon**
+
+Le limon (la planche inclinée qui court le long de l'escalier) demande deux formules de trigonométrie classiques :
+
+```js
+longueurDiagonale = √(longueurHorizontale² + hauteurTotale²)   // Pythagore
+angleEscalier     = atan2(hauteurTotale, longueurHorizontale)   // arctangente
+```
+
+Le limon est positionné au centre de l'escalier et incliné avec cet angle (`rotation={[angleEscalier, 0, 0]}`). C'est la seule rotation dans toute la scène.
+
+**Conversion des dimensions**
+
+Les valeurs du formulaire sont en centimètres. Three.js travaille en unités arbitraires. On divise par 100 pour garder des proportions réalistes sans que les objets soient géants dans la scène :
+
+```js
+const hC = hauteurContremarche / 100;   // 19 cm → 0.19 unité 3D
+const g  = giron / 100;                // 25 cm → 0.25 unité 3D
+```
+
+L'important, c'est que les rapports entre les dimensions restent corrects — pas les valeurs absolues.
+
+**Performance : `useMemo`**
+
+Les marches sont générées dans un `useMemo`. Avec 15 marches + contremarches, ça représente jusqu'à 30 objets 3D à créer. `useMemo` empêche de les recréer à chaque rendu React — ils ne sont recalculés que si les dimensions changent vraiment.
+
 ---
 
 ## Structure de la scène

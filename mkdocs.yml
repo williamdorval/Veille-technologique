@@ -58,6 +58,7 @@ nav:
     - Escaliers: escaliers/index.md
     - Analyse de plan (IA):
       - Vue d'ensemble: analyse-plan/index.md
+      - Résumé simple du flux: analyse-plan/resume.md
       - Intelligence artificielle: analyse-plan/ia.md
       - Intégration Excel: analyse-plan/excel.md
       - Validation séquentielle: analyse-plan/validation.md
